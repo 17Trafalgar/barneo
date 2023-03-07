@@ -41,4 +41,34 @@ export class DownloadService {
       });
     });
   }
+
+  //TODO:создать функцию
+  /**
+   * функция скачивает файл по урл и сохраняет локально в папку media и возвращает путь к файлу
+   * @param urlDto
+   */
+  async getFileByUrl(urlDto: UrlDto): Promise<string>{
+    return `PATH`
+  }
+
+  //TODO:создать функцию
+  /**
+   * функция читает файл локально переводит его из xlsx в json и возвращает JSON
+   * @param path
+   */
+  async xlsxToJson(path: string): Promise<string>{
+    return `PATH`
+  }
+
+  //TODO:создать функцию
+  /**
+   * временная функция для тестирования получает ссылку на файл из контроллера запускает функции
+   * getFileByUrl и xlsxToJson и возвращает результат контроллеру
+   * @param path
+   */
+  async main(urlDto: UrlDto): Promise<string>{
+    const path = await this.getFileByUrl(urlDto);
+    const json = await this.xlsxToJson(path);
+    return json;
+  }
 }
