@@ -1,11 +1,11 @@
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
-import { DownController } from './download.controller';
+import { DownloadController } from './download.controller';
 import { DownloadService } from './download.service';
 
 @Module({
   imports: [HttpModule],
-  controllers: [DownController],
+  controllers: [DownloadController],
   providers: [DownloadService],
 })
 export class DownloadModule {}
