@@ -7,7 +7,7 @@ export class DownloadController {
   constructor(private readonly downloadService: DownloadService) {}
 
   @Get('xlsx')
-  public async getXlsx(@Query() urlDto: UrlDto) {
-    return this.downloadService.xlsx(urlDto);
+  public async getFileXlsx(@Query() urlDto: UrlDto) {
+    return this.downloadService.getFileByUrl(urlDto);
   }
 }
