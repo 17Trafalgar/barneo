@@ -8,7 +8,7 @@ import * as fs from 'fs/promises';
 export class DownloadService {
   constructor(private readonly axios: HttpService) {}
 
-  public async getFileByUrl({ url }): Promise<any> {
+  public async getFileByUrl({ url }): Promise<string> {
     try {
       const response = await this.axios.axiosRef.get(url, {
         responseType: 'stream',
@@ -19,7 +19,12 @@ export class DownloadService {
           .on('data', (chunk) => {
             buffer.push(chunk);
           })
-          .on('end', () => resolve(Buffer.concat(buffer)))
+          //TODO: скачать файл и отдать путь до него
+          .on('end', () => {
+            // если нет папки то создать её
+            Buffer.concat(buffer) //сохранить файл
+            resolve(`PATH`) //вернуть путь на файл
+          })
           .on('error', reject);
       });
     } catch (error) {
@@ -30,7 +35,7 @@ export class DownloadService {
   public async xlsxToJson(urlDto: UrlDto): Promise<any> {
     try {
       const buffer = await this.getFileByUrl(urlDto);
-      const data = xlsx.read(buffer, { type: 'buffer' });
+      const data = xlsx.read(buffer, { type: 'buffer' }); // читать из папки
       const finalObject = {};
       data.SheetNames.forEach((sheetName) => {
         const listObject = xlsx.utils.sheet_to_json(data.Sheets[sheetName]);
@@ -41,28 +46,10 @@ export class DownloadService {
         './uploadedFiles/price-list.json',
         JSON.stringify(finalObject),
       );
-      return 'file upload';
+      return 'file upload'; // не сохранять в файл а возвращать из функции json
     } catch (error) {
       throw new Error(error);
     }
-  }
-
-  //TODO:создать функцию
-  /**
-   * функция скачивает файл по урл и сохраняет локально в папку media и возвращает путь к файлу
-   * @param urlDto
-   */
-  async getFileByUrl(urlDto: UrlDto): Promise<string>{
-    return `PATH`
-  }
-
-  //TODO:создать функцию
-  /**
-   * функция читает файл локально переводит его из xlsx в json и возвращает JSON
-   * @param path
-   */
-  async xlsxToJson(path: string): Promise<string>{
-    return `PATH`
   }
 
   //TODO:создать функцию
