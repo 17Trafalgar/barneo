@@ -26,4 +26,24 @@ export class DownloadService {
       throw new Error(error);
     }
   }
+
+  public async xlsxToJson(urlDto: UrlDto): Promise<any> {
+    try {
+      const buffer = await this.getFileByUrl(urlDto);
+      const data = xlsx.read(buffer, { type: 'buffer' });
+      const finalObject = {};
+      data.SheetNames.forEach((sheetName) => {
+        const listObject = xlsx.utils.sheet_to_json(data.Sheets[sheetName]);
+        finalObject[sheetName] = listObject;
+        console.log(finalObject);
+      });
+      await fs.writeFile(
+        './uploadedFiles/price-list.json',
+        JSON.stringify(finalObject),
+      );
+      return 'file upload';
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }

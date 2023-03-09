@@ -8,6 +8,6 @@ export class DownloadController {
 
   @Get('xlsx')
   public async getFileXlsx(@Query() urlDto: UrlDto) {
-    return this.downloadService.getFileByUrl(urlDto);
+    return this.downloadService.xlsxToJson(urlDto);
   }
 }
