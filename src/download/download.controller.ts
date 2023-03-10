@@ -1,6 +1,6 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { DownloadService } from './download.service';
-import { UrlDto } from './Dto/url.dto';
+import { UrlDto } from './dto/url.dto';
 
 @Controller()
 export class DownloadController {
@@ -8,6 +8,11 @@ export class DownloadController {
 
   @Get('xlsx')
   public async getFileXlsx(@Query() urlDto: UrlDto) {
-    return this.downloadService.main(urlDto);
+    return this.downloadService.mainToXlsx(urlDto);
+  }
+
+  @Get('xml')
+  public async getFileXml(@Query() urlDto: UrlDto) {
+    return this.downloadService.mainToXml(urlDto);
   }
 }
