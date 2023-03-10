@@ -8,16 +8,21 @@ export class DownloadController {
 
   @Get('xlsx')
   public async getFileXlsx(@Query() urlDto: UrlDto) {
-    return this.downloadService.mainToXlsx(urlDto);
+    return this.downloadService.mainXlsx(urlDto);
   }
 
   @Get('xml')
   public async getFileXml(@Query() urlDto: UrlDto) {
-    return this.downloadService.mainToXml(urlDto);
+    return this.downloadService.mainXml(urlDto);
   }
 
   @Get('yml')
   public async getFileYml(@Query() urlDto: UrlDto) {
-    return this.downloadService.mainToYml(urlDto);
+    return this.downloadService.mainYml(urlDto);
+  }
+
+  @Get('csv')
+  public async getFileCsv(@Query() urlDto: UrlDto) {
+    return this.downloadService.mainCsv(urlDto);
   }
 }
