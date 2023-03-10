@@ -36,7 +36,9 @@
     "swagger-ui": "^4.17.1",
     "xlsx": "^0.18.5",
     "xml": "^1.0.1",
-    "xml-js": "^1.6.11"
+    "xml-js": "^1.6.11",
+    "yaml": "^2.2.1",
+    "yaml-to-json": "^0.3.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",

@@ -1,13 +1,16 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Options } from '@nestjs/common';
 import { UrlDto } from './dto/url.dto';
 import * as xlsx from 'xlsx';
 import * as FS from 'fs';
 import * as Axios from 'axios';
 import * as convert from 'xml-js';
+import * as YAML from 'yaml';
+import * as ToStringOptions from 'yaml';
 
-const pathToXlsx = './uploadedFiles/file.xlsx';
-const pathToXml = './uploadedFiles/file.xml';
+/* const pathToXlsx = './uploadedFiles/file.xlsx'; */
+/* const pathToXml = './uploadedFiles/file.xml'; */
+const pathToYml = './uploadedFiles/file.yml';
 
 @Injectable()
 export class DownloadService {
@@ -15,7 +18,7 @@ export class DownloadService {
 
   public async getFileByUrl({ url }): Promise<any> {
     try {
-      const writer = FS.createWriteStream(pathToXml);
+      const writer = FS.createWriteStream(pathToYml);
       // @ts-ignore
       const response = await Axios({
         url,
@@ -26,7 +29,7 @@ export class DownloadService {
       response.data.pipe(writer);
 
       return new Promise((resolve, reject) => {
-        writer.on('finish', () => resolve(pathToXml));
+        writer.on('finish', () => resolve(pathToYml));
         writer.on('error', reject);
       });
     } catch (error) {
@@ -60,6 +63,18 @@ export class DownloadService {
     }
   }
 
+  public async ymlToJson(path: string): Promise<any> {
+    try {
+      const file = await FS.readFileSync(path, 'utf-8');
+      /* const options = [true, false, 'maybe', null]; */
+      const data = YAML.stringify(file);
+      console.log(data);
+      return data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
   async mainToXlsx(urlDto: UrlDto): Promise<string> {
     const path = await this.getFileByUrl(urlDto);
     const json = await this.xlsxToJson(path);
@@ -69,6 +84,12 @@ export class DownloadService {
   async mainToXml(urlDto: UrlDto): Promise<string> {
     const path = await this.getFileByUrl(urlDto);
     const json = await this.xmlToJson(path);
+    return json;
+  }
+
+  async mainToYml(urlDto: UrlDto): Promise<string> {
+    const path = await this.getFileByUrl(urlDto);
+    const json = await this.ymlToJson(path);
     return json;
   }
 }

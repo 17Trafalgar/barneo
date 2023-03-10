@@ -15,4 +15,9 @@ export class DownloadController {
   public async getFileXml(@Query() urlDto: UrlDto) {
     return this.downloadService.mainToXml(urlDto);
   }
+
+  @Get('yml')
+  public async getFileYml(@Query() urlDto: UrlDto) {
+    return this.downloadService.mainToYml(urlDto);
+  }
 }
