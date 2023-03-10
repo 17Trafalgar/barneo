@@ -5,6 +5,6 @@ import { AppModule } from './app.module';
 async function start() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe({ always: true, transform: true }));
-  await app.listen(3000);
+  await app.listen(8080);
 }
 start();
