@@ -2,7 +2,8 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { UrlDto } from './Dto/url.dto';
 import * as xlsx from 'xlsx';
-import * as fs from 'fs/promises';
+import * as FS from 'fs';
+import * as Axios from 'axios';
 
 const path = './uploadedFiles/target.xlsx';
 
@@ -12,40 +13,41 @@ export class DownloadService {
 
   public async getFileByUrl({ url }): Promise<any> {
     try {
-      const response = await this.axios.axiosRef.get(url, {
-        responseType: 'stream',
-      });
-      const buffer = [];
+
+      const writer = FS.createWriteStream(path)
+      // @ts-ignore
+      const response = await Axios({
+        url,
+        method: 'GET',
+        responseType: 'stream'
+      })
+
+      response.data.pipe(writer)
+
       return new Promise((resolve, reject) => {
-        return response.data
-          .on('data', (chunk) => {
-            buffer.push(chunk);
-          })
-          .on('event', () => fs.writeFile(path, url))
-          .on('end', () => resolve(Buffer.concat(buffer)))
-          .on('error', reject);
+        writer.on('finish', () => resolve(path))
+        writer.on('error', reject)
       });
     } catch (error) {
       throw new Error(error);
     }
   }
 
-  public async xlsxToJson(urlDto: UrlDto): Promise<any> {
+  public async xlsxToJson(path: string): Promise<any> {
     try {
-      const buffer = await this.getFileByUrl(urlDto);
-      console.log({ buffer });
-      const data = xlsx.read(buffer, { type: 'buffer' });
+      const file = await FS.readFileSync(path);
+      const data = xlsx.read(file, { type: 'buffer' });
       const finalObject = {};
       data.SheetNames.forEach((sheetName) => {
         const rowObject = xlsx.utils.sheet_to_json(data.Sheets[sheetName]);
         finalObject[sheetName] = rowObject;
-        console.log(finalObject);
       });
-      /* await fs.writeFile(path, JSON.stringify(finalObject)); */
+      return finalObject;
     } catch (error) {
       throw new Error(error);
     }
   }
+
   async main(urlDto: UrlDto): Promise<string> {
     const path = await this.getFileByUrl(urlDto);
     const json = await this.xlsxToJson(path);
