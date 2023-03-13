@@ -11,15 +11,30 @@ import * as csvjson from 'csvjson';
 /* const pathToXlsx = './uploadedFiles/file.xlsx'; */
 /* const pathToXml = './uploadedFiles/file.xml'; */
 /* const pathToYml = './uploadedFiles/file.yml'; */
-const pathToCsv = './uploadedFiles/file.csv';
+/* const pathToCsv = './uploadedFiles/file.csv'; */
+
+enum Method {
+  XML,
+  XLSX,
+  YML,
+  CSV,
+}
+
+const suppLiers = [
+  { id: 0, title: 'test.xml', typeFile: Method.XML, urlFile: 'url' },
+  { id: 1, title: 'test.xlsx', typeFile: Method.XLSX, urlFile: 'url' },
+  { id: 2, title: 'test.yml', typeFile: Method.YML, urlFile: 'url' },
+  { id: 3, title: 'test.csv', typeFile: Method.CSV, urlFile: 'url' },
+];
 
 @Injectable()
 export class DownloadService {
-  constructor(private readonly axios: HttpService) {}
+  constructor(private readonly Axios: HttpService) {}
 
-  public async getFileByUrl({ url }): Promise<any> {
+  public async getFileByUrl({ url }, suppLiers): Promise<any> {
     try {
-      const writer = FS.createWriteStream(pathToCsv);
+      const path = './uploadedFiles/' + `${suppLiers.title}`;
+      const writer = FS.createWriteStream(path);
       // @ts-ignore
       const response = await Axios({
         url,
@@ -30,7 +45,7 @@ export class DownloadService {
       response.data.pipe(writer);
 
       return new Promise((resolve, reject) => {
-        writer.on('finish', () => resolve(pathToCsv));
+        writer.on('finish', () => resolve(path));
         writer.on('error', reject);
       });
     } catch (error) {
@@ -40,7 +55,7 @@ export class DownloadService {
 
   public async xlsxToJson(path: string): Promise<any> {
     try {
-      const file = await FS.readFileSync(path);
+      const file = FS.readFileSync(path);
       const data = xlsx.read(file, { type: 'buffer' });
       const finalObject = {};
       data.SheetNames.forEach((sheetName) => {
@@ -55,7 +70,7 @@ export class DownloadService {
 
   public async xmlToJson(path: string): Promise<any> {
     try {
-      const file = await FS.readFileSync(path, 'utf-8');
+      const file = FS.readFileSync(path, 'utf-8');
       const options = { compact: true, ignoreComment: true, spaces: 4 };
       const data = convert.xml2json(file, options);
       return data;
@@ -66,7 +81,7 @@ export class DownloadService {
 
   public async ymlToJson(path: string): Promise<any> {
     try {
-      const file = await FS.readFileSync(path, 'utf-8');
+      const file = FS.readFileSync(path, 'utf-8');
       const options = [true, false, 'maybe', null];
       const data = YAML.stringify(file, options);
       return data;
@@ -77,49 +92,53 @@ export class DownloadService {
 
   public async csvToJson(path: string): Promise<any> {
     try {
-      const file = await FS.readFileSync(path, 'utf-8');
+      const file = FS.readFileSync(path, 'utf-8');
       const options = { delimiter: ',', quote: '"' };
-      const data = csvjson.stream.toObject(file, options);
-      console.log(data);
+      const data = await csvjson.stream.toObject(JSON.stringify(file), options);
       return data;
     } catch (error) {
       throw new Error(error);
     }
   }
-  /* public async csvToJson(path: string): Promise<any> {
-    try {
-      const toObject = csvjson.stream.toObject();
-      const stringify = csvjson.stream.stringify();
-      fs.createReadStream(path, 'utf-8')
-        .pipe(toObject)
-        .pipe(stringify)
-        .pipe(FS.createWriteStream('./test.json'));
-    } catch (error) {
-      throw new Error(error);
+
+  typesMethods = {
+    xml: this.xmlToJson,
+    xlsx: this.xlsxToJson,
+    yml: this.ymlToJson,
+    csv: this.csvToJson,
+  };
+
+  async mainConverter(urlDto: UrlDto, enumKey: number): Promise<string> {
+    if (enumKey === Method.XML) {
+      const suppLier = suppLiers[0];
+      const path = await this.getFileByUrl(urlDto, suppLier.typeFile);
+      const method = this.typesMethods.xml;
+      const json = method(path);
+      return json;
     }
-  } */
 
-  async mainXlsx(urlDto: UrlDto): Promise<string> {
-    const path = await this.getFileByUrl(urlDto);
-    const json = await this.xlsxToJson(path);
-    return json;
-  }
+    if (enumKey === Method.XLSX) {
+      const suppLier = suppLiers[1];
+      const path = await this.getFileByUrl(urlDto, suppLier.typeFile);
+      const method = this.typesMethods.xlsx;
+      const json = method(path);
+      return json;
+    }
 
-  async mainXml(urlDto: UrlDto): Promise<string> {
-    const path = await this.getFileByUrl(urlDto);
-    const json = await this.xmlToJson(path);
-    return json;
-  }
+    if (enumKey === Method.YML) {
+      const suppLier = suppLiers[2];
+      const path = await this.getFileByUrl(urlDto, suppLier.typeFile);
+      const method = this.typesMethods.yml;
+      const json = method(path);
+      return json;
+    }
 
-  async mainYml(urlDto: UrlDto): Promise<string> {
-    const path = await this.getFileByUrl(urlDto);
-    const json = await this.ymlToJson(path);
-    return json;
-  }
-
-  async mainCsv(urlDto: UrlDto): Promise<string> {
-    const path = await this.getFileByUrl(urlDto);
-    const json = await this.csvToJson(path);
-    return json;
+    if (enumKey === Method.CSV) {
+      const suppLier = suppLiers[3];
+      const path = await this.getFileByUrl(urlDto, suppLier.typeFile);
+      const method = this.typesMethods.csv;
+      const json = method(path);
+      return json;
+    }
   }
 }

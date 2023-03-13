@@ -7,22 +7,22 @@ export class DownloadController {
   constructor(private readonly downloadService: DownloadService) {}
 
   @Get('xlsx')
-  public async getFileXlsx(@Query() urlDto: UrlDto) {
-    return this.downloadService.mainXlsx(urlDto);
+  public async getFileXlsx(@Query() urlDto: UrlDto, enumKey: number) {
+    return this.downloadService.mainConverter(urlDto, enumKey);
   }
 
   @Get('xml')
-  public async getFileXml(@Query() urlDto: UrlDto) {
-    return this.downloadService.mainXml(urlDto);
+  public async getFileXml(@Query() urlDto: UrlDto, enumKey: number) {
+    return this.downloadService.mainConverter(urlDto, enumKey);
   }
 
   @Get('yml')
-  public async getFileYml(@Query() urlDto: UrlDto) {
-    return this.downloadService.mainYml(urlDto);
+  public async getFileYml(@Query() urlDto: UrlDto, enumKey: number) {
+    return this.downloadService.mainConverter(urlDto, enumKey);
   }
 
   @Get('csv')
-  public async getFileCsv(@Query() urlDto: UrlDto) {
-    return this.downloadService.mainCsv(urlDto);
+  public async getFileCsv(@Query() urlDto: UrlDto, enumKey: number) {
+    return this.downloadService.mainConverter(urlDto, enumKey);
   }
 }
