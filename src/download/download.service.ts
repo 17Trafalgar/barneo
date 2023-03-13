@@ -6,7 +6,7 @@ import * as FS from 'fs';
 import * as Axios from 'axios';
 import * as convert from 'xml-js';
 import * as YAML from 'yaml';
-import * as csv from 'csvtojson/v2';
+import * as csvjson from 'csvjson';
 
 /* const pathToXlsx = './uploadedFiles/file.xlsx'; */
 /* const pathToXml = './uploadedFiles/file.xml'; */
@@ -69,7 +69,6 @@ export class DownloadService {
       const file = await FS.readFileSync(path, 'utf-8');
       const options = [true, false, 'maybe', null];
       const data = YAML.stringify(file, options);
-      console.log(data);
       return data;
     } catch (error) {
       throw new Error(error);
@@ -79,14 +78,26 @@ export class DownloadService {
   public async csvToJson(path: string): Promise<any> {
     try {
       const file = await FS.readFileSync(path, 'utf-8');
-      const data = await csv({ flatKeys: true }, {})
-        .fromString(file)
-        .subscribe();
+      const options = { delimiter: ',', quote: '"' };
+      const data = csvjson.stream.toObject(file, options);
+      console.log(data);
       return data;
     } catch (error) {
       throw new Error(error);
     }
   }
+  /* public async csvToJson(path: string): Promise<any> {
+    try {
+      const toObject = csvjson.stream.toObject();
+      const stringify = csvjson.stream.stringify();
+      fs.createReadStream(path, 'utf-8')
+        .pipe(toObject)
+        .pipe(stringify)
+        .pipe(FS.createWriteStream('./test.json'));
+    } catch (error) {
+      throw new Error(error);
+    }
+  } */
 
   async mainXlsx(urlDto: UrlDto): Promise<string> {
     const path = await this.getFileByUrl(urlDto);
