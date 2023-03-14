@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Delete, Get, Query, Param } from '@nestjs/common';
 import { DownloadService } from './download.service';
 import { UrlDto } from './dto/url.dto';
 

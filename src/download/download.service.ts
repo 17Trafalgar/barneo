@@ -7,6 +7,7 @@ import * as Axios from 'axios';
 import * as convert from 'xml-js';
 import * as YAML from 'yaml';
 import * as csvjson from 'csvjson';
+import path from 'path';
 
 /* const pathToXlsx = './uploadedFiles/file.xlsx'; */
 /* const pathToXml = './uploadedFiles/file.xml'; */
@@ -33,8 +34,8 @@ export class DownloadService {
 
   public async getFileByUrl({ url }, suppLiers): Promise<any> {
     try {
-      const path = './uploadedFiles/' + `${suppLiers.title}`;
-      const writer = FS.createWriteStream(path);
+      const pathToFile = './uploadedFiles/' + `${suppLiers[0].title}`;
+      const writer = FS.createWriteStream(pathToFile);
       // @ts-ignore
       const response = await Axios({
         url,
