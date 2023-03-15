@@ -1,21 +1,38 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Supplier } from '../suppliers/database/entity/supplier.entity';
+import { Supplier } from './supplier.entity/supplier.entity';
 import { Repository } from 'typeorm';
-import { createSupplierDTO } from './database/suppliers.dto/create.supplier.dto';
-import { deleteSupplierDTO } from './database/suppliers.dto/delete.supplier.dto';
-import { updateSupplierDTO } from './database/suppliers.dto/update.supplier.dto';
+import { createSupplierDTO } from './suppliers.dto/create.supplier.dto';
+import { deleteSupplierDTO } from './suppliers.dto/delete.supplier.dto';
+import { updateSupplierDTO } from './suppliers.dto/update.supplier.dto';
 
 @Injectable()
 export class SuppliersService implements OnModuleInit {
-  onModuleInit() {
-    console.log('The module has been initialized.');
-  }
-
   constructor(
     @InjectRepository(Supplier)
     private suppliersRepository: Repository<Supplier>,
   ) {}
+
+  async onModuleInit(): Promise<void> {
+    const suppliers = await this.getSuppliers();
+
+    if (suppliers.length) return;
+
+    await this.addSuppliers([
+      this.createSupplier(),
+      this.createSupplier(),
+      this.createSupplier(),
+      this.createSupplier(),
+    ]);
+  }
+
+  createSupplier(supplier: Partial<createSupplierDTO> = {}) {
+    return { title: '', typeFile: '', urlFile: '', ...supplier };
+  }
+
+  addSuppliers(supplier: createSupplierDTO[]) {
+    return this.suppliersRepository.save(supplier);
+  }
 
   getSuppliers() {
     return this.suppliersRepository.find();
