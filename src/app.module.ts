@@ -1,29 +1,25 @@
 import { Module } from '@nestjs/common';
 import { DownloadModule } from './download/download.module';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import configurations from './config/configurations';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Supplier } from './suppliers/database/entity/supplier.entity';
 import { SupplierModule } from './suppliers/suppliers.module';
+import { ConfigModule } from '@nestjs/config';
+import * as Joi from 'joi';
+import { DatabaseModule } from './suppliers/database/typeorm/typeorm.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      load: [configurations],
-    }),
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        url: configService.get('database.postgres'),
-        entities: [Supplier],
-        synchronize: true,
-      }),
-      inject: [ConfigService],
-    }),
     SupplierModule,
     DownloadModule,
+    ConfigModule.forRoot({
+      validationSchema: Joi.object({
+        POSTGRES_HOST: Joi.string().required(),
+        POSTGRES_PORT: Joi.number().required(),
+        POSTGRES_USER: Joi.string().required(),
+        POSTGRES_PASSWORD: Joi.string().required(),
+        POSTGRES_DB: Joi.string().required(),
+        PORT: Joi.number(),
+      }),
+    }),
+    DatabaseModule,
   ],
 })
 export class AppModule {}

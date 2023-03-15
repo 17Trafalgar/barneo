@@ -5,12 +5,12 @@ export class Supplier {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('varchar')
+  @Column()
   title: string;
 
-  @Column('varchar')
+  @Column()
   typeFile: string;
 
-  @Column('varchar')
+  @Column()
   urlFile: string;
 }
