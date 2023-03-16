@@ -5,13 +5,62 @@ import { Repository } from 'typeorm';
 import { createSupplierDTO } from './suppliers.dto/create.supplier.dto';
 import { deleteSupplierDTO } from './suppliers.dto/delete.supplier.dto';
 import { updateSupplierDTO } from './suppliers.dto/update.supplier.dto';
+import { Cron, CronExpression } from '@nestjs/schedule';
+import { DownloadService } from '../download/download.service';
 
 @Injectable()
 export class SuppliersService implements OnModuleInit {
   constructor(
     @InjectRepository(Supplier)
     private suppliersRepository: Repository<Supplier>,
+    private readonly DownloadService: DownloadService,
   ) {}
+
+  /* private isCronRunnig = false; */
+
+  @Cron(CronExpression.EVERY_5_MINUTES)
+  async downloadMethod() {
+    /* if (this.isCronRunnig) {
+      return;
+    } else {
+      this.isCronRunnig = true;
+    } */
+    console.log('Сron started');
+    const suppliers = await this.getSuppliers();
+
+    if (!suppliers.length) {
+      console.log('Price lists of suppliers are missing');
+      return;
+    }
+
+    for (const { typeFile, id } of suppliers) {
+      try {
+        switch (typeFile) {
+          case 'xml':
+            await this.DownloadService.xmlToJson('./uploadedFiles/test.xml');
+            break;
+          case 'xlsx':
+            await this.DownloadService.xlsxToJson('./uploadedFiles/test.xlsx');
+            break;
+          case 'yml':
+            await this.DownloadService.ymlToJson('./uploadedFiles/test.yml');
+            break;
+          case 'csv':
+            await this.DownloadService.csvToJson('./uploadedFiles/test.csv');
+            break;
+
+          default:
+            throw new Error('File with such extensions not found');
+        }
+      } catch (error) {
+        console.log(`Cron crash,supplier id ${id}`, {
+          error: error.toString(),
+        });
+      }
+    }
+    /* this.isCronRunnig = false; */
+    console.log('Cron finished');
+  }
 
   async onModuleInit(): Promise<void> {
     const suppliers = await this.getSuppliers();
@@ -19,14 +68,14 @@ export class SuppliersService implements OnModuleInit {
     if (suppliers.length) return;
 
     await this.addSuppliers([
-      this.createSupplier(),
-      this.createSupplier(),
-      this.createSupplier(),
-      this.createSupplier(),
+      this.addTableSupplier(),
+      this.addTableSupplier(),
+      this.addTableSupplier(),
+      this.addTableSupplier(),
     ]);
   }
 
-  createSupplier(supplier: Partial<createSupplierDTO> = {}) {
+  addTableSupplier(supplier: Partial<createSupplierDTO> = {}) {
     return { title: '', typeFile: '', urlFile: '', ...supplier };
   }
 

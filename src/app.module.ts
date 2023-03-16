@@ -4,11 +4,14 @@ import { SupplierModule } from './suppliers/suppliers.module';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { DatabaseModule } from './database/typeorm/typeorm.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
     SupplierModule,
     DownloadModule,
+    DatabaseModule,
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       validationSchema: Joi.object({
         POSTGRES_HOST: Joi.string().required(),
@@ -19,7 +22,6 @@ import { DatabaseModule } from './database/typeorm/typeorm.module';
         PORT: Joi.number(),
       }),
     }),
-    DatabaseModule,
   ],
 })
 export class AppModule {}

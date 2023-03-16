@@ -7,5 +7,6 @@ import { DownloadService } from './download.service';
   imports: [HttpModule],
   controllers: [DownloadController],
   providers: [DownloadService],
+  exports: [DownloadService],
 })
 export class DownloadModule {}
