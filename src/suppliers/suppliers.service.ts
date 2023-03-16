@@ -34,24 +34,14 @@ export class SuppliersService implements OnModuleInit {
     }
 
     for (const { typeFile, id } of suppliers) {
+      const type = {
+        'xml':this.DownloadService.xmlToJson('./uploadedFiles/test.xml'),
+        'xlsx':this.DownloadService.xlsxToJson('./uploadedFiles/test.xlsx'),
+        'yml':this.DownloadService.ymlToJson('./uploadedFiles/test.yml'),
+        'csv':this.DownloadService.csvToJson('./uploadedFiles/test.csv')
+      };
       try {
-        switch (typeFile) {
-          case 'xml':
-            await this.DownloadService.xmlToJson('./uploadedFiles/test.xml');
-            break;
-          case 'xlsx':
-            await this.DownloadService.xlsxToJson('./uploadedFiles/test.xlsx');
-            break;
-          case 'yml':
-            await this.DownloadService.ymlToJson('./uploadedFiles/test.yml');
-            break;
-          case 'csv':
-            await this.DownloadService.csvToJson('./uploadedFiles/test.csv');
-            break;
-
-          default:
-            throw new Error('File with such extensions not found');
-        }
+        await type[typeFile]
       } catch (error) {
         console.log(`Cron crash,supplier id ${id}`, {
           error: error.toString(),
