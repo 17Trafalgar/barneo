@@ -1,9 +1,9 @@
 import { Body, Controller, Post, Res, Get, Delete, Put } from '@nestjs/common';
-import { createSupplierDTO } from './suppliers.dto/create.supplier.dto';
-import { deleteSupplierDTO } from './suppliers.dto/delete.supplier.dto';
-import { updateSupplierDTO } from './suppliers.dto/update.supplier.dto';
+import { createSupplierDTO } from './dto/create.supplier.dto';
+import { deleteSupplierDTO } from './dto/delete.supplier.dto';
+import { updateSupplierDTO } from './dto/update.supplier.dto';
 import { SuppliersService } from './suppliers.service';
-import { getSupplierDTO } from './suppliers.dto/get.supplier.dto';
+import { getSupplierDTO } from './dto/get.supplier.dto';
 
 @Controller('suppliers')
 export class SuppliersController {
