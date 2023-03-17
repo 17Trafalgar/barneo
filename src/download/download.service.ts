@@ -7,48 +7,41 @@ import * as Axios from 'axios';
 import * as convert from 'xml-js';
 import * as YAML from 'yaml';
 import * as csvjson from 'csvjson';
-import path from 'path';
+import { SuppliersService } from 'src/suppliers/suppliers.service';
 
-/* const pathToXlsx = './uploadedFiles/file.xlsx'; */
 /* const pathToXml = './uploadedFiles/file.xml'; */
-/* const pathToYml = './uploadedFiles/file.yml'; */
-/* const pathToCsv = './uploadedFiles/file.csv'; */
-
-enum Method {
-  XML,
-  XLSX,
-  YML,
-  CSV,
-}
-
-const suppLiers = [
-  { id: 0, title: 'test.xml', typeFile: Method.XML, urlFile: 'url' },
-  { id: 1, title: 'test.xlsx', typeFile: Method.XLSX, urlFile: 'url' },
-  { id: 2, title: 'test.yml', typeFile: Method.YML, urlFile: 'url' },
-  { id: 3, title: 'test.csv', typeFile: Method.CSV, urlFile: 'url' },
-];
 
 @Injectable()
 export class DownloadService {
-  constructor(private readonly Axios: HttpService) {}
+  constructor(
+    private readonly Axios: HttpService,
+    private readonly SuppiersService: SuppliersService,
+  ) {}
 
-  public async getFileByUrl({ url }, suppLiers): Promise<any> {
+  public async getFileByUrl({ url }): Promise<string> {
     try {
-      const pathToFile = './uploadedFiles/' + `${suppLiers[0].title}`;
-      const writer = FS.createWriteStream(pathToFile);
-      // @ts-ignore
-      const response = await Axios({
-        url,
-        method: 'GET',
-        responseType: 'stream',
-      });
+      const suppliers = await this.SuppiersService.getSuppliers();
 
-      response.data.pipe(writer);
+      if (!suppliers.length) return;
 
-      return new Promise((resolve, reject) => {
-        writer.on('finish', () => resolve(path));
-        writer.on('error', reject);
-      });
+      for (const { title, typeFile } of suppliers) {
+        const pathToFile = './uploadedFiles' + `/${title}` + `.${typeFile}`;
+        const writer = FS.createWriteStream(pathToFile);
+
+        // @ts-ignore
+        const response = await Axios({
+          url,
+          method: 'GET',
+          responseType: 'stream',
+        });
+
+        response.data.pipe(writer);
+
+        return new Promise((resolve, reject) => {
+          writer.on('finish', () => resolve(pathToFile));
+          writer.on('error', reject);
+        });
+      }
     } catch (error) {
       throw new Error(error);
     }
@@ -103,44 +96,28 @@ export class DownloadService {
     }
   }
 
-  typesMethods = {
-    xml: this.xmlToJson,
-    xlsx: this.xlsxToJson,
-    yml: this.ymlToJson,
-    csv: this.csvToJson,
-  };
+  async mainConverter(urlDto: UrlDto): Promise<string> {
+    try {
+      const path = await this.getFileByUrl(urlDto);
+      const types = await this.SuppiersService.getSuppliers();
 
-  async mainConverter(urlDto: UrlDto, enumKey: number): Promise<string> {
-    if (enumKey === Method.XML) {
-      const suppLier = suppLiers[0];
-      const path = await this.getFileByUrl(urlDto, suppLier.typeFile);
-      const method = this.typesMethods.xml;
-      const json = method(path);
-      return json;
-    }
-
-    if (enumKey === Method.XLSX) {
-      const suppLier = suppLiers[1];
-      const path = await this.getFileByUrl(urlDto, suppLier.typeFile);
-      const method = this.typesMethods.xlsx;
-      const json = method(path);
-      return json;
-    }
-
-    if (enumKey === Method.YML) {
-      const suppLier = suppLiers[2];
-      const path = await this.getFileByUrl(urlDto, suppLier.typeFile);
-      const method = this.typesMethods.yml;
-      const json = method(path);
-      return json;
-    }
-
-    if (enumKey === Method.CSV) {
-      const suppLier = suppLiers[3];
-      const path = await this.getFileByUrl(urlDto, suppLier.typeFile);
-      const method = this.typesMethods.csv;
-      const json = method(path);
-      return json;
+      for (const { typeFile } of types) {
+        if (typeFile == 'xlsx') {
+          const json = await this.xlsxToJson(path);
+          return json;
+        } else if (typeFile == 'xml') {
+          const json = await this.xmlToJson(path);
+          return json;
+        } else if (typeFile == 'yml') {
+          const json = await this.ymlToJson(path);
+          return json;
+        } else if (typeFile == 'csv') {
+          const json = await this.csvToJson(path);
+          return json;
+        }
+      }
+    } catch (error) {
+      throw new Error('File conversion error');
     }
   }
 }

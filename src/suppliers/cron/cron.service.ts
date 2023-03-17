@@ -12,7 +12,7 @@ export class CronService {
 
   private isCronRunnig = false;
 
-  @Cron(CronExpression.EVERY_5_MINUTES)
+  @Cron(CronExpression.EVERY_10_MINUTES)
   async downloadMethod() {
     if (this.isCronRunnig) {
       return;
@@ -26,22 +26,24 @@ export class CronService {
       console.log('Price lists of suppliers are missing');
       return;
     }
-
-    for (const { typeFile, id } of suppliers) {
-      const type = {
-        xml: this.DownloadService.xmlToJson('./uploadedFiles/test.xml'),
-        xlsx: this.DownloadService.xlsxToJson('./uploadedFiles/test.xlsx'),
-        yml: this.DownloadService.ymlToJson('./uploadedFiles/test.yml'),
-        csv: this.DownloadService.csvToJson('./uploadedFiles/test.csv'),
-      };
-      try {
-        await type[typeFile];
-      } catch (error) {
-        console.log(`Cron crash,supplier id ${id}`, {
-          error: error.toString(),
-        });
+    Promise.all(suppliers).then((responses) => {
+      for (const { typeFile, id } of responses) {
+        const type = {
+          xml: this.DownloadService.xmlToJson('./uploadedFiles/test.xml'),
+          xlsx: this.DownloadService.xlsxToJson('./uploadedFiles/test.xlsx'),
+          yml: this.DownloadService.ymlToJson('./uploadedFiles/test.yml'),
+          csv: this.DownloadService.csvToJson('./uploadedFiles/test.csv'),
+        };
+        try {
+          type[typeFile];
+        } catch (error) {
+          console.log(`Cron crash,supplier id ${id}`, {
+            error: error.toString(),
+          });
+        }
       }
-    }
+    });
+
     this.isCronRunnig = false;
     console.log('Cron finished');
   }

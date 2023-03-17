@@ -1,23 +1,20 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Supplier } from './entity/supplier.entity';
-import { Repository } from 'typeorm';
+import { FindManyOptions, Not, Repository } from 'typeorm';
 import { createSupplierDTO } from './dto/create.supplier.dto';
 import { deleteSupplierDTO } from './dto/delete.supplier.dto';
 import { updateSupplierDTO } from './dto/update.supplier.dto';
-import { Cron, CronExpression } from '@nestjs/schedule';
-import { DownloadService } from '../download/download.service';
 
 @Injectable()
 export class SuppliersService implements OnModuleInit {
   constructor(
     @InjectRepository(Supplier)
     private suppliersRepository: Repository<Supplier>,
-    private readonly DownloadService: DownloadService,
   ) {}
 
   async onModuleInit(): Promise<void> {
-    const suppliers = await this.getSuppliers();
+    const suppliers = await this.getSuppliers({});
 
     if (suppliers.length) return;
 
@@ -37,8 +34,13 @@ export class SuppliersService implements OnModuleInit {
     return this.suppliersRepository.save(supplier);
   }
 
-  getSuppliers() {
-    return this.suppliersRepository.find();
+  getSuppliers(
+    where: FindManyOptions['where'] = { title: Not(''), typeFile: Not('') },
+  ) {
+    return this.suppliersRepository.find({
+      take: 10,
+      where,
+    });
   }
 
   getSupplier(id: number) {
