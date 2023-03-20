@@ -20,7 +20,7 @@ export class SuppliersController {
   }
 
   @Get('/supplier')
-  async listSupplier(@Body() id: getSupplierDTO, @Res() res) {
+  async getOneSupplier(@Body() id: getSupplierDTO, @Res() res) {
     try {
       const result = await this.SuppliersService.getSupplier(id.id);
       res.status(200).json(result);
@@ -45,7 +45,7 @@ export class SuppliersController {
       const result = await this.SuppliersService.deleteSupplier(body);
       res.status(200).json(result);
     } catch (error) {
-      res.status(400).json({ message: 'Failed to delete user' });
+      res.status(400).json({ message: 'Failed to delete supplier' });
     }
   }
 
@@ -55,7 +55,7 @@ export class SuppliersController {
       const result = await this.SuppliersService.updateSupplier(body);
       res.status(200).json(result);
     } catch (error) {
-      res.status(400).json({ message: 'Failed to update user' });
+      res.status(400).json({ message: 'Failed to update supplier' });
     }
   }
 }

@@ -30,8 +30,16 @@ export class SuppliersService implements OnModuleInit {
     return { title: '', typeFile: '', urlFile: '', ...supplier };
   }
 
+  addSupplier(supplier: createSupplierDTO) {
+    return this.suppliersRepository.save(supplier);
+  }
+
   addSuppliers(supplier: createSupplierDTO[]) {
     return this.suppliersRepository.save(supplier);
+  }
+
+  getSupplier(id: number) {
+    return this.suppliersRepository.find({ where: { id } });
   }
 
   getSuppliers(
@@ -41,14 +49,6 @@ export class SuppliersService implements OnModuleInit {
       take: 10,
       where,
     });
-  }
-
-  getSupplier(id: number) {
-    return this.suppliersRepository.find({ where: { id } });
-  }
-
-  addSupplier(supplier: createSupplierDTO) {
-    return this.suppliersRepository.save(supplier);
   }
 
   deleteSupplier(supplier: deleteSupplierDTO) {

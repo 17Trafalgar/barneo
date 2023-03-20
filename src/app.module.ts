@@ -6,9 +6,13 @@ import * as Joi from 'joi';
 import { DatabaseModule } from './database/typeorm/typeorm.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { CronModule } from './suppliers/cron/cron.module';
+import { ProductModule } from './product/product.module';
+/* import { MappingModule } from './suppliers/mapping/mapping.module'; */
 
 @Module({
   imports: [
+    /* MappingModule, */
+    ProductModule,
     CronModule,
     SupplierModule,
     DownloadModule,
