@@ -25,6 +25,10 @@ export class ProductsService {
     return this.productsRepository.save(product);
   }
 
+  addProducts(product: createProductDTO[]) {
+    return this.productsRepository.save(product);
+  }
+
   deleteProduct(product: deleteProductDTO) {
     return this.productsRepository.delete(product);
   }
