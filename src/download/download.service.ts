@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { UrlDto } from './dto/url.dto';
 import * as xlsx from 'xlsx';
 import * as FS from 'fs';
@@ -8,6 +8,8 @@ import * as convert from 'xml-js';
 import * as YAML from 'yaml';
 import * as csvjson from 'csvjson';
 import { SuppliersService } from 'src/suppliers/suppliers.service';
+import { MappingService } from 'src/suppliers/mapping/mapping.service';
+import { ProductsService } from 'src/product/product.service';
 
 /* const pathToXml = './uploadedFiles/file.xml'; */
 
@@ -16,6 +18,8 @@ export class DownloadService {
   constructor(
     private readonly Axios: HttpService,
     private readonly SuppiersService: SuppliersService,
+    private readonly ProductService: ProductsService,
+    private readonly MappingService: MappingService,
   ) {}
 
   public async getFileByUrl({ url }): Promise<string> {
@@ -96,7 +100,17 @@ export class DownloadService {
     }
   }
 
-  async mainConverter(urlDto: UrlDto): Promise<string> {
+  async mainConverter(urlDto: UrlDto): Promise<any> {
+    try {
+      const json = await this.xlsxToJson('./uploadedFiles/file.xlsx');
+      const convertFile = await this.MappingService.xlsxConverter(json);
+      const saveData = await this.ProductService.addProduct(convertFile);
+      return saveData;
+    } catch (error) {
+      throw new Error('File conversion error');
+    }
+  }
+  /* async mainConverter(urlDto: UrlDto): Promise<string> {
     try {
       const path = await this.getFileByUrl(urlDto);
       const types = await this.SuppiersService.getSuppliers();
@@ -119,5 +133,5 @@ export class DownloadService {
     } catch (error) {
       throw new Error('File conversion error');
     }
-  }
+  } */
 }
