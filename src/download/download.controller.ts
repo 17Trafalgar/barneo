@@ -11,6 +11,7 @@ export class DownloadController {
       const result = await this.downloadService.mainConverter(id);
       res.status(200).json(result);
     } catch (error) {
+      console.log(error);
       res.status(400).json({ message: 'Failed to get id of supplier' });
     }
   }

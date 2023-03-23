@@ -19,14 +19,18 @@ export class DownloadService {
     private readonly MappingService: MappingService,
   ) {}
 
-  public async getFileByUrl(url): Promise<string> {
+  public async downloadFile(
+    supplierId: number,
+  ): Promise<{ pathToFile: string; typeFile: string }> {
     try {
-      const pathToFile = './uploadedFiles/file.xlsx';
+      const { id, urlFile, title, typeFile } =
+        await this.SuppiersService.getSupplier(supplierId);
+      const pathToFile = `./uploadedFiles/${title}_${id}.${typeFile}`; //добавил id,чтобы в случае олинковых названий от разных компаний, он не перезаписался
       const writer = FS.createWriteStream(pathToFile);
 
       // @ts-ignore
       const response = await Axios({
-        url,
+        url: urlFile,
         method: 'GET',
         responseType: 'stream',
       });
@@ -34,10 +38,11 @@ export class DownloadService {
       response.data.pipe(writer);
 
       return new Promise((resolve, reject) => {
-        writer.on('finish', () => resolve(pathToFile));
+        writer.on('finish', () => resolve({ pathToFile, typeFile }));
         writer.on('error', reject);
       });
     } catch (error) {
+      console.log(error);
       throw new Error(error);
     }
   }
@@ -51,7 +56,7 @@ export class DownloadService {
         const rowObject = xlsx.utils.sheet_to_json(data.Sheets[sheetName]);
         finalObject[sheetName] = rowObject;
       });
-      return finalObject['Прайс-лист'];
+      return this.MappingService.converterData(finalObject['Прайс-лист']);
     } catch (error) {
       console.log(error);
       throw new Error(error);
@@ -92,13 +97,11 @@ export class DownloadService {
     }
   }
 
-  async mainConverter(supplierId: number): Promise<string> {
+  public async mainConverter(supplierId: number): Promise<string> {
     try {
-      const { urlFile } = await this.SuppiersService.getSupplier(supplierId);
-      const path = await this.getFileByUrl(urlFile);
-      const json = await this.xlsxToJson(path); //получить тип
-      const convert = await this.MappingService.converterData(json);
-      const save: any = await this.ProductService.addManyProducts(convert);
+      const { pathToFile, typeFile } = await this.downloadFile(supplierId);
+      const product = await this[typeFile + 'ToJson'](pathToFile);
+      const save: any = await this.ProductService.addManyProducts(product);
       return save;
     } catch (error) {
       console.log(error);

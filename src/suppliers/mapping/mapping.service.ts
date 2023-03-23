@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 export class MappingService {
   constructor() {}
 
-  public async converterData(data: any): Promise<any> {
+  public converterData(data: any) {
     try {
       const objTitles = {
         Наименование: 'title',
