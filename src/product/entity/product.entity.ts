@@ -5,27 +5,27 @@ export class Product {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ nullable: true })
   title: string;
 
-  @Column()
-  article: number;
+  @Column({ nullable: true })
+  article: string;
 
-  @Column()
+  @Column({ nullable: true })
+  articleOfProducer: string;
+
+  @Column({ nullable: true })
   producer: string;
 
-  @Column()
+  @Column({ nullable: true })
   country: string;
 
-  @Column()
-  price: number;
-
-  @Column()
+  @Column({ type: 'float', nullable: true })
   priceWithoutDiscount: number;
 
-  @Column()
+  @Column({ type: 'float', nullable: true })
   discountedPrice: number;
 
-  @Column()
+  @Column({ nullable: true })
   productAilability: string;
 }

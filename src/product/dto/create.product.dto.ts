@@ -6,7 +6,11 @@ export class createProductDTO {
   title: string;
 
   @IsNumber()
-  article: number;
+  article: string;
+
+  @IsNotEmpty()
+  @IsString()
+  articleOfProducer: string;
 
   @IsNotEmpty()
   @IsString()
@@ -15,9 +19,6 @@ export class createProductDTO {
   @IsNotEmpty()
   @IsString()
   country: string;
-
-  @IsNumber()
-  price: number;
 
   @IsNumber()
   priceWithoutDiscount: number;

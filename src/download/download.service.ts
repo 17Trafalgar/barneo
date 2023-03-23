@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UrlDto } from './dto/url.dto';
 import * as xlsx from 'xlsx';
 import * as FS from 'fs';
@@ -10,8 +10,6 @@ import * as csvjson from 'csvjson';
 import { SuppliersService } from 'src/suppliers/suppliers.service';
 import { MappingService } from 'src/suppliers/mapping/mapping.service';
 import { ProductsService } from 'src/product/product.service';
-
-/* const pathToXml = './uploadedFiles/file.xml'; */
 
 @Injectable()
 export class DownloadService {
@@ -24,28 +22,22 @@ export class DownloadService {
 
   public async getFileByUrl({ url }): Promise<string> {
     try {
-      const suppliers = await this.SuppiersService.getSuppliers();
+      const pathToFile = './uploadedFiles/file.xlsx';
+      const writer = FS.createWriteStream(pathToFile);
 
-      if (!suppliers.length) return;
+      // @ts-ignore
+      const response = await Axios({
+        url,
+        method: 'GET',
+        responseType: 'stream',
+      });
 
-      for (const { title, typeFile } of suppliers) {
-        const pathToFile = './uploadedFiles' + `/${title}` + `.${typeFile}`;
-        const writer = FS.createWriteStream(pathToFile);
+      response.data.pipe(writer);
 
-        // @ts-ignore
-        const response = await Axios({
-          url,
-          method: 'GET',
-          responseType: 'stream',
-        });
-
-        response.data.pipe(writer);
-
-        return new Promise((resolve, reject) => {
-          writer.on('finish', () => resolve(pathToFile));
-          writer.on('error', reject);
-        });
-      }
+      return new Promise((resolve, reject) => {
+        writer.on('finish', () => resolve(pathToFile));
+        writer.on('error', reject);
+      });
     } catch (error) {
       throw new Error(error);
     }
@@ -100,38 +92,25 @@ export class DownloadService {
     }
   }
 
-  async mainConverter(urlDto: UrlDto): Promise<any> {
+  async mainConverter(urlDto: UrlDto): Promise<string> {
     try {
-      const json = await this.xlsxToJson('./uploadedFiles/file.xlsx');
-      const convertFile = await this.MappingService.xlsxConverter(json);
-      const saveData = await this.ProductService.addProduct(convertFile);
-      return saveData;
+      const url = await this.SuppiersService.getSupplier(18);
+      const path = await this.getFileByUrl(url);
+      const json = await this.xlsxToJson(path);
+      const convert = await this.MappingService.xlsxConverter(
+        json['Прайс-лист'],
+      );
+      const save: any = await this.ProductService.addManyProducts(convert);
+      return save;
+      /* const path = await this.getFileByUrl(urlDto);
+      const json = await this.xlsxToJson(path);
+      const convert = await this.MappingService.xlsxConverter(
+        json['Прайс-лист'],
+      );
+      const save: any = await this.ProductService.addManyProducts(convert);
+      return save; */
     } catch (error) {
       throw new Error('File conversion error');
     }
   }
-  /* async mainConverter(urlDto: UrlDto): Promise<string> {
-    try {
-      const path = await this.getFileByUrl(urlDto);
-      const types = await this.SuppiersService.getSuppliers();
-
-      for (const { typeFile } of types) {
-        if (typeFile == 'xlsx') {
-          const json = await this.xlsxToJson(path);
-          return json;
-        } else if (typeFile == 'xml') {
-          const json = await this.xmlToJson(path);
-          return json;
-        } else if (typeFile == 'yml') {
-          const json = await this.ymlToJson(path);
-          return json;
-        } else if (typeFile == 'csv') {
-          const json = await this.csvToJson(path);
-          return json;
-        }
-      }
-    } catch (error) {
-      throw new Error('File conversion error');
-    }
-  } */
 }

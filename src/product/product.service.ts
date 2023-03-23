@@ -13,6 +13,15 @@ export class ProductsService {
     private productsRepository: Repository<Product>,
   ) {}
 
+  private getChunks(arr, chunkSize) {
+    const res = [];
+    for (let i = 0; i < arr.length; i += chunkSize) {
+      const chunk = arr.slice(i, i + chunkSize);
+      res.push(chunk);
+    }
+    return res;
+  }
+
   getProduct(id: number) {
     return this.productsRepository.find({ where: { id } });
   }
@@ -27,6 +36,15 @@ export class ProductsService {
 
   addProducts(product: createProductDTO[]) {
     return this.productsRepository.save(product);
+  }
+
+  async addManyProducts(product: createProductDTO[]) {
+    const resultArray = [];
+    const chunks = this.getChunks(product, 100);
+    for (const chunk of chunks) {
+      resultArray.push(await this.addProducts(chunk));
+    }
+    return resultArray;
   }
 
   deleteProduct(product: deleteProductDTO) {

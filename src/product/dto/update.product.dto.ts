@@ -1,7 +1,6 @@
 import { IsString, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class updateProductDTO {
-  @IsNotEmpty()
   @IsNumber()
   id: number;
 
@@ -9,9 +8,12 @@ export class updateProductDTO {
   @IsString()
   title: string;
 
+  @IsNumber()
+  article: string;
+
   @IsNotEmpty()
   @IsNumber()
-  article: number;
+  articleOfProducer: string;
 
   @IsNotEmpty()
   @IsString()
@@ -21,15 +23,9 @@ export class updateProductDTO {
   @IsString()
   country: string;
 
-  @IsNotEmpty()
-  @IsNumber()
-  price: number;
-
-  @IsNotEmpty()
   @IsNumber()
   priceWithoutDiscount: number;
 
-  @IsNotEmpty()
   @IsNumber()
   discountedPrice: number;
 
