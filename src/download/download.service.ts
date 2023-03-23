@@ -1,6 +1,5 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
-import { UrlDto } from './dto/url.dto';
 import * as xlsx from 'xlsx';
 import * as FS from 'fs';
 import * as Axios from 'axios';
@@ -52,8 +51,9 @@ export class DownloadService {
         const rowObject = xlsx.utils.sheet_to_json(data.Sheets[sheetName]);
         finalObject[sheetName] = rowObject;
       });
-      return finalObject;
+      return finalObject['Прайс-лист'];
     } catch (error) {
+      console.log(error);
       throw new Error(error);
     }
   }
@@ -92,17 +92,16 @@ export class DownloadService {
     }
   }
 
-  async mainConverter(urlDto: UrlDto): Promise<string> {
+  async mainConverter(supplierId: number): Promise<string> {
     try {
-      const { urlFile } = await this.SuppiersService.getSupplier(18);
+      const { urlFile } = await this.SuppiersService.getSupplier(supplierId);
       const path = await this.getFileByUrl(urlFile);
-      const json = await this.xlsxToJson(path);
-      const convert = await this.MappingService.xlsxConverter(
-        json['Прайс-лист'],
-      );
+      const json = await this.xlsxToJson(path); //получить тип
+      const convert = await this.MappingService.converterData(json);
       const save: any = await this.ProductService.addManyProducts(convert);
       return save;
     } catch (error) {
+      console.log(error);
       throw new Error('File conversion error');
     }
   }

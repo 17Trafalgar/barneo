@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 export class MappingService {
   constructor() {}
 
-  public async xlsxConverter(data: any): Promise<any> {
+  public async converterData(data: any): Promise<any> {
     try {
       const objTitles = {
         Наименование: 'title',
@@ -17,24 +17,24 @@ export class MappingService {
         Наличие: 'productAilability',
       };
 
-      const hasmap = {};
+      const newTitle = {};
       const dataFileArray = [];
 
       for (const obj of data) {
-        if (!Object.keys(hasmap).length) {
+        if (!Object.keys(newTitle).length) {
           for (const key of Object.keys(obj)) {
             if (objTitles[obj[key]]) {
-              hasmap[key] = objTitles[obj[key]];
+              newTitle[key] = objTitles[obj[key]];
             }
           }
         } else {
           const objData = {};
 
           for (const key of Object.keys(obj)) {
-            if (hasmap[key] == 'article') {
-              objData[hasmap[key]] = obj[key].toString();
-            } else if (hasmap[key]) {
-              objData[hasmap[key]] = obj[key];
+            if (newTitle[key] == 'article') {
+              objData[newTitle[key]] = obj[key].toString();
+            } else if (newTitle[key]) {
+              objData[newTitle[key]] = obj[key];
             }
           }
           dataFileArray.push(objData);
@@ -42,6 +42,7 @@ export class MappingService {
       }
       return dataFileArray;
     } catch (error) {
+      console.log(error);
       throw new Error(error);
     }
   }

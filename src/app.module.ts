@@ -5,12 +5,10 @@ import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { DatabaseModule } from './database/typeorm/typeorm.module';
 import { ScheduleModule } from '@nestjs/schedule';
-import { CronModule } from './suppliers/cron/cron.module';
 import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
-    CronModule,
     ProductModule,
     SupplierModule,
     DownloadModule,
