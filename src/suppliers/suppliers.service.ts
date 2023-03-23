@@ -39,7 +39,7 @@ export class SuppliersService implements OnModuleInit {
   }
 
   getSupplier(id: number) {
-    return this.suppliersRepository.find({ where: { id } });
+    return this.suppliersRepository.findOne({ where: { id } });
   }
 
   getSuppliers(

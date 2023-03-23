@@ -20,7 +20,7 @@ export class DownloadService {
     private readonly MappingService: MappingService,
   ) {}
 
-  public async getFileByUrl({ url }): Promise<string> {
+  public async getFileByUrl(url): Promise<string> {
     try {
       const pathToFile = './uploadedFiles/file.xlsx';
       const writer = FS.createWriteStream(pathToFile);
@@ -94,21 +94,14 @@ export class DownloadService {
 
   async mainConverter(urlDto: UrlDto): Promise<string> {
     try {
-      const url = await this.SuppiersService.getSupplier(18);
-      const path = await this.getFileByUrl(url);
+      const { urlFile } = await this.SuppiersService.getSupplier(18);
+      const path = await this.getFileByUrl(urlFile);
       const json = await this.xlsxToJson(path);
       const convert = await this.MappingService.xlsxConverter(
         json['Прайс-лист'],
       );
       const save: any = await this.ProductService.addManyProducts(convert);
       return save;
-      /* const path = await this.getFileByUrl(urlDto);
-      const json = await this.xlsxToJson(path);
-      const convert = await this.MappingService.xlsxConverter(
-        json['Прайс-лист'],
-      );
-      const save: any = await this.ProductService.addManyProducts(convert);
-      return save; */
     } catch (error) {
       throw new Error('File conversion error');
     }
