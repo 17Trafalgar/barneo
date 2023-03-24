@@ -25,12 +25,12 @@ export class updateProductDTO {
   country: string;
 
   @IsOptional()
-  price: PriceTable;
-
-  @IsOptional()
-  priceRrc: PriceTable;
+  priceRrc: number;
 
   @IsNotEmpty()
   @IsString()
   productAilability: string;
+
+  @IsOptional()
+  price: PriceTable;
 }
