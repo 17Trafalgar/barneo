@@ -1,4 +1,5 @@
-import { IsString, IsNotEmpty, IsNumber } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
+import { PriceTable } from '../entity/price.entity';
 
 export class createProductDTO {
   @IsNotEmpty()
@@ -20,11 +21,11 @@ export class createProductDTO {
   @IsString()
   country: string;
 
-  @IsNumber()
-  priceWithoutDiscount: number;
+  @IsOptional()
+  price: PriceTable;
 
-  @IsNumber()
-  discountedPrice: number;
+  @IsOptional()
+  priceRrc: PriceTable;
 
   @IsNotEmpty()
   @IsString()
