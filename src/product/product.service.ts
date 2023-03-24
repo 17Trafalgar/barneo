@@ -7,7 +7,7 @@ import { deleteProductDTO } from './dto/delete.product.dto';
 import { updateProductDTO } from './dto/update.product.dto';
 
 @Injectable()
-export class ProductsService {
+export class productsService {
   constructor(
     @InjectRepository(Product)
     private productsRepository: Repository<Product>,

@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { DownloadService } from 'src/download/download.service';
-import { SuppliersService } from '../suppliers.service';
+import { downloadService } from 'src/download/download.service';
+import { suppliersService } from '../suppliers.service';
 
 @Injectable()
-export class CronService {
+export class cronService {
   constructor(
-    private readonly SuppliersService: SuppliersService,
-    private readonly DownloadService: DownloadService,
+    private readonly suppliersService: suppliersService,
+    private readonly downloadService: downloadService,
   ) {}
 
   private isCronRunnig = false;
@@ -20,7 +20,7 @@ export class CronService {
       this.isCronRunnig = true;
     }
     console.log('Сron started');
-    const suppliers = await this.SuppliersService.getSuppliers();
+    const suppliers = await this.suppliersService.getSuppliers();
 
     if (!suppliers.length) {
       console.log('Price lists of suppliers are missing');
@@ -29,10 +29,10 @@ export class CronService {
     Promise.all(suppliers).then((responses) => {
       for (const { typeFile, id } of responses) {
         const type = {
-          xml: this.DownloadService.xmlToJson('./uploadedFiles/test.xml'),
-          xlsx: this.DownloadService.xlsxToJson('./uploadedFiles/test.xlsx'),
-          yml: this.DownloadService.ymlToJson('./uploadedFiles/test.yml'),
-          csv: this.DownloadService.csvToJson('./uploadedFiles/test.csv'),
+          xml: this.downloadService.xmlToJson('./uploadedFiles/test.xml'),
+          xlsx: this.downloadService.xlsxToJson('./uploadedFiles/test.xlsx'),
+          yml: this.downloadService.ymlToJson('./uploadedFiles/test.yml'),
+          csv: this.downloadService.csvToJson('./uploadedFiles/test.csv'),
         };
         try {
           type[typeFile];

@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class MappingService {
+export class mappingService {
   constructor() {}
 
-  public converterData(data: any) {
+  public clenConverter(data: any) {
     try {
       const objTitles = {
         Наименование: 'title',

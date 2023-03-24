@@ -21,10 +21,10 @@ export class Product {
   country: string;
 
   @Column({ type: 'float', nullable: true })
-  priceWithoutDiscount: number;
+  priceWithoutDiscount: number; // вынести в другую таблицу и связять  OneToOne // price
 
   @Column({ type: 'float', nullable: true })
-  discountedPrice: number;
+  discountedPrice: number; // вынести в другую таблицу и связять  OneToOne 'Price table' и туда ещё два поля { price valute, priceRrc Valute} и ещё одно поле "валюта" в сумме - 5// priceRrc
 
   @Column({ nullable: true })
   productAilability: string;

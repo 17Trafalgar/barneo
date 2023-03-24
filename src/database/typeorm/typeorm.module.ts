@@ -22,4 +22,4 @@ import { Product } from 'src/product/entity/product.entity';
     }),
   ],
 })
-export class DatabaseModule {}
+export class databaseModule {}

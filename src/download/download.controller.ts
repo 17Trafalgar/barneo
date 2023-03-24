@@ -1,9 +1,9 @@
 import { Controller, Get, Query, Res } from '@nestjs/common';
-import { DownloadService } from './download.service';
+import { downloadService } from './download.service';
 
 @Controller()
-export class DownloadController {
-  constructor(private readonly downloadService: DownloadService) {}
+export class downloadController {
+  constructor(private readonly downloadService: downloadService) {}
 
   @Get()
   async getFile(@Query() { id }, @Res() res) {

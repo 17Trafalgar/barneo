@@ -7,7 +7,7 @@ import { deleteSupplierDTO } from './dto/delete.supplier.dto';
 import { updateSupplierDTO } from './dto/update.supplier.dto';
 
 @Injectable()
-export class SuppliersService implements OnModuleInit {
+export class suppliersService implements OnModuleInit {
   constructor(
     @InjectRepository(Supplier)
     private suppliersRepository: Repository<Supplier>,

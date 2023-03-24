@@ -2,12 +2,12 @@ import { Body, Controller, Post, Res, Get, Delete, Put } from '@nestjs/common';
 import { createSupplierDTO } from './dto/create.supplier.dto';
 import { deleteSupplierDTO } from './dto/delete.supplier.dto';
 import { updateSupplierDTO } from './dto/update.supplier.dto';
-import { SuppliersService } from './suppliers.service';
+import { suppliersService } from './suppliers.service';
 import { getSupplierDTO } from './dto/get.supplier.dto';
 
 @Controller('suppliers')
-export class SuppliersController {
-  constructor(private SuppliersService: SuppliersService) {}
+export class suppliersController {
+  constructor(private SuppliersService: suppliersService) {}
 
   @Get()
   async listSuppliers(@Res() res) {

@@ -1,6 +1,6 @@
 import { IsString } from 'class-validator';
 
-export class UrlDto {
+export class urlDto {
   @IsString()
   url: string;
 }

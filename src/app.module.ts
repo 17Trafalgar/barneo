@@ -1,18 +1,18 @@
 import { Module } from '@nestjs/common';
-import { DownloadModule } from './download/download.module';
-import { SupplierModule } from './suppliers/suppliers.module';
+import { downloadModule } from './download/download.module';
+import { supplierModule } from './suppliers/suppliers.module';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
-import { DatabaseModule } from './database/typeorm/typeorm.module';
+import { databaseModule } from './database/typeorm/typeorm.module';
 import { ScheduleModule } from '@nestjs/schedule';
-import { ProductModule } from './product/product.module';
+import { productModule } from './product/product.module';
 
 @Module({
   imports: [
-    ProductModule,
-    SupplierModule,
-    DownloadModule,
-    DatabaseModule,
+    productModule,
+    supplierModule,
+    downloadModule,
+    databaseModule,
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       validationSchema: Joi.object({

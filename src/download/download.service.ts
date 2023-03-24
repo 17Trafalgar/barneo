@@ -1,31 +1,32 @@
-import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
 import * as xlsx from 'xlsx';
 import * as FS from 'fs';
 import * as Axios from 'axios';
 import * as convert from 'xml-js';
 import * as YAML from 'yaml';
 import * as csvjson from 'csvjson';
-import { SuppliersService } from 'src/suppliers/suppliers.service';
-import { MappingService } from 'src/suppliers/mapping/mapping.service';
-import { ProductsService } from 'src/product/product.service';
+import { HttpService } from '@nestjs/axios';
+import { Injectable } from '@nestjs/common';
+import { suppliersService } from 'src/suppliers/suppliers.service';
+import { mappingService } from 'src/suppliers/mapping/mapping.service';
+import { productsService } from 'src/product/product.service';
 
 @Injectable()
-export class DownloadService {
+export class downloadService {
   constructor(
     private readonly Axios: HttpService,
-    private readonly SuppiersService: SuppliersService,
-    private readonly ProductService: ProductsService,
-    private readonly MappingService: MappingService,
+    private readonly suppiersService: suppliersService,
+    private readonly productService: productsService,
+    private readonly mappingService: mappingService,
   ) {}
 
   public async downloadFile(
-    supplierId: number,
+    id: number,
+    title: string,
+    typeFile: string,
+    urlFile: string,
   ): Promise<{ pathToFile: string; typeFile: string }> {
     try {
-      const { id, urlFile, title, typeFile } =
-        await this.SuppiersService.getSupplier(supplierId);
-      const pathToFile = `./uploadedFiles/${title}_${id}.${typeFile}`; //добавил id,чтобы в случае олинковых названий от разных компаний, он не перезаписался
+      const pathToFile = `./uploadedFiles/${title}_${id}.${typeFile}`;
       const writer = FS.createWriteStream(pathToFile);
 
       // @ts-ignore
@@ -56,7 +57,7 @@ export class DownloadService {
         const rowObject = xlsx.utils.sheet_to_json(data.Sheets[sheetName]);
         finalObject[sheetName] = rowObject;
       });
-      return this.MappingService.converterData(finalObject['Прайс-лист']);
+      return finalObject['Прайс-лист'];
     } catch (error) {
       console.log(error);
       throw new Error(error);
@@ -99,10 +100,13 @@ export class DownloadService {
 
   public async mainConverter(supplierId: number): Promise<string> {
     try {
-      const { pathToFile, typeFile } = await this.downloadFile(supplierId);
-      const product = await this[typeFile + 'ToJson'](pathToFile);
-      const save: any = await this.ProductService.addManyProducts(product);
-      return save;
+      const { id, title, typeFile, urlFile } =
+        await this.suppiersService.getSupplier(supplierId);
+      const pathToFile = await this.downloadFile(id, title, typeFile, urlFile);
+      const product = await this[typeFile + 'ToJson'](pathToFile.pathToFile);
+      const convert = this.mappingService.clenConverter(product);
+      const save: any = await this.productService.addManyProducts(convert);
+      return save; // enum вместо toJson
     } catch (error) {
       console.log(error);
       throw new Error('File conversion error');

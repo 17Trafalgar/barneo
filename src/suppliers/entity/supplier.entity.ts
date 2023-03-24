@@ -11,6 +11,9 @@ export class Supplier {
   @Column()
   typeFile: string;
 
+  @Column({ nullable: true })
+  parser: string;
+
   @Column()
   urlFile: string;
 }
