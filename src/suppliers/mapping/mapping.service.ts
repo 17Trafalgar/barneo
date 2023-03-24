@@ -12,8 +12,8 @@ export class mappingService {
         'Артикул произв.': 'articleOfProducer',
         Производитель: 'producer',
         Страна: 'country',
-        'Цена без учета скидки, руб.': 'priceWithoutDiscount',
-        'Цена с учетом скидок, руб': 'discountedPrice',
+        'Цена без учета скидки, руб.': 'priceId',
+        'Цена с учетом скидок, руб': 'priceRrc',
         Наличие: 'productAilability',
       };
 
