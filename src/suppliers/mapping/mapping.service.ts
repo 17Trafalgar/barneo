@@ -48,8 +48,21 @@ export class mappingService {
   }
   public grkConverter(data: any) {
     try {
-    } catch (error) {}
-    console.error();
-    throw new Error('The file was not converted');
+      const dataFileArray = [];
+      for (const obj of data.Остатки.Номенклатура) {
+        dataFileArray.push({
+          articleOfProducer: obj.Код._text,
+          title: obj.Наименование._text,
+          article: obj.Артикул._text,
+          producer: obj.Бренд._text,
+          productAilability: obj.Остаток._text,
+          priceListId: obj.Цена._text,
+        });
+      }
+      return dataFileArray;
+    } catch (error) {
+      console.error();
+      throw new Error('The file was not converted');
+    }
   }
 }

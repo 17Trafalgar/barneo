@@ -69,7 +69,7 @@ export class downloadService {
       const file = FS.readFileSync(path, 'utf-8');
       const options = { compact: true, ignoreComment: true, spaces: 4 };
       const data = convert.xml2json(file, options);
-      return data;
+      return JSON.parse(data);
     } catch (error) {
       throw new Error(error);
     }
@@ -98,15 +98,16 @@ export class downloadService {
     }
   }
 
-  public async mainConverter(supplierId: number): Promise<string> {
+  public async mainConverter(supplierId: number): Promise<any> {
     try {
       const { id, title, typeFile, urlFile } =
         await this.suppiersService.getSupplier(supplierId);
       const pathToFile = await this.downloadFile(id, title, typeFile, urlFile);
       const product = await this[typeFile + 'ToJson'](pathToFile.pathToFile);
-      const convert = this.mappingService.clenConverter(product);
+      /* const convert = this.mappingService.grkConverter(product);
       const save: any = await this.productService.addManyProducts(convert);
-      return save; // enum вместо toJson
+      return save; // enum вместо toJson */
+      return product;
     } catch (error) {
       console.log(error);
       throw new Error('File conversion error');
