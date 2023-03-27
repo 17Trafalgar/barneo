@@ -29,5 +29,5 @@ export class createProductDTO {
   productAilability: string;
 
   @IsOptional()
-  price: PriceTable;
+  priceList: PriceTable;
 }

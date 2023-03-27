@@ -32,5 +32,5 @@ export class updateProductDTO {
   productAilability: string;
 
   @IsOptional()
-  price: PriceTable;
+  priceList: PriceTable;
 }

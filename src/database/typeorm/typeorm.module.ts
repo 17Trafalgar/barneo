@@ -19,6 +19,7 @@ import { PriceTable } from 'src/product/entity/price.entity';
         database: configService.get('POSTGRES_DB'),
         entities: [Supplier, Product, PriceTable],
         synchronize: true,
+        /* logging: true, */
       }),
     }),
   ],

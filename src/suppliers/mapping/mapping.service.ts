@@ -12,7 +12,7 @@ export class mappingService {
         'Артикул произв.': 'articleOfProducer',
         Производитель: 'producer',
         Страна: 'country',
-        'Цена без учета скидки, руб.': 'priceId',
+        'Цена без учета скидки, руб.': 'priceListId',
         'Цена с учетом скидок, руб': 'priceRrc',
         Наличие: 'productAilability',
       };
@@ -43,7 +43,13 @@ export class mappingService {
       return dataFileArray;
     } catch (error) {
       console.log(error);
-      throw new Error(error);
+      throw new Error('The file was not converted');
     }
+  }
+  public grkConverter(data: any) {
+    try {
+    } catch (error) {}
+    console.error();
+    throw new Error('The file was not converted');
   }
 }

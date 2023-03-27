@@ -4,7 +4,6 @@ import {
   PrimaryGeneratedColumn,
   OneToOne,
   JoinColumn,
-  Relation,
 } from 'typeorm';
 import { PriceTable } from './price.entity';
 
@@ -28,15 +27,19 @@ export class Product {
   @Column({ nullable: true })
   country: string;
 
-  @Column({ type: 'float', nullable: true })
+  @Column({ type: 'numeric', nullable: true })
   priceRrc: number;
 
   @Column({ nullable: true })
   productAilability: string;
 
-  @OneToOne(() => PriceTable, (priceTable: PriceTable) => priceTable.price, {
-    cascade: true,
-  })
+  @OneToOne(
+    () => PriceTable,
+    (priceTable: PriceTable) => priceTable.priceProduct,
+    {
+      cascade: true,
+    },
+  )
   @JoinColumn()
-  price: Relation<PriceTable>;
+  priceList: PriceTable;
 }
