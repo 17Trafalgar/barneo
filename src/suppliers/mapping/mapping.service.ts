@@ -51,7 +51,7 @@ export class mappingService {
       const dataFileArray = [];
       for (const obj of data.Остатки.Номенклатура) {
         dataFileArray.push({
-          articleOfProducer: obj.Код._text,
+          productCode: obj.Код._text,
           title: obj.Наименование._text,
           article: obj.Артикул._text,
           producer: obj.Бренд._text,

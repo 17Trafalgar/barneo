@@ -69,7 +69,7 @@ export class downloadService {
       const file = FS.readFileSync(path, 'utf-8');
       const options = { compact: true, ignoreComment: true, spaces: 4 };
       const data = convert.xml2json(file, options);
-      return JSON.parse(data);
+      return data;
     } catch (error) {
       throw new Error(error);
     }
@@ -104,10 +104,9 @@ export class downloadService {
         await this.suppiersService.getSupplier(supplierId);
       const pathToFile = await this.downloadFile(id, title, typeFile, urlFile);
       const product = await this[typeFile + 'ToJson'](pathToFile.pathToFile);
-      /* const convert = this.mappingService.grkConverter(product);
+      const convert = this.mappingService.grkConverter(product);
       const save: any = await this.productService.addManyProducts(convert);
-      return save; // enum вместо toJson */
-      return product;
+      return save; // enum вместо toJson
     } catch (error) {
       console.log(error);
       throw new Error('File conversion error');

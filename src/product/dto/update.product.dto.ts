@@ -9,8 +9,11 @@ export class updateProductDTO {
   @IsString()
   title: string;
 
-  @IsNumber()
-  article: string;
+  @IsOptional()
+  article: number;
+
+  @IsOptional()
+  productCode: number;
 
   @IsNotEmpty()
   @IsNumber()

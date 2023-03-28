@@ -16,7 +16,10 @@ export class Product {
   title: string;
 
   @Column({ nullable: true })
-  article: string;
+  article: number;
+
+  @Column({ nullable: true })
+  productCode: number;
 
   @Column({ nullable: true })
   articleOfProducer: string;
