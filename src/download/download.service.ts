@@ -2,8 +2,8 @@ import * as xlsx from 'xlsx';
 import * as FS from 'fs';
 import * as Axios from 'axios';
 import * as convert from 'xml-js';
-import * as YAML from 'yaml';
 import * as csvjson from 'csvjson';
+import * as encoding from 'encoding';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { suppliersService } from 'src/suppliers/suppliers.service';
@@ -77,9 +77,10 @@ export class downloadService {
 
   public async ymlToJson(path: string): Promise<any> {
     try {
-      const file = FS.readFileSync(path, 'utf-8');
+      const file = FS.readFileSync(path);
+      const text = encoding.convert(file, 'UTF-8', 'WINDOWS-1251');
       const options = { compact: true, ignoreComment: true, spaces: 4 };
-      const data = convert.xml2json(file, options);
+      const data = convert.xml2json(text, options);
       return JSON.parse(data);
     } catch (error) {
       throw new Error(error);
@@ -104,6 +105,7 @@ export class downloadService {
         await this.suppiersService.getSupplier(supplierId);
       const pathToFile = await this.downloadFile(id, title, typeFile, urlFile);
       const product = await this[typeFile + 'ToJson'](pathToFile.pathToFile);
+      //if suuplier encoding != untf-8,потом сделать кодировки
       const convert = this.mappingService.JustCoffeConverter(product);
       const save: any = await this.productService.addManyProducts(convert);
       console.log(save);
