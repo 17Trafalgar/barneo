@@ -78,9 +78,9 @@ export class downloadService {
   public async ymlToJson(path: string): Promise<any> {
     try {
       const file = FS.readFileSync(path, 'utf-8');
-      const options = [true, false, 'maybe', null];
-      const data = YAML.stringify(file, options);
-      return data;
+      const options = { compact: true, ignoreComment: true, spaces: 4 };
+      const data = convert.xml2json(file, options);
+      return JSON.parse(data);
     } catch (error) {
       throw new Error(error);
     }
@@ -104,8 +104,9 @@ export class downloadService {
         await this.suppiersService.getSupplier(supplierId);
       const pathToFile = await this.downloadFile(id, title, typeFile, urlFile);
       const product = await this[typeFile + 'ToJson'](pathToFile.pathToFile);
-      const convert = this.mappingService.clenConverter(product);
+      const convert = this.mappingService.JustCoffeConverter(product);
       const save: any = await this.productService.addManyProducts(convert);
+      console.log(save);
       return save; // enum вместо toJson
     } catch (error) {
       console.log(error);

@@ -46,6 +46,7 @@ export class mappingService {
       throw new Error('The file was not converted');
     }
   }
+
   public grkConverter(data: any) {
     try {
       const dataFileArray = [];
@@ -62,6 +63,26 @@ export class mappingService {
       return dataFileArray;
     } catch (error) {
       console.error();
+      throw new Error('The file was not converted');
+    }
+  }
+
+  public JustCoffeConverter(data: any) {
+    try {
+      const dataFileArray = [];
+      for (const obj of data.yml_catalog.shop.offers.offer) {
+        dataFileArray.push({
+          productCode: obj.barcode?._text,
+          title: obj.name?._text,
+          article: obj.categoryId?._text,
+          producer: obj.vendor?._text,
+          productAilability: obj.quantity?._text,
+          priceListId: obj.price?._text,
+        });
+      }
+      return dataFileArray;
+    } catch (error) {
+      console.error(error);
       throw new Error('The file was not converted');
     }
   }
