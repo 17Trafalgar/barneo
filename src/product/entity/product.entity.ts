@@ -16,10 +16,10 @@ export class Product {
   title: string;
 
   @Column({ nullable: true })
-  article: number;
+  article: string;
 
   @Column({ nullable: true })
-  productCode: number;
+  productCode: string;
 
   @Column({ nullable: true })
   articleOfProducer: string;

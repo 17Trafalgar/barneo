@@ -6,11 +6,13 @@ export class createProductDTO {
   @IsString()
   title: string;
 
-  @IsOptional()
-  article: number;
+  @IsNotEmpty()
+  @IsString()
+  article: string;
 
-  @IsOptional()
-  productCode: number;
+  @IsNotEmpty()
+  @IsString()
+  productCode: string;
 
   @IsNotEmpty()
   @IsString()
