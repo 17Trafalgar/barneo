@@ -67,7 +67,7 @@ export class mappingService {
     }
   }
 
-  public JustCoffeConverter(data: any) {
+  public justCoffeConverter(data: any) {
     try {
       const dataFileArray = [];
       for (const obj of data.yml_catalog.shop.offers.offer) {

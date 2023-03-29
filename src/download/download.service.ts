@@ -106,7 +106,7 @@ export class downloadService {
       const pathToFile = await this.downloadFile(id, title, typeFile, urlFile);
       const product = await this[typeFile + 'ToJson'](pathToFile.pathToFile);
       //if suuplier encoding != untf-8,потом сделать кодировки
-      const convert = this.mappingService.JustCoffeConverter(product);
+      const convert = this.mappingService.justCoffeConverter(product);
       const save: any = await this.productService.addManyProducts(convert);
       console.log(save);
       return save; // enum вместо toJson
