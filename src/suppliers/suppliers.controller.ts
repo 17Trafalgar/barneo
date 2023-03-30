@@ -7,12 +7,12 @@ import { getSupplierDTO } from './dto/get.supplier.dto';
 
 @Controller('suppliers')
 export class suppliersController {
-  constructor(private SuppliersService: suppliersService) {}
+  constructor(private suppliersService: suppliersService) {}
 
   @Get()
   async listSuppliers(@Res() res) {
     try {
-      const result = await this.SuppliersService.getSuppliers();
+      const result = await this.suppliersService.getSuppliers();
       res.status(200).json(result);
     } catch (error) {
       res.status(400).json({ message: 'Failed to get supplier list' });
@@ -22,7 +22,7 @@ export class suppliersController {
   @Get('/supplier')
   async getOneSupplier(@Body() id: getSupplierDTO, @Res() res) {
     try {
-      const result = await this.SuppliersService.getSupplier(id.id);
+      const result = await this.suppliersService.getSupplier(id.id);
       res.status(200).json(result);
     } catch (error) {
       res.status(400).json({ message: 'Failed to get supplier' });
@@ -32,7 +32,7 @@ export class suppliersController {
   @Post()
   async createSupplier(@Body() body: createSupplierDTO, @Res() res) {
     try {
-      const result = await this.SuppliersService.addSupplier(body);
+      const result = await this.suppliersService.addSupplier(body);
       res.status(201).json(result);
     } catch (error) {
       res.status(400).json({ message: 'Failed to create supplier' });
@@ -42,7 +42,7 @@ export class suppliersController {
   @Delete()
   async deleteSupplierFromDB(@Body() body: deleteSupplierDTO, @Res() res) {
     try {
-      const result = await this.SuppliersService.deleteSupplier(body);
+      const result = await this.suppliersService.deleteSupplier(body);
       res.status(200).json(result);
     } catch (error) {
       res.status(400).json({ message: 'Failed to delete supplier' });
@@ -52,7 +52,7 @@ export class suppliersController {
   @Put()
   async updateSupplierInDB(@Body() body: updateSupplierDTO, @Res() res) {
     try {
-      const result = await this.SuppliersService.updateSupplier(body);
+      const result = await this.suppliersService.updateSupplier(body);
       res.status(200).json(result);
     } catch (error) {
       res.status(400).json({ message: 'Failed to update supplier' });
