@@ -41,7 +41,8 @@ export class downloadController {
     @UploadedFile() file: Express.Multer.File,
   ): Promise<any> {
     try {
-      const result = await this.downloadService.uploadConverter();
+      const pathToFile = './uploadedFiles/Price list.xlsx';
+      const result = await this.downloadService.uploadConverter(pathToFile);
       return result;
     } catch (error) {
       console.log(error);

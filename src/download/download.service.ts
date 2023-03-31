@@ -116,12 +116,12 @@ export class downloadService {
     }
   }
 
-  public async uploadConverter(): Promise<any> {
+  public async uploadConverter(path: string): Promise<any> {
     try {
-      const product = await this.xlsxToJson('./uploadedFiles/Price list.xlsx');
-      const convert = await this.mappingService.clenConverter(product);
-      console.log(convert);
-      return convert;
+      const product = await this.xlsxToJson(path);
+      const convert = this.mappingService.clenConverter(product);
+      const save: any = await this.productService.addManyProducts(convert);
+      return save;
     } catch (error) {
       console.log(error);
       throw new Error('File conversion error');
