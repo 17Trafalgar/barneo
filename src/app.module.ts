@@ -6,9 +6,13 @@ import * as Joi from 'joi';
 import { databaseModule } from './database/typeorm/typeorm.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { productModule } from './product/product.module';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
+    MulterModule.register({
+      dest: './uploads',
+    }),
     productModule,
     supplierModule,
     downloadModule,
