@@ -37,16 +37,14 @@ export class downloadController {
       fileFilter: allFileFilter,
     }),
   )
-  public async uploadFile(
-    @UploadedFile() file: Express.Multer.File,
-  ): Promise<any> {
+  async uploadFile(@UploadedFile() file: Express.Multer.File): Promise<any> {
     try {
       const pathToFile = './uploadedFiles/Price list.xlsx';
       const result = await this.downloadService.uploadConverter(pathToFile);
       return result;
     } catch (error) {
       console.log(error);
-      throw new Error();
+      throw new Error('Failed to send file');
     }
   }
 }

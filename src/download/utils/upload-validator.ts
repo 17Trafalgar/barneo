@@ -4,7 +4,10 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 export const allFileFilter = (req, file, callback) => {
   if (!file.originalname.match(/\.(xlsx|xml|yml)$/)) {
     return callback(
-      new HttpException('Only xlsx files are allowed!', HttpStatus.BAD_REQUEST),
+      new HttpException(
+        'Only xlsx or xml,yml files are allowed!',
+        HttpStatus.BAD_REQUEST,
+      ),
       false,
     );
   }
