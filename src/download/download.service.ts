@@ -116,9 +116,9 @@ export class downloadService {
     }
   }
 
-  public async uploadConverter(file: string): Promise<any> {
+  public async uploadConverter(): Promise<any> {
     try {
-      const product = await this.xlsxToJson(file);
+      const product = await this.xlsxToJson('./uploadedFiles/Price list.xlsx');
       const convert = await this.mappingService.clenConverter(product);
       console.log(convert);
       return convert;

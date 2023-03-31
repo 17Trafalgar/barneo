@@ -30,22 +30,18 @@ export class downloadController {
   @Post('file')
   @UseInterceptors(
     FileInterceptor('file', {
-      /* storage: diskStorage({
+      storage: diskStorage({
         destination: './uploadedFiles',
         filename: editFileName,
       }),
-      fileFilter: allFileFilter, */
+      fileFilter: allFileFilter,
     }),
   )
   public async uploadFile(
     @UploadedFile() file: Express.Multer.File,
   ): Promise<any> {
     try {
-      const xFile = { file: file.buffer.toString() };
-      console.log(xFile);
-      const result = await this.downloadService.uploadConverter(
-        file.buffer.toString(),
-      );
+      const result = await this.downloadService.uploadConverter();
       return result;
     } catch (error) {
       console.log(error);
