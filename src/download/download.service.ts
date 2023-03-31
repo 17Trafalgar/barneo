@@ -115,4 +115,16 @@ export class downloadService {
       throw new Error('File conversion error');
     }
   }
+
+  public async uploadConverter(file: string): Promise<any> {
+    try {
+      const product = await this.xlsxToJson(file);
+      const convert = await this.mappingService.clenConverter(product);
+      console.log(convert);
+      return convert;
+    } catch (error) {
+      console.log(error);
+      throw new Error('File conversion error');
+    }
+  }
 }

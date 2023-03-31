@@ -1,5 +1,16 @@
-import { Controller, Get, Query, Res } from '@nestjs/common';
+import {
+  Post,
+  Controller,
+  Get,
+  Query,
+  UploadedFile,
+  UseInterceptors,
+  Res,
+} from '@nestjs/common';
 import { downloadService } from './download.service';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { allFileFilter, editFileName } from './utils/upload-validator';
 
 @Controller()
 export class downloadController {
@@ -13,6 +24,32 @@ export class downloadController {
     } catch (error) {
       console.log(error);
       res.status(400).json({ message: 'Failed to get id of supplier' });
+    }
+  }
+
+  @Post('file')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      /* storage: diskStorage({
+        destination: './uploadedFiles',
+        filename: editFileName,
+      }),
+      fileFilter: allFileFilter, */
+    }),
+  )
+  public async uploadFile(
+    @UploadedFile() file: Express.Multer.File,
+  ): Promise<any> {
+    try {
+      const xFile = { file: file.buffer.toString() };
+      console.log(xFile);
+      const result = await this.downloadService.uploadConverter(
+        file.buffer.toString(),
+      );
+      return result;
+    } catch (error) {
+      console.log(error);
+      throw new Error();
     }
   }
 }
