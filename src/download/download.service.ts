@@ -49,10 +49,7 @@ export class downloadService {
     }
   }
 
-  public async ftpDownloadFile(
-    localFile: string,
-    remotePath: string,
-  ): Promise<any> {
+  public async ftpDownloadFile(): Promise<any> {
     const client = new ftp.Client();
     try {
       await client.access({
@@ -62,8 +59,8 @@ export class downloadService {
         secure: true,
       });
       const data = await client.downloadTo(
-        'ВыгрузкаYML_03042023112014.xml',
-        './uploadedFiles',
+        '/ВыгрузкаYML_03042023131012.xml',
+        '/home/artem/barneo/uploadedFiles',
       );
       console.log(data);
       return data;
