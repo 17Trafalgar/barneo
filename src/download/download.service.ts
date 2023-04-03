@@ -49,8 +49,31 @@ export class downloadService {
     }
   }
 
-  public async ftpDownloadFile(): Promise<any> {
+  public async ftpDownloadFile(
+    localPath: string,
+    remotePath: string,
+  ): Promise<any> {
+    /*  const client = new Client();
+    await client.on('ready', function () {
+      client.get('ÂûãðóçêàYML_03042023151015.xml', function (err, stream) {
+        if (err) throw err;
+        stream.once('close', function () {
+          client.end();
+        });
+        stream.pipe(
+          FS.createWriteStream('./uploadedFiles/foo.local-copy.xml', 'utf-8'),
+        );
+      });
+    });
+
+    /* await client.connect({
+      host: 'ftp.klen-net.ru',
+      user: 'klen',
+      password: '46ryfhVN',
+    }); */
+
     const client = new ftp.Client();
+    client.ftp.verbose = true;
     try {
       await client.access({
         host: 'ftp.klen-net.ru',
@@ -58,14 +81,10 @@ export class downloadService {
         password: '46ryfhVN',
         secure: true,
       });
-      const data = await client.downloadTo(
-        '/ВыгрузкаYML_03042023131012.xml',
-        '/home/artem/barneo/uploadedFiles',
-      );
-      console.log(data);
-      return data;
-    } catch (error) {
-      console.log(error);
+      console.log(await client.list());
+      await client.downloadTo('/home/artem/barneo/uploadedFiles/123.xml', '/');
+    } catch (err) {
+      console.log(err);
       client.close();
     }
   }

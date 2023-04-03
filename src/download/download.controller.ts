@@ -49,9 +49,12 @@ export class downloadController {
   }
 
   @Get('ftp')
-  async getFtp(@Query() @Res() res) {
+  async getFtp(@Query() localPath: string, remotePath: string, @Res() res) {
     try {
-      const result = await this.downloadService.ftpDownloadFile();
+      const result = await this.downloadService.ftpDownloadFile(
+        localPath,
+        remotePath,
+      );
       return result;
     } catch (error) {
       console.log(error);
