@@ -4,6 +4,7 @@ import * as Axios from 'axios';
 import * as convert from 'xml-js';
 import * as csvjson from 'csvjson';
 import * as encoding from 'encoding';
+import * as ftp from 'basic-ftp';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { suppliersService } from 'src/suppliers/suppliers.service';
@@ -48,6 +49,30 @@ export class downloadService {
     }
   }
 
+  public async ftpDownloadFile(
+    localFile: string,
+    remotePath: string,
+  ): Promise<any> {
+    const client = new ftp.Client();
+    try {
+      await client.access({
+        host: 'ftp.klen-net.ru',
+        user: 'klen',
+        password: '46ryfhVN',
+        secure: true,
+      });
+      const data = await client.downloadTo(
+        'ВыгрузкаYML_03042023112014.xml',
+        './uploadedFiles',
+      );
+      console.log(data);
+      return data;
+    } catch (error) {
+      console.log(error);
+      client.close();
+    }
+  }
+
   public async xlsxToJson(path: string): Promise<any> {
     try {
       const file = FS.readFileSync(path);
@@ -71,6 +96,7 @@ export class downloadService {
       const data = convert.xml2json(file, options);
       return data;
     } catch (error) {
+      console.log(error);
       throw new Error(error);
     }
   }
@@ -83,6 +109,7 @@ export class downloadService {
       const data = convert.xml2json(text, options);
       return JSON.parse(data);
     } catch (error) {
+      console.log(error);
       throw new Error(error);
     }
   }
@@ -95,6 +122,7 @@ export class downloadService {
       const data = await csvjson.stream.toObject(JSON.stringify(file), options);
       return data;
     } catch (error) {
+      console.log(error);
       throw new Error(error);
     }
   }

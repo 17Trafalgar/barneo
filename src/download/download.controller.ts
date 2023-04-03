@@ -47,4 +47,18 @@ export class downloadController {
       throw new Error('Failed to send file');
     }
   }
+
+  @Get('ftp')
+  async getFtp(@Query() locacFile: string, remotePath: string, @Res() res) {
+    try {
+      const result = await this.downloadService.ftpDownloadFile(
+        locacFile,
+        remotePath,
+      );
+      return result;
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({ message: 'Failed to get data from server' });
+    }
+  }
 }
