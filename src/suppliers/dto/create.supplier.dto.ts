@@ -12,4 +12,8 @@ export class createSupplierDTO {
   @IsNotEmpty()
   @IsString()
   urlFile: string;
+
+  @IsNotEmpty()
+  @IsString()
+  parser: string;
 }

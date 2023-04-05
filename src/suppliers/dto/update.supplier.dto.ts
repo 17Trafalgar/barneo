@@ -16,4 +16,8 @@ export class updateSupplierDTO {
   @IsNotEmpty()
   @IsString()
   urlFile: string;
+
+  @IsNotEmpty()
+  @IsString()
+  parser: string;
 }

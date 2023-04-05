@@ -81,8 +81,9 @@ export class downloadService {
         password: '46ryfhVN',
         secure: true,
       });
-      console.log(await client.list());
-      await client.downloadTo('/home/artem/barneo/uploadedFiles/123.xml', '/');
+      const list = (await client.list())[0].name;
+      console.log({ list });
+      await client.downloadTo(process.cwd() + '1.xml', list);
     } catch (err) {
       console.log(err);
       client.close();
