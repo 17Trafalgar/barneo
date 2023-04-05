@@ -5,6 +5,7 @@ import * as convert from 'xml-js';
 import * as csvjson from 'csvjson';
 import * as encoding from 'encoding';
 import * as ftp from 'basic-ftp';
+import { extname } from 'path';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { suppliersService } from 'src/suppliers/suppliers.service';
@@ -51,7 +52,6 @@ export class downloadService {
 
   public async downloadImage(url: string): Promise<any> {
     try {
-      /* const url = 'https://unsplash.com/photos/AaEQmoufHLk/download?force=true'; */
       const pathToImage = `./uploadedImages/test.jpg`;
       const writer = FS.createWriteStream(pathToImage);
 
@@ -65,7 +65,7 @@ export class downloadService {
       response.data.pipe(writer);
 
       return new Promise((resolve, reject) => {
-        writer.on('finish', resolve);
+        writer.on('finish', () => resolve(pathToImage));
         writer.on('error', reject);
       });
     } catch (error) {
@@ -195,6 +195,17 @@ export class downloadService {
     } catch (error) {
       console.log(error);
       throw new Error('File conversion error');
+    }
+  }
+
+  public async imageSave(url: string): Promise<any> {
+    try {
+      const pathToImages = await this.downloadImage(url);
+      const save: any = await this.productService.addProduct(pathToImages);
+      return save;
+    } catch (error) {
+      console.log(error);
+      throw new Error('File dont save');
     }
   }
 }
