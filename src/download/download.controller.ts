@@ -10,7 +10,7 @@ import {
 import { downloadService } from './download.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { allFileFilter, editFileName } from './utils/upload-validator';
+import { allFileFilter, editFileName } from './utils/upload.files.validator';
 
 @Controller()
 export class downloadController {
@@ -24,6 +24,17 @@ export class downloadController {
     } catch (error) {
       console.log(error);
       res.status(400).json({ message: 'Failed to get id of supplier' });
+    }
+  }
+
+  @Get('image')
+  async getImage(@Query() @Res() res) {
+    try {
+      const result = await this.downloadService.downloadImage();
+      return result;
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({ message: 'Failed to get image' });
     }
   }
 

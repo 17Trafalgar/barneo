@@ -49,6 +49,31 @@ export class downloadService {
     }
   }
 
+  public async downloadImage(): Promise<any> {
+    try {
+      const url = 'https://unsplash.com/photos/AaEQmoufHLk/download?force=true';
+      const pathToImage = `./uploadedImages/test.jpg`;
+      const writer = FS.createWriteStream(pathToImage);
+
+      // @ts-ignore
+      const response = await Axios({
+        url,
+        method: 'GET',
+        responseType: 'stream',
+      });
+
+      response.data.pipe(writer);
+
+      return new Promise((resolve, reject) => {
+        writer.on('finish', resolve);
+        writer.on('error', reject);
+      });
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
+  }
+
   public async ftpDownloadFile(
     localPath: string,
     remotePath: string,
