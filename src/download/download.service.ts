@@ -49,15 +49,15 @@ export class downloadService {
     }
   }
 
-  public async downloadImage(): Promise<any> {
+  public async downloadImage(url: string): Promise<any> {
     try {
-      const url = 'https://unsplash.com/photos/AaEQmoufHLk/download?force=true';
+      /* const url = 'https://unsplash.com/photos/AaEQmoufHLk/download?force=true'; */
       const pathToImage = `./uploadedImages/test.jpg`;
       const writer = FS.createWriteStream(pathToImage);
 
       // @ts-ignore
       const response = await Axios({
-        url,
+        url: url,
         method: 'GET',
         responseType: 'stream',
       });

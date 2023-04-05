@@ -34,5 +34,8 @@ export class createProductDTO {
   productAilability: string;
 
   @IsOptional()
+  images?: string[];
+
+  @IsOptional()
   priceList: PriceTable;
 }

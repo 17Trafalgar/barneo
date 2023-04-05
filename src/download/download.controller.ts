@@ -28,9 +28,9 @@ export class downloadController {
   }
 
   @Get('image')
-  async getImage(@Query() @Res() res) {
+  async getImage(@Query() url: string, @Res() res) {
     try {
-      const result = await this.downloadService.downloadImage();
+      const result = await this.downloadService.downloadImage(url);
       return result;
     } catch (error) {
       console.log(error);
