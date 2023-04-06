@@ -86,4 +86,17 @@ export class mappingService {
       throw new Error('The file was not converted');
     }
   }
+
+  public imageConverter(path: string) {
+    try {
+      const dataImageArray = [];
+      dataImageArray.push({
+        images: path,
+      });
+      return dataImageArray;
+    } catch (error) {
+      console.error(error);
+      throw new Error('The image was not converted');
+    }
+  }
 }

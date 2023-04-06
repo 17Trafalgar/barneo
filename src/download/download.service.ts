@@ -5,7 +5,6 @@ import * as convert from 'xml-js';
 import * as csvjson from 'csvjson';
 import * as encoding from 'encoding';
 import * as ftp from 'basic-ftp';
-import { extname } from 'path';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { suppliersService } from 'src/suppliers/suppliers.service';
@@ -201,7 +200,8 @@ export class downloadService {
   public async imageSave(url: string): Promise<any> {
     try {
       const pathToImages = await this.downloadImage(url);
-      const save: any = await this.productService.addProduct(pathToImages);
+      const convert = await this.mappingService.imageConverter(pathToImages);
+      const save: any = await this.productService.addManyProducts(convert);
       return save;
     } catch (error) {
       console.log(error);
