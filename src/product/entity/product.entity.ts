@@ -37,7 +37,7 @@ export class Product {
   productAilability: string;
 
   @Column({ type: 'simple-array', nullable: true })
-  images: string[];
+  image: string[];
 
   @OneToOne(
     () => PriceTable,

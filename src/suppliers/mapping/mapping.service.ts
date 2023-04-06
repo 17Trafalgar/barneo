@@ -91,7 +91,7 @@ export class mappingService {
     try {
       const dataImageArray = [];
       dataImageArray.push({
-        images: path,
+        image: path,
       });
       return dataImageArray;
     } catch (error) {

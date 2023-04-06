@@ -205,7 +205,7 @@ export class downloadService {
       return save;
     } catch (error) {
       console.log(error);
-      throw new Error('File dont save');
+      throw new Error('Path could not be saved');
     }
   }
 }
