@@ -70,6 +70,7 @@ export class mappingService {
   public justCoffeConverter(data: any) {
     try {
       const dataFileArray = [];
+      console.log(data);
       for (const obj of data.yml_catalog.shop.offers.offer) {
         dataFileArray.push({
           productCode: obj.barcode?._text,

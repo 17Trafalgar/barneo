@@ -170,15 +170,30 @@ export class downloadService {
 
   public async mainConverter(supplierId: number): Promise<any> {
     try {
-      const { id, title, typeFile, urlFile } =
+      const methodToJson = {
+        xml: this.xmlToJson,
+        xlsx: this.xlsxToJson,
+        yml: this.ymlToJson,
+        csv: this.csvToJson,
+      };
+
+      const methodToConvert = {
+        grkConverter: this.mappingService.grkConverter,
+        clenConverter: this.mappingService.clenConverter,
+        justCoffeConverter: this.mappingService.justCoffeConverter,
+        /* csv */
+      };
+
+      const { id, title, typeFile, urlFile, parser } =
         await this.suppiersService.getSupplier(supplierId);
       const pathToFile = await this.downloadFile(id, title, typeFile, urlFile);
-      const product = await this[typeFile + 'ToJson'](pathToFile.pathToFile);
-      //if suuplier encoding != untf-8,потом сделать кодировки
-      const convert = this.mappingService.justCoffeConverter(product);
+      const methodForParser = await methodToJson[typeFile];
+      const product = await methodForParser(pathToFile.pathToFile);
+      const methodConvertForData = await methodToConvert[parser];
+      const convert = await methodConvertForData(product);
       const save: any = await this.productService.addManyProducts(convert);
       console.log(save);
-      return save; // enum вместо toJson
+      return save;
     } catch (error) {
       console.log(error);
       throw new Error('File conversion error');
@@ -200,7 +215,7 @@ export class downloadService {
   public async imageSave(url: string): Promise<any> {
     try {
       const pathToImages = await this.downloadImage(url);
-      const convert = await this.mappingService.imageConverter(pathToImages);
+      const convert = this.mappingService.imageConverter(pathToImages);
       const save: any = await this.productService.addManyProducts(convert);
       return save;
     } catch (error) {

@@ -38,7 +38,7 @@ export class productsService {
     return this.productsRepository.save(product);
   }
 
-  async addManyProducts(product: createProductDTO[]) {
+  async addManyProducts(product: createProductDTO[] | any) {
     const resultArray = [];
     const chunks = this.getChunks(product, 100);
     for (const chunk of chunks) {
