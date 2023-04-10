@@ -155,7 +155,6 @@ export class downloadService {
     }
   }
 
-  //TODO: Не работает
   public async csvToJson(path: string): Promise<any> {
     try {
       const file = FS.readFileSync(path, 'utf-8');
@@ -168,7 +167,7 @@ export class downloadService {
     }
   }
 
-  public async mainConverter(supplierId: number): Promise<any> {
+  public async mainConverter(supplierId: number) {
     try {
       const methodToJson = {
         xml: this.xmlToJson,
