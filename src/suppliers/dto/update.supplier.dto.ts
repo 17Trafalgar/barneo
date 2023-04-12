@@ -1,4 +1,5 @@
-import { IsString, IsNotEmpty, IsNumber } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
+import { Storages } from '../entity/storage.entity';
 
 export class updateSupplierDTO {
   @IsNotEmpty()
@@ -20,4 +21,7 @@ export class updateSupplierDTO {
   @IsNotEmpty()
   @IsString()
   parser: string;
+
+  @IsOptional()
+  storage?: Storages[];
 }

@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Storages } from './storage.entity';
 
 @Entity()
 export class Supplier {
@@ -16,4 +17,7 @@ export class Supplier {
 
   @Column({ nullable: true })
   parser: string;
+
+  @OneToMany(() => Storages, (storage) => storage.dataOfSupplier)
+  storage: Storages[];
 }

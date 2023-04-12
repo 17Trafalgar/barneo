@@ -4,6 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Supplier } from '../../suppliers/entity/supplier.entity';
 import { Product } from 'src/product/entity/product.entity';
 import { PriceTable } from 'src/product/entity/price.entity';
+import { Storages } from 'src/suppliers/entity/storage.entity';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { PriceTable } from 'src/product/entity/price.entity';
         username: configService.get('POSTGRES_USER'),
         password: configService.get('POSTGRES_PASSWORD'),
         database: configService.get('POSTGRES_DB'),
-        entities: [Supplier, Product, PriceTable],
+        entities: [Supplier, Product, PriceTable, Storages],
         synchronize: true,
         /* logging: true, */
       }),

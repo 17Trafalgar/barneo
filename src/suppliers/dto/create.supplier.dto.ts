@@ -1,4 +1,5 @@
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional } from 'class-validator';
+import { Storages } from '../entity/storage.entity';
 
 export class createSupplierDTO {
   @IsNotEmpty()
@@ -16,4 +17,7 @@ export class createSupplierDTO {
   @IsNotEmpty()
   @IsString()
   parser: string;
+
+  @IsOptional()
+  storage?: Storages[];
 }

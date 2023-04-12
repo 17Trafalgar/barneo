@@ -27,7 +27,14 @@ export class suppliersService implements OnModuleInit {
   }
 
   addTableSupplier(supplier: Partial<createSupplierDTO> = {}) {
-    return { title: '', typeFile: '', urlFile: '', parser: '', ...supplier };
+    return {
+      title: '',
+      typeFile: '',
+      urlFile: '',
+      parser: '',
+      storage: [],
+      ...supplier,
+    };
   }
 
   addSupplier(supplier: createSupplierDTO) {
