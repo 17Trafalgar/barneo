@@ -87,6 +87,27 @@ export class mappingService {
     }
   }
 
+  public wilmaxConverter(data: any) {
+    try {
+      const dataFileArray = [];
+      for (const obj of data.yml_catalog.shop.offers.offer) {
+        dataFileArray.push({
+          productCode: obj.barcode?._text,
+          title: obj.name?._text,
+          article: obj.categoryId?._text,
+          producer: obj.vendor?._text,
+          productAilability: obj.count?._text,
+          priceListId: obj.price?._text,
+          image: obj.picture?._text,
+        });
+      }
+      return dataFileArray;
+    } catch (error) {
+      console.error(error);
+      throw new Error('The file was not converted');
+    }
+  }
+
   public imageConverter(path: string) {
     try {
       const dataImageArray = [];

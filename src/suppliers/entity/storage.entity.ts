@@ -7,17 +7,17 @@ export class Storages {
   id: number;
 
   @Column({ nullable: true })
-  name: string;
+  name?: string;
 
   @OneToMany(
     () => Supplier,
     (dataOfSupplier: Supplier) => dataOfSupplier.storage,
   )
-  dataOfSupplier: Supplier;
+  dataOfSupplier?: Supplier;
 
   @Column({ nullable: true })
-  city: string;
+  city?: string;
 
   @Column({ type: 'simple-array', nullable: true })
-  url: string;
+  url?: string;
 }

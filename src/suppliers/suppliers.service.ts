@@ -7,13 +7,13 @@ import { deleteSupplierDTO } from './dto/delete.supplier.dto';
 import { updateSupplierDTO } from './dto/update.supplier.dto';
 
 @Injectable()
-export class suppliersService {
+export class suppliersService /* implements OnModuleInit */ {
   constructor(
     @InjectRepository(Supplier)
     private suppliersRepository: Repository<Supplier>,
   ) {}
 
-  /* sync onModuleInit(): Promise<void> {
+  /* async onModuleInit(): Promise<void> {
     const suppliers = await this.getSuppliers({});
 
     if (suppliers.length) return;
@@ -32,7 +32,7 @@ export class suppliersService {
       typeFile: '',
       urlFile: '',
       parser: '',
-      storage: ,
+      storage: [],
       ...supplier,
     };
   } */
