@@ -35,6 +35,7 @@ export class suppliersController {
       const result = await this.suppliersService.addSupplier(body);
       res.status(201).json(result);
     } catch (error) {
+      console.log(error);
       res.status(400).json({ message: 'Failed to create supplier' });
     }
   }
