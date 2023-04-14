@@ -23,7 +23,4 @@ export class PriceTable {
 
   @OneToOne(() => Product, (product: Product) => product.priceList)
   product: Product;
-
-  @Column('bigint')
-  productId: Product['id'];
 }

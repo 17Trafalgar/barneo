@@ -44,7 +44,4 @@ export class Product {
   })
   @JoinColumn()
   priceList: PriceTable;
-
-  @Column('bigint')
-  priceListId: PriceTable['id'];
 }
