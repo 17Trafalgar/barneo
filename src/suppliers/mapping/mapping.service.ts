@@ -1,6 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { PriceTable } from 'src/product/entity/price.entity';
-import { Product } from 'src/product/entity/product.entity';
 import { IProductCreate } from 'src/product/interfaces/product.interface';
 
 @Injectable()
@@ -52,7 +50,8 @@ export class mappingService {
 
   public grkConverter(data: any) {
     try {
-      const dataFileArray = [];
+      const dataFileArray: IProductCreate[] = [];
+      data = JSON.parse(data);
       for (const obj of data.Остатки.Номенклатура) {
         dataFileArray.push({
           productCode: obj.Код._text,
@@ -60,19 +59,26 @@ export class mappingService {
           article: obj.Артикул._text,
           producer: obj.Бренд._text,
           productAilability: obj.Остаток._text,
-          priceListId: obj.Цена._text,
+          priceList: {
+            price: +(obj.Цена._text ?? 0),
+            currency: obj.currencyId?._text ?? 'RUB',
+            rrc: +(obj.rrc?._text ?? 0),
+            rrcValute: +(obj.rrcValute?._text ?? 0),
+            valute: +(obj.valute?._text ?? 0),
+          },
         });
       }
+      console.log(dataFileArray);
       return dataFileArray;
     } catch (error) {
-      console.error();
+      console.error(error);
       throw new Error('The file was not converted');
     }
   }
 
   public justCoffeConverter(data: any) {
     try {
-      const dataFileArray = [];
+      const dataFileArray: IProductCreate[] = [];
       for (const obj of data.yml_catalog.shop.offers.offer) {
         dataFileArray.push({
           productCode: obj.barcode?._text,
@@ -80,7 +86,13 @@ export class mappingService {
           article: obj.categoryId?._text,
           producer: obj.vendor?._text,
           productAilability: obj.quantity?._text,
-          priceListId: obj.price?._text,
+          priceList: {
+            price: obj.price?._text ?? 0,
+            currency: obj.currencyId?._text ?? 'RUB',
+            rrc: obj.rrc?._text ?? 0,
+            rrcValute: obj.rrcValute?._text ?? 0,
+            valute: obj.valute?._text ?? 0,
+          },
         });
       }
       return dataFileArray;
@@ -101,11 +113,39 @@ export class mappingService {
           producer: obj.vendor?._text,
           productAilability: obj.count?._text,
           priceList: {
-            price: +(obj.price?._text ?? 0),
+            price: obj.price?._text ?? 0,
             currency: obj.currencyId?._text ?? 'RUB',
-            rrc: +(obj.rrc?._text ?? 0),
-            rrcValute: +(obj.rrcValute?._text ?? 0),
-            valute: +(obj.valute?._text ?? 0),
+            rrc: obj.rrc?._text ?? 0,
+            rrcValute: obj.rrcValute?._text ?? 0,
+            valute: obj.valute?._text ?? 0,
+          },
+          image: obj.picture?._text,
+        });
+      }
+      return dataFileArray;
+    } catch (error) {
+      console.error(error);
+      throw new Error('The file was not converted');
+    }
+  }
+
+  public async masterGlassConverter(data: any) {
+    try {
+      const dataFileArray: IProductCreate[] = [];
+      data = JSON.parse(data);
+      for (const obj of data.yml_catalog.shop.offers.offer) {
+        dataFileArray.push({
+          productCode: obj.barcode?._text,
+          title: obj.name?._text,
+          article: obj.categoryId?._text,
+          producer: obj.vendor?._text,
+          productAilability: obj.param?._text,
+          priceList: {
+            price: obj.price?._text ?? 0,
+            currency: obj.currencyId?._text ?? 'RUB',
+            rrc: obj.rrc?._text ?? 0,
+            rrcValute: obj.rrcValute?._text ?? 0,
+            valute: obj.valute?._text ?? 0,
           },
           image: obj.picture?._text,
         });
