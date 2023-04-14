@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { Supplier } from './supplier.entity';
 
 @Entity()
@@ -9,7 +9,7 @@ export class Storages {
   @Column({ nullable: true })
   name?: string;
 
-  @OneToMany(
+  @ManyToOne(
     () => Supplier,
     (dataOfSupplier: Supplier) => dataOfSupplier.storage,
   )

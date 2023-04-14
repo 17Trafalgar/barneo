@@ -10,6 +10,7 @@ import { Injectable } from '@nestjs/common';
 import { suppliersService } from 'src/suppliers/suppliers.service';
 import { mappingService } from 'src/suppliers/mapping/mapping.service';
 import { productsService } from 'src/product/product.service';
+import { PriceTable } from 'src/product/entity/price.entity';
 
 @Injectable()
 export class downloadService {

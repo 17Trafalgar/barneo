@@ -5,12 +5,16 @@ import { Repository } from 'typeorm';
 import { createProductDTO } from './dto/create.product.dto';
 import { deleteProductDTO } from './dto/delete.product.dto';
 import { updateProductDTO } from './dto/update.product.dto';
+import { PriceTable } from './entity/price.entity';
+import { IProductCreate } from './interfaces/product.interface';
 
 @Injectable()
 export class productsService {
   constructor(
     @InjectRepository(Product)
     private productsRepository: Repository<Product>,
+    @InjectRepository(PriceTable)
+    private priceRepository: Repository<PriceTable>,
   ) {}
 
   private getChunks(arr, chunkSize) {
@@ -30,15 +34,23 @@ export class productsService {
     return this.productsRepository.find();
   }
 
-  addProduct(product: createProductDTO) {
+  addPrice(price: Partial<PriceTable>) {
+    return this.priceRepository.save(price);
+  }
+
+  async addProduct(product: IProductCreate) {
+    product.priceList = await this.addPrice(product.priceList);
     return this.productsRepository.save(product);
   }
 
-  addProducts(product: createProductDTO[]) {
-    return this.productsRepository.save(product);
+  async addProducts(products: IProductCreate[]) {
+    for (const product of products) {
+      product.priceList = await this.addPrice(product.priceList);
+    }
+    return this.productsRepository.save(products);
   }
 
-  async addManyProducts(product: createProductDTO[] | any) {
+  async addManyProducts(product: IProductCreate[] | any) {
     const resultArray = [];
     const chunks = this.getChunks(product, 100);
     for (const chunk of chunks) {

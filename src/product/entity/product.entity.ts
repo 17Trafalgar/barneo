@@ -13,31 +13,31 @@ export class Product {
   id: number;
 
   @Column({ nullable: true })
-  title: string;
+  title?: string;
 
   @Column({ nullable: true })
-  article: string;
+  article?: string;
 
   @Column({ nullable: true })
-  productCode: string;
+  productCode?: string;
 
   @Column({ nullable: true })
-  articleOfProducer: string;
+  articleOfProducer?: string;
 
   @Column({ nullable: true })
-  producer: string;
+  producer?: string;
 
   @Column({ nullable: true })
-  country: string;
+  country?: string;
 
   @Column({ type: 'numeric', nullable: true })
-  priceRrc: number;
+  priceRrc?: number;
 
   @Column({ nullable: true })
-  productAilability: string;
+  productAilability?: string;
 
   @Column({ type: 'simple-array', nullable: true })
-  image: string[];
+  image?: string[];
 
   @OneToOne(
     () => PriceTable,

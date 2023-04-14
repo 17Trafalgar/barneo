@@ -9,17 +9,17 @@ export class PriceTable {
   @Column({ type: 'numeric', nullable: true })
   price: number;
 
-  @Column({ type: 'numeric', nullable: true })
-  priceValute: number;
+  @Column({ type: 'varchar', nullable: true })
+  currency?: string;
 
   @Column({ type: 'numeric', nullable: true })
-  priceRrc: number;
+  rrc?: number;
 
   @Column({ type: 'numeric', nullable: true })
-  priceRrcValute: number;
+  rrcValute?: number;
 
   @Column({ type: 'numeric', nullable: true })
-  valute: number;
+  valute?: number;
 
   @OneToOne(() => Product, (product: Product) => product.priceList)
   priceProduct: Product;
