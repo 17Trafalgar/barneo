@@ -39,13 +39,12 @@ export class Product {
   @Column({ type: 'simple-array', nullable: true })
   image?: string[];
 
-  @OneToOne(
-    () => PriceTable,
-    (priceTable: PriceTable) => priceTable.priceProduct,
-    {
-      cascade: true,
-    },
-  )
+  @OneToOne(() => PriceTable, (priceTable: PriceTable) => priceTable.product, {
+    cascade: true,
+  })
   @JoinColumn()
   priceList: PriceTable;
+
+  @Column('bigint')
+  priceListId: PriceTable['id'];
 }

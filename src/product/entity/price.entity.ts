@@ -22,5 +22,8 @@ export class PriceTable {
   valute?: number;
 
   @OneToOne(() => Product, (product: Product) => product.priceList)
-  priceProduct: Product;
+  product: Product;
+
+  @Column('bigint')
+  productId: Product['id'];
 }

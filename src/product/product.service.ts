@@ -38,15 +38,11 @@ export class productsService {
     return this.priceRepository.save(price);
   }
 
-  async addProduct(product: IProductCreate) {
-    product.priceList = await this.addPrice(product.priceList);
+  addProduct(product: IProductCreate) {
     return this.productsRepository.save(product);
   }
 
-  async addProducts(products: IProductCreate[]) {
-    for (const product of products) {
-      product.priceList = await this.addPrice(product.priceList);
-    }
+  addProducts(products: IProductCreate[]) {
     return this.productsRepository.save(products);
   }
 
