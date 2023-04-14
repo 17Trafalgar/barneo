@@ -135,7 +135,7 @@ export class downloadService {
       const file = FS.readFileSync(path, 'utf-8');
       const options = { compact: true, ignoreComment: true, spaces: 4 };
       const data = convert.xml2json(file, options);
-      return data;
+      return JSON.parse(data);
     } catch (error) {
       console.log(error);
       throw new Error(error);
@@ -182,6 +182,7 @@ export class downloadService {
         justCoffeConverter: this.mappingService.justCoffeConverter,
         wilmaxConverter: this.mappingService.wilmaxConverter,
         masterGlassConverter: this.mappingService.masterGlassConverter,
+        abatConverter: this.mappingService.abatConverter,
       };
 
       const { id, title, typeFile, urlFile, parser } =
