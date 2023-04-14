@@ -135,11 +135,11 @@ export class mappingService {
       data = JSON.parse(data);
       for (const obj of data.yml_catalog.shop.offers.offer) {
         dataFileArray.push({
-          productCode: obj.barcode?._text,
-          title: obj.name?._text,
-          article: obj.categoryId?._text,
+          productCode: obj.vendorCode?._text,
+          title: obj.model?._text,
+          article: obj.param[1]?._text,
           producer: obj.vendor?._text,
-          productAilability: obj.param?._text,
+          productAilability: obj.param[0]?._text,
           priceList: {
             price: obj.price?._text ?? 0,
             currency: obj.currencyId?._text ?? 'RUB',
