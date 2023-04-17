@@ -143,7 +143,6 @@ export class mappingService {
     try {
       const dataFileArray: IProductCreate[] = [];
       for (const obj of data.yml_catalog.shop.offers.offer) {
-        /* console.log(obj); */
         dataFileArray.push({
           productCode: obj.vendorCode?._text,
           title: obj.model?._text,
@@ -171,7 +170,6 @@ export class mappingService {
     try {
       const dataFileArray: IProductCreate[] = [];
       for (const obj of data.yml_catalog.shop.offers.offer) {
-        /* console.log(obj); */
         dataFileArray.push({
           productCode: obj.vendorCode?._text,
           title: obj.name?._text,

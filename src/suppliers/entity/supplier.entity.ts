@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { Storages } from './storage.entity';
 
 @Entity()
@@ -18,7 +18,7 @@ export class Supplier {
   @Column({ nullable: true })
   parser: string;
 
-  @OneToMany(() => Storages, (storage: Storages) => storage.dataOfSupplier, {
+  @ManyToOne(() => Storages, (storage: Storages) => storage.dataOfSupplier, {
     cascade: true,
   })
   storage?: Storages[];
