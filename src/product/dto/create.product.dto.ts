@@ -26,9 +26,6 @@ export class createProductDTO {
   @IsString()
   country: string;
 
-  @IsOptional()
-  priceRrc: number;
-
   @IsNotEmpty()
   @IsString()
   productAilability: string;

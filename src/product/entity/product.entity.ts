@@ -30,9 +30,6 @@ export class Product {
   @Column({ nullable: true })
   country?: string;
 
-  @Column({ type: 'numeric', nullable: true })
-  priceRrc?: number;
-
   @Column({ nullable: true })
   productAilability?: string;
 

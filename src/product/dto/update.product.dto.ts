@@ -29,9 +29,6 @@ export class updateProductDTO {
   @IsString()
   country: string;
 
-  @IsOptional()
-  priceRrc: number;
-
   @IsNotEmpty()
   @IsString()
   productAilability: string;
