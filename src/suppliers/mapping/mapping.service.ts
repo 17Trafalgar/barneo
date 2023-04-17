@@ -7,39 +7,24 @@ export class mappingService {
 
   public clenConverter(data: any) {
     try {
-      const objTitles = {
-        Наименование: 'title',
-        Артикул: 'article',
-        'Артикул произв.': 'articleOfProducer',
-        Производитель: 'producer',
-        Страна: 'country',
-        'Цена без учета скидки, руб.': 'priceListId',
-        'Цена с учетом скидок, руб': 'priceRrc',
-        Наличие: 'productAilability',
-      };
-
-      const newTitle = {};
       const dataFileArray = [];
-
-      for (const obj of data) {
-        if (!Object.keys(newTitle).length) {
-          for (const key of Object.keys(obj)) {
-            if (objTitles[obj[key]]) {
-              newTitle[key] = objTitles[obj[key]];
-            }
-          }
-        } else {
-          const objData = {};
-
-          for (const key of Object.keys(obj)) {
-            if (newTitle[key] == 'article') {
-              objData[newTitle[key]] = obj[key].toString();
-            } else if (newTitle[key]) {
-              objData[newTitle[key]] = obj[key];
-            }
-          }
-          dataFileArray.push(objData);
-        }
+      for (let index = 6; index < data.length; index++) {
+        const obj = data[index];
+        dataFileArray.push({
+          title: obj.КомплексБар,
+          article: obj.__EMPTY,
+          articleOfProducer: obj.__EMPTY_1,
+          producer: obj.__EMPTY_2,
+          country: obj.__EMPTY_4,
+          productAilability: obj.__EMPTY_9,
+          priceList: {
+            price: +(obj.__EMPTY_6 ?? 0),
+            currency: obj.currencyId?._text ?? 'RUB',
+            rrc: +(obj.__EMPTY_7 ?? 0),
+            rrcValute: +(obj.rrcValute?._text ?? 0),
+            valute: +(obj.valute?._text ?? 0),
+          },
+        });
       }
       return dataFileArray;
     } catch (error) {
@@ -67,7 +52,6 @@ export class mappingService {
           },
         });
       }
-      console.log(dataFileArray);
       return dataFileArray;
     } catch (error) {
       console.error(error);
