@@ -132,9 +132,10 @@ export class downloadService {
 
   public async xmlToJson(path: string): Promise<any> {
     try {
-      const file = FS.readFileSync(path, 'utf-8');
+      const file = FS.readFileSync(path);
+      const text = encoding.convert(file, 'UTF-8', 'WINDOWS-1251');
       const options = { compact: true, ignoreComment: true, spaces: 4 };
-      const data = convert.xml2json(file, options);
+      const data = convert.xml2json(text, options);
       return JSON.parse(data);
     } catch (error) {
       console.log(error);
@@ -183,6 +184,7 @@ export class downloadService {
         wilmaxConverter: this.mappingService.wilmaxConverter,
         masterGlassConverter: this.mappingService.masterGlassConverter,
         abatConverter: this.mappingService.abatConverter,
+        chttConverter: this.mappingService.chttConverter,
       };
 
       const { id, title, typeFile, urlFile, parser } =

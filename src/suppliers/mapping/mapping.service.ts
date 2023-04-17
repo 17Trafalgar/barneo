@@ -7,7 +7,7 @@ export class mappingService {
 
   public clenConverter(data: any) {
     try {
-      const dataFileArray = [];
+      const dataFileArray: IProductCreate[] = [];
       for (let index = 6; index < data.length; index++) {
         const obj = data[index];
         dataFileArray.push({
@@ -152,6 +152,34 @@ export class mappingService {
           productAilability: obj.param[0]?._text,
           priceList: {
             price: obj.price?._text ?? 0,
+            currency: obj.currencyId?._text ?? 'RUB',
+            rrc: obj.rrc?._text ?? 0,
+            rrcValute: obj.rrcValute?._text ?? 0,
+            valute: obj.valute?._text ?? 0,
+          },
+          image: obj.picture?._text,
+        });
+      }
+      return dataFileArray;
+    } catch (error) {
+      console.error(error);
+      throw new Error('The file was not converted');
+    }
+  }
+
+  public async chttConverter(data: any) {
+    try {
+      const dataFileArray: IProductCreate[] = [];
+      for (const obj of data.yml_catalog.shop.offers.offer) {
+        /* console.log(obj); */
+        dataFileArray.push({
+          productCode: obj.vendorCode?._text,
+          title: obj.name?._text,
+          article: obj.param[0]?._text,
+          producer: obj.vendor?._text,
+          productAilability: obj.param[0]?._text,
+          priceList: {
+            price: obj.RetailPrice?._text ?? 0,
             currency: obj.currencyId?._text ?? 'RUB',
             rrc: obj.rrc?._text ?? 0,
             rrcValute: obj.rrcValute?._text ?? 0,
