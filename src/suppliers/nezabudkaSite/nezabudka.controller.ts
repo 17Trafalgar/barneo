@@ -15,6 +15,7 @@ export class nezabudkaController {
       res.status(400).json({ message: 'Error of authorization' });
     }
   }
+
   @Get('getFile')
   async nezabudkaGetFile(@Query() cookie: any, @Res() res) {
     try {

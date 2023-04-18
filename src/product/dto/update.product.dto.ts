@@ -34,7 +34,7 @@ export class updateProductDTO {
   productAilability: string;
 
   @IsOptional()
-  image?: string[];
+  images: string[];
 
   @IsOptional()
   priceList: PriceTable;

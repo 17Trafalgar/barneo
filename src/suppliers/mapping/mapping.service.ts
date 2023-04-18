@@ -102,7 +102,7 @@ export class mappingService {
             rrcValute: obj.rrcValute?._text ?? 0,
             valute: obj.valute?._text ?? 0,
           },
-          image: obj.picture?._text,
+          images: obj.picture?._text,
         });
       }
       return dataFileArray;
@@ -129,7 +129,7 @@ export class mappingService {
             rrcValute: obj.rrcValute?._text ?? 0,
             valute: obj.valute?._text ?? 0,
           },
-          image: obj.picture?._text,
+          images: obj.picture?._text,
         });
       }
       return dataFileArray;
@@ -156,7 +156,7 @@ export class mappingService {
             rrcValute: obj.rrcValute?._text ?? 0,
             valute: obj.valute?._text ?? 0,
           },
-          image: obj.picture?._text,
+          images: obj.picture?._text,
         });
       }
       return dataFileArray;
@@ -183,12 +183,39 @@ export class mappingService {
             rrcValute: obj.rrcValute?._text ?? 0,
             valute: obj.valute?._text ?? 0,
           },
-          image: obj.picture?._text,
+          images: obj.picture?._text,
         });
       }
       return dataFileArray;
     } catch (error) {
       console.error(error);
+      throw new Error('The file was not converted');
+    }
+  }
+
+  public redGastroConverter(data: any) {
+    try {
+      const dataFileArray: IProductCreate[] = [];
+      for (const obj of data) {
+        dataFileArray.push({
+          title: obj.КомплексБар,
+          article: obj.__EMPTY,
+          articleOfProducer: obj.__EMPTY_1,
+          producer: obj.__EMPTY_2,
+          country: obj.__EMPTY_4,
+          productAilability: obj.__EMPTY_9,
+          priceList: {
+            price: +(obj.__EMPTY_6 ?? 0),
+            currency: obj.currencyId?._text ?? 'RUB',
+            rrc: +(obj.__EMPTY_7 ?? 0),
+            rrcValute: +(obj.rrcValute?._text ?? 0),
+            valute: +(obj.valute?._text ?? 0),
+          },
+        });
+      }
+      return dataFileArray;
+    } catch (error) {
+      console.log(error);
       throw new Error('The file was not converted');
     }
   }

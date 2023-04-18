@@ -9,6 +9,6 @@ export interface IProductCreate {
   country?: string;
   priceRrc?: number;
   productAilability?: string;
-  image?: string[];
+  images?: string[];
   priceList: IPriceCreate;
 }

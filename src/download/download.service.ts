@@ -1,6 +1,6 @@
 import * as xlsx from 'xlsx';
 import * as FS from 'fs';
-import * as Axios from 'axios';
+import Axios from 'axios';
 import * as convert from 'xml-js';
 import * as csvjson from 'csvjson';
 import * as encoding from 'encoding';
@@ -73,6 +73,30 @@ export class downloadService {
     }
   }
 
+  public async authorization(): Promise<any> {
+    try {
+      const pathToImage = './uploadedFiles/Price list.xlsx';
+      const writer = FS.createWriteStream(pathToImage);
+
+      const response = await Axios({
+        url: 'https://vistex.ru/1c-price/xls/pricelist.xlsx',
+        method: 'GET',
+        responseType: 'stream',
+        auth: { username: 'vx_price_dlr', password: 'lefKJ38dj92' },
+      });
+
+      response.data.pipe(writer);
+
+      return new Promise((resolve, reject) => {
+        writer.on('finish', () => resolve(pathToImage));
+        writer.on('error', reject);
+      });
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
+  }
+
   public async ftpDownloadFile(
     localPath: string,
     remotePath: string,
@@ -123,7 +147,7 @@ export class downloadService {
         const rowObject = xlsx.utils.sheet_to_json(data.Sheets[sheetName]);
         finalObject[sheetName] = rowObject;
       });
-      return finalObject['Прайс-лист'];
+      return finalObject /* ['Прайс-лист'] */;
     } catch (error) {
       console.log(error);
       throw new Error(error);
@@ -185,6 +209,7 @@ export class downloadService {
         masterGlassConverter: this.mappingService.masterGlassConverter,
         abatConverter: this.mappingService.abatConverter,
         chttConverter: this.mappingService.chttConverter,
+        redGastroConverter: this.mappingService.redGastroConverter,
       };
 
       const { id, title, typeFile, urlFile, parser } =
@@ -196,9 +221,22 @@ export class downloadService {
       const convert = await methodConvertForData(product);
       const save: any = await this.productService.addManyProducts(convert);
       console.log(save);
-      return save;
       /* console.log(product);
       return product; */
+    } catch (error) {
+      console.log(error);
+      throw new Error('File conversion error');
+    }
+  }
+
+  public async test(): Promise<any> {
+    try {
+      const path = await this.authorization();
+      const product = await this.xlsxToJson(path);
+      /* const convert = this.mappingService.redGastroConverter(product);
+      const save: any = await this.productService.addManyProducts(convert); */
+      console.log(product);
+      return product;
     } catch (error) {
       console.log(error);
       throw new Error('File conversion error');

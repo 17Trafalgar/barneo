@@ -34,7 +34,7 @@ export class Product {
   productAilability?: string;
 
   @Column({ type: 'simple-array', nullable: true })
-  image?: string[];
+  images: string[];
 
   @OneToOne(() => PriceTable, (priceTable: PriceTable) => priceTable.product, {
     cascade: true,

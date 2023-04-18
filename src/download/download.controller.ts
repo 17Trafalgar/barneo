@@ -72,4 +72,15 @@ export class downloadController {
       res.status(400).json({ message: 'Failed to get data from server' });
     }
   }
+
+  @Get('red')
+  async redGastroAuth(@Query() @Res() res) {
+    try {
+      const result = await this.downloadService.test();
+      res.status(200).json(result);
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({ message: 'Error of authorization' });
+    }
+  }
 }
