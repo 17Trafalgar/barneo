@@ -31,7 +31,7 @@ export class downloadController {
   async getImage(@Query() { url }, @Res() res) {
     try {
       const result = await this.downloadService.imageSave(url);
-      return result;
+      res.status(200).json(result);
     } catch (error) {
       console.log(error);
       res.status(400).json({ message: 'Failed to get image' });
@@ -70,17 +70,6 @@ export class downloadController {
     } catch (error) {
       console.log(error);
       res.status(400).json({ message: 'Failed to get data from server' });
-    }
-  }
-
-  @Get('red')
-  async redGastroAuth(@Query() @Res() res) {
-    try {
-      const result = await this.downloadService.test();
-      return result;
-    } catch (error) {
-      console.log(error);
-      res.status(400).json({ message: 'Error of authorization' });
     }
   }
 }

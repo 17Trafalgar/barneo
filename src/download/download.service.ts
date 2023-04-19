@@ -21,12 +21,13 @@ export class downloadService {
   ) {}
 
   public async downloadFile(
-    id: number,
-    title: string,
-    typeFile: string,
-    urlFile: string,
-  ): Promise<{ pathToFile: string; typeFile: string }> {
+    urlFile?: string,
+    id?: number,
+    title?: string,
+    typeFile?: string,
+  ): Promise<{ pathToFile?: string; typeFile?: string; pathToImage?: string }> {
     try {
+      const pathToImage = './uploadedImages/test.jpg';
       const pathToFile = `./uploadedFiles/${title}_${id}.${typeFile}`;
       const writer = FS.createWriteStream(pathToFile);
 
@@ -35,60 +36,15 @@ export class downloadService {
         url: urlFile,
         method: 'GET',
         responseType: 'stream',
-      });
-
-      response.data.pipe(writer);
-
-      return new Promise((resolve, reject) => {
-        writer.on('finish', () => resolve({ pathToFile, typeFile }));
-        writer.on('error', reject);
-      });
-    } catch (error) {
-      console.log(error);
-      throw new Error(error);
-    }
-  }
-
-  public async downloadImage(url: string): Promise<any> {
-    try {
-      const pathToImage = `./uploadedImages/test.jpg`;
-      const writer = FS.createWriteStream(pathToImage);
-
-      // @ts-ignore
-      const response = await Axios({
-        url: url,
-        method: 'GET',
-        responseType: 'stream',
-      });
-
-      response.data.pipe(writer);
-
-      return new Promise((resolve, reject) => {
-        writer.on('finish', () => resolve(pathToImage));
-        writer.on('error', reject);
-      });
-    } catch (error) {
-      console.log(error);
-      throw new Error(error);
-    }
-  }
-
-  public async authorization(): Promise<any> {
-    try {
-      const pathToImage = './uploadedFiles/Price list.xlsx';
-      const writer = FS.createWriteStream(pathToImage);
-
-      const response = await Axios({
-        url: 'https://vistex.ru/1c-price/xls/pricelist.xlsx',
-        method: 'GET',
-        responseType: 'stream',
         auth: { username: 'vx_price_dlr', password: 'lefKJ38dj92' },
       });
 
       response.data.pipe(writer);
 
       return new Promise((resolve, reject) => {
-        writer.on('finish', () => resolve(pathToImage));
+        writer.on('finish', () =>
+          resolve({ pathToFile, typeFile, pathToImage }),
+        );
         writer.on('error', reject);
       });
     } catch (error) {
@@ -214,29 +170,15 @@ export class downloadService {
 
       const { id, title, typeFile, urlFile, parser } =
         await this.suppiersService.getSupplier(supplierId);
-      const pathToFile = await this.downloadFile(id, title, typeFile, urlFile);
+      const pathToFile = await this.downloadFile(urlFile, id, title, typeFile);
       const methodForParser = await methodToJson[typeFile];
       const product = await methodForParser(pathToFile.pathToFile);
       const methodConvertForData = await methodToConvert[parser];
       const convert = await methodConvertForData(product);
       const save: any = await this.productService.addManyProducts(convert);
       console.log(save);
-      /* console.log(product);
-      return product; */
-    } catch (error) {
-      console.log(error);
-      throw new Error('File conversion error');
-    }
-  }
-
-  public async test(): Promise<any> {
-    try {
-      const path = await this.authorization();
-      const product = await this.xlsxToJson(path);
-      const convert = this.mappingService.redGastroConverter(product);
-      /* const save: any = await this.productService.addManyProducts(convert);
-      console.log(save);
-      return save; */
+      /* console.log(product);*/
+      return save;
     } catch (error) {
       console.log(error);
       throw new Error('File conversion error');
@@ -255,10 +197,10 @@ export class downloadService {
     }
   }
 
-  public async imageSave(path: string): Promise<any> {
+  public async imageSave(url: string): Promise<any> {
     try {
-      const pathToImages = await this.downloadImage(path);
-      const convert = this.mappingService.imageConverter(pathToImages);
+      const { pathToImage } = await this.downloadFile(url);
+      const convert = this.mappingService.imageConverter(pathToImage);
       const save: any = await this.productService.addManyProducts(convert);
       return save;
     } catch (error) {

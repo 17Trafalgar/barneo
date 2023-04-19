@@ -198,7 +198,7 @@ export class mappingService {
       const dataFileArray: IProductCreate[] = [];
       for (let index = 1; index < data.length; index++) {
         const obj = data[index];
-        console.log(obj);
+        /* console.log(obj); */
         dataFileArray.push({
           title: obj.Наименование,
           article: obj.Артикул,
@@ -226,7 +226,7 @@ export class mappingService {
     try {
       const dataImageArray = [];
       dataImageArray.push({
-        image: path,
+        images: path,
       });
       return dataImageArray;
     } catch (error) {
