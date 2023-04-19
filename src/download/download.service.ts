@@ -176,9 +176,8 @@ export class downloadService {
       const methodConvertForData = await methodToConvert[parser];
       const convert = await methodConvertForData(product);
       const save: any = await this.productService.addManyProducts(convert);
-      console.log(save);
-      /* console.log(product);*/
-      return save;
+      console.log(product);
+      return product;
     } catch (error) {
       console.log(error);
       throw new Error('File conversion error');

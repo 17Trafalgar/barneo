@@ -21,7 +21,7 @@ export class mappingService {
             price: +(obj.__EMPTY_6 ?? 0),
             currency: obj.currencyId?._text ?? 'RUB',
             rrc: +(obj.__EMPTY_7 ?? 0),
-            rrcValute: +(obj.rrcValute?._text ?? 0),
+            rrcValute: obj.rrcValute?._text ?? 'RUB',
             valute: +(obj.valute?._text ?? 0),
           },
         });
@@ -47,7 +47,7 @@ export class mappingService {
             price: +(obj.Цена._text ?? 0),
             currency: obj.currencyId?._text ?? 'RUB',
             rrc: +(obj.rrc?._text ?? 0),
-            rrcValute: +(obj.rrcValute?._text ?? 0),
+            rrcValute: obj.rrcValute?._text ?? 'RUB',
             valute: +(obj.valute?._text ?? 0),
           },
         });
@@ -198,19 +198,18 @@ export class mappingService {
       const dataFileArray: IProductCreate[] = [];
       for (let index = 1; index < data.length; index++) {
         const obj = data[index];
-        /* console.log(obj); */
         dataFileArray.push({
-          title: obj.Наименование,
+          title: obj['Полное наименование'],
           article: obj.Артикул,
           articleOfProducer: obj.Код,
           producer: obj.Бренд,
           country: obj?.__EMPTY_4,
           productAilability: obj.Остаток,
           priceList: {
-            price: +(obj.__EMPTY_6 ?? 0),
-            currency: obj?.undefined_1 ?? 'RUB',
-            rrc: +(obj.__EMPTY_7 ?? 0),
-            rrcValute: +(obj.rrcValute?._text ?? 0),
+            price: +(obj['Дилерская (с НДС)'] ?? 0),
+            currency: obj?.undefined_0 ?? 'RUB',
+            rrc: +(obj['Розничная (с НДС)'] ?? 0),
+            rrcValute: obj?.undefined_1 ?? 'RUB',
             valute: +(obj.valute?._text ?? 0),
           },
         });

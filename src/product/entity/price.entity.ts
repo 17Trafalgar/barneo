@@ -15,8 +15,8 @@ export class PriceTable {
   @Column({ type: 'numeric', nullable: true })
   rrc?: number;
 
-  @Column({ type: 'numeric', nullable: true })
-  rrcValute?: number;
+  @Column({ type: 'varchar', nullable: true })
+  rrcValute?: string;
 
   @Column({ type: 'numeric', nullable: true })
   valute?: number;
