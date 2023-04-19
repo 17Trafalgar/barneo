@@ -147,7 +147,7 @@ export class downloadService {
         const rowObject = xlsx.utils.sheet_to_json(data.Sheets[sheetName]);
         finalObject[sheetName] = rowObject;
       });
-      return finalObject /* ['Прайс-лист'] */;
+      return finalObject['TDSheet'];
     } catch (error) {
       console.log(error);
       throw new Error(error);
@@ -233,10 +233,10 @@ export class downloadService {
     try {
       const path = await this.authorization();
       const product = await this.xlsxToJson(path);
-      /* const convert = this.mappingService.redGastroConverter(product);
-      const save: any = await this.productService.addManyProducts(convert); */
-      console.log(product);
-      return product;
+      const convert = this.mappingService.redGastroConverter(product);
+      /* const save: any = await this.productService.addManyProducts(convert);
+      console.log(save);
+      return save; */
     } catch (error) {
       console.log(error);
       throw new Error('File conversion error');

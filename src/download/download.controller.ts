@@ -77,7 +77,7 @@ export class downloadController {
   async redGastroAuth(@Query() @Res() res) {
     try {
       const result = await this.downloadService.test();
-      res.status(200).json(result);
+      return result;
     } catch (error) {
       console.log(error);
       res.status(400).json({ message: 'Error of authorization' });

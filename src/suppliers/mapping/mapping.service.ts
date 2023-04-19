@@ -196,17 +196,19 @@ export class mappingService {
   public redGastroConverter(data: any) {
     try {
       const dataFileArray: IProductCreate[] = [];
-      for (const obj of data) {
+      for (let index = 1; index < data.length; index++) {
+        const obj = data[index];
+        console.log(obj);
         dataFileArray.push({
-          title: obj.КомплексБар,
-          article: obj.__EMPTY,
-          articleOfProducer: obj.__EMPTY_1,
-          producer: obj.__EMPTY_2,
-          country: obj.__EMPTY_4,
-          productAilability: obj.__EMPTY_9,
+          title: obj.Наименование,
+          article: obj.Артикул,
+          articleOfProducer: obj.Код,
+          producer: obj.Бренд,
+          country: obj?.__EMPTY_4,
+          productAilability: obj.Остаток,
           priceList: {
             price: +(obj.__EMPTY_6 ?? 0),
-            currency: obj.currencyId?._text ?? 'RUB',
+            currency: obj?.undefined_1 ?? 'RUB',
             rrc: +(obj.__EMPTY_7 ?? 0),
             rrcValute: +(obj.rrcValute?._text ?? 0),
             valute: +(obj.valute?._text ?? 0),
