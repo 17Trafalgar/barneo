@@ -255,9 +255,9 @@ export class downloadService {
     }
   }
 
-  public async imageSave(url: string): Promise<any> {
+  public async imageSave(path: string): Promise<any> {
     try {
-      const pathToImages = await this.downloadImage(url);
+      const pathToImages = await this.downloadImage(path);
       const convert = this.mappingService.imageConverter(pathToImages);
       const save: any = await this.productService.addManyProducts(convert);
       return save;
