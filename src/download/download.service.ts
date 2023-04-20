@@ -180,7 +180,7 @@ export class downloadService {
       const save: any = await this.productService.addManyProducts(convert);
       console.log(save);
       return save;
-      /* console.log(product);
+      /* console.log(product.yml_catalog.shop.offers.offer);
       return product; */
     } catch (error) {
       console.log(error);

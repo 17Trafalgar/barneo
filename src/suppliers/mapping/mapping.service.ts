@@ -258,6 +258,8 @@ export class mappingService {
           productCode: obj?.vendorCode['_text'],
           title: obj?.name['_text'],
           article: obj?._attributes.id,
+          articleOfProducer: obj?.categoryId['_text'],
+          country: obj?.param,
           producer: obj?.collection, //
           productAilability: obj?.quantity, //
           priceList: {
