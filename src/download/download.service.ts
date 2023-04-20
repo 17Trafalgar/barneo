@@ -126,7 +126,7 @@ export class downloadService {
   public async ymlToJson(path: string): Promise<any> {
     try {
       const file = FS.readFileSync(path);
-      const text = encoding.convert(file, 'UTF-8', 'WINDOWS-1251');
+      const text = encoding.convert(file, 'UTF-8' /* 'WINDOWS-1251' */);
       const options = { compact: true, ignoreComment: true, spaces: 4 };
       const data = convert.xml2json(text, options);
       return JSON.parse(data);
@@ -167,6 +167,7 @@ export class downloadService {
         chttConverter: this.mappingService.chttConverter,
         redGastroConverter: this.mappingService.redGastroConverter,
         limarsConverter: this.mappingService.limarsConverter,
+        project2015Converter: this.mappingService.project2015Converter,
       };
 
       const { id, title, typeFile, urlFile, parser } =

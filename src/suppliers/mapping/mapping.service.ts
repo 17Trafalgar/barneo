@@ -238,12 +238,39 @@ export class mappingService {
             currency: obj?.currencyId._text ?? 'RUB',
             rrc: +(obj?.price[1]._text ?? 0),
             rrcValute: obj?.rrcValute?._text ?? 0,
-            valute: obj?.valute?._text ?? 0,
+            valute: obj?.valute._text ?? 0,
           },
-          images: obj.picture?._text,
+          images: obj?.picture._text,
         });
       }
       return dataFileArray; // UTF-8 // price and rrc
+    } catch (error) {
+      console.error(error);
+      throw new Error('The file was not converted');
+    }
+  }
+
+  public project2015Converter(data: any) {
+    try {
+      const dataFileArray: IProductCreate[] = [];
+      for (const obj of data.yml_catalog.shop.offers.offer) {
+        dataFileArray.push({
+          productCode: obj?.vendorCode['_text'],
+          title: obj?.name['_text'],
+          article: obj?._attributes.id,
+          producer: obj?.collection, //
+          productAilability: obj?.quantity, //
+          priceList: {
+            price: +(obj?.price['_text'] ?? 0),
+            currency: obj?.currencyId ?? 'RUB',
+            rrc: obj?.priceOpt['_text'] ?? 0, //
+            rrcValute: obj?.rrcValute ?? 'RUB',
+            valute: +(obj?.valute ?? 0),
+          },
+          images: obj?.picture ?? 0, //
+        });
+      }
+      return dataFileArray; // utf-8
     } catch (error) {
       console.error(error);
       throw new Error('The file was not converted');
