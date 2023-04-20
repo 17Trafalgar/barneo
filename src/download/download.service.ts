@@ -113,7 +113,7 @@ export class downloadService {
   public async xmlToJson(path: string): Promise<any> {
     try {
       const file = FS.readFileSync(path);
-      const text = encoding.convert(file, 'UTF-8', 'WINDOWS-1251');
+      const text = encoding.convert(file, 'UTF-8' /* 'WINDOWS-1251' */);
       const options = { compact: true, ignoreComment: true, spaces: 4 };
       const data = convert.xml2json(text, options);
       return JSON.parse(data);
@@ -166,6 +166,7 @@ export class downloadService {
         abatConverter: this.mappingService.abatConverter,
         chttConverter: this.mappingService.chttConverter,
         redGastroConverter: this.mappingService.redGastroConverter,
+        limarsConverter: this.mappingService.limarsConverter,
       };
 
       const { id, title, typeFile, urlFile, parser } =
@@ -176,8 +177,10 @@ export class downloadService {
       const methodConvertForData = await methodToConvert[parser];
       const convert = await methodConvertForData(product);
       const save: any = await this.productService.addManyProducts(convert);
-      console.log(product);
-      return product;
+      console.log(save);
+      return save;
+      /* console.log(product);
+      return product; */
     } catch (error) {
       console.log(error);
       throw new Error('File conversion error');

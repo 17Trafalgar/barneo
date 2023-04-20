@@ -221,6 +221,35 @@ export class mappingService {
     }
   }
 
+  public async limarsConverter(data: any) {
+    try {
+      const dataFileArray: IProductCreate[] = [];
+      for (const obj of data.yml_catalog.shop.offers.offer) {
+        dataFileArray.push({
+          title: obj?.name._text,
+          country: obj?.param[1]._text,
+          productCode: obj?.vendorCode._text,
+          articleOfProducer: obj?.code._text,
+          article: obj?.barcode._text,
+          producer: obj?.param[0]._text,
+          productAilability: obj?._attributes.available,
+          priceList: {
+            price: +(obj?.price[3]._text ?? 0),
+            currency: obj?.currencyId._text ?? 'RUB',
+            rrc: +(obj?.price[1]._text ?? 0),
+            rrcValute: obj?.rrcValute?._text ?? 0,
+            valute: obj?.valute?._text ?? 0,
+          },
+          images: obj.picture?._text,
+        });
+      }
+      return dataFileArray; // UTF-8 // price and rrc
+    } catch (error) {
+      console.error(error);
+      throw new Error('The file was not converted');
+    }
+  }
+
   public imageConverter(path: string) {
     try {
       const dataImageArray = [];
