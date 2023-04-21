@@ -168,6 +168,8 @@ export class downloadService {
         redGastroConverter: this.mappingService.redGastroConverter,
         limarsConverter: this.mappingService.limarsConverter,
         project2015Converter: this.mappingService.project2015Converter,
+        restinternationalConverter:
+          this.mappingService.restinternationalConverter,
       };
 
       const { id, title, typeFile, urlFile, parser } =

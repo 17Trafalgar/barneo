@@ -255,8 +255,8 @@ export class mappingService {
       const dataFileArray: IProductCreate[] = [];
       for (const obj of data.yml_catalog.shop.offers.offer) {
         dataFileArray.push({
-          productCode: obj?.vendorCode['_text'],
           title: obj?.name['_text'],
+          productCode: obj?.vendorCode['_text'],
           article: obj?._attributes.id,
           articleOfProducer: obj?.categoryId['_text'],
           country: obj?.param,
@@ -270,6 +270,35 @@ export class mappingService {
             valute: +(obj?.valute ?? 0),
           },
           images: obj?.picture ?? 0, //
+        });
+      }
+      return dataFileArray; // utf-8
+    } catch (error) {
+      console.error(error);
+      throw new Error('The file was not converted');
+    }
+  }
+
+  public restinternationalConverter(data: any) {
+    try {
+      const dataFileArray: IProductCreate[] = [];
+      for (const obj of data.yml_catalog.shop.offers.offer) {
+        dataFileArray.push({
+          title: obj?.name['_text'],
+          productCode: obj?.vendorCode['_text'],
+          article: obj?.param[7],
+          articleOfProducer: obj?.param[10],
+          country: obj?.country_of_origin['_text'],
+          producer: obj?.vendor['_text'],
+          productAilability: obj?.stock_quantity['_text'],
+          priceList: {
+            price: +(obj?.price['_text'] ?? 0),
+            currency: obj?.currencyId['_text'] ?? 'RUB',
+            rrc: obj?.rrc,
+            rrcValute: obj?.rrcValute,
+            valute: obj?.valute,
+          },
+          images: obj?.['picture'],
         });
       }
       return dataFileArray; // utf-8
