@@ -283,23 +283,27 @@ export class mappingService {
     try {
       const dataFileArray: IProductCreate[] = [];
       for (const obj of data.yml_catalog.shop.offers.offer) {
-        dataFileArray.push({
-          title: obj?.name['_text'],
-          productCode: obj?.vendorCode['_text'],
-          article: obj?.param[7],
-          articleOfProducer: obj?.param[10],
-          country: obj?.country_of_origin['_text'],
-          producer: obj?.vendor['_text'],
-          productAilability: obj?.stock_quantity['_text'],
-          priceList: {
-            price: +(obj?.price['_text'] ?? 0),
-            currency: obj?.currencyId['_text'] ?? 'RUB',
-            rrc: obj?.rrc,
-            rrcValute: obj?.rrcValute,
-            valute: obj?.valute,
-          },
-          images: obj?.['picture'],
-        });
+        for (const art of obj.param) {
+          if (art._attributes.name === 'Артикул производителя') {
+            dataFileArray.push({
+              title: obj?.name['_text'],
+              productCode: obj?._attributes.externalId,
+              article: obj?.vendorCode['_text'],
+              articleOfProducer: art._text,
+              country: obj?.country_of_origin['_text'],
+              producer: obj?.vendor['_text'],
+              productAilability: obj?.stock_quantity['_text'],
+              priceList: {
+                price: +(obj?.price['_text'] ?? 0),
+                currency: obj?.currencyId['_text'] ?? 'RUB',
+                rrc: obj?.rrc,
+                rrcValute: obj?.rrcValute,
+                valute: obj?.valute,
+              },
+              images: obj?.picture,
+            });
+          }
+        }
       }
       return dataFileArray; // utf-8
     } catch (error) {
