@@ -300,7 +300,7 @@ export class mappingService {
                 rrcValute: obj?.rrcValute,
                 valute: obj?.valute,
               },
-              images: obj?.picture,
+              images: obj?.picture, //
             });
           }
         }
@@ -308,6 +308,34 @@ export class mappingService {
       return dataFileArray; // utf-8
     } catch (error) {
       console.error(error);
+      throw new Error('The file was not converted');
+    }
+  }
+
+  public hicoldConverter(data: any) {
+    try {
+      const dataFileArray: IProductCreate[] = [];
+      for (let index = 1; index < data.length; index++) {
+        const obj = data[index];
+        dataFileArray.push({
+          title: obj?.undefined_1,
+          article: obj?.undefined_0,
+          articleOfProducer: obj.Код,
+          producer: obj.Бренд,
+          country: obj?.__EMPTY_4,
+          productAilability: obj.Остаток,
+          priceList: {
+            price: +(obj.undefined_5 ?? 0),
+            currency: obj ?? 'RUB',
+            rrc: +(obj['Розничная (с НДС)'] ?? 0),
+            rrcValute: obj?.undefined_1 ?? 'RUB',
+            valute: +(obj.valute?._text ?? 0),
+          },
+        });
+      }
+      return dataFileArray;
+    } catch (error) {
+      console.log(error);
       throw new Error('The file was not converted');
     }
   }
