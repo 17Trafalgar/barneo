@@ -264,23 +264,29 @@ export class mappingService {
       for (const obj of data.yml_catalog.shop.offers.offer) {
         if (obj.quantity) {
           if (obj.picture) {
-            dataFileArray.push({
-              title: obj?.name['_text'],
-              productCode: obj?.categoryId['_text'],
-              article: obj?._attributes.id,
-              articleOfProducer: obj?.vendorCode['_text'],
-              country: obj?.param, //
-              producer: obj?.vendor._text,
-              productAilability: obj?.quantity['_text'],
-              priceList: {
-                price: +(obj?.price['_text'] ?? 0),
-                currency: obj?.currencyId ?? 'RUB',
-                rrc: obj?.priceOpt['_text'] ?? 0,
-                rrcValute: obj?.rrcValute ?? 'RUB',
-                valute: +(obj?.valute ?? 0),
-              },
-              images: obj?.picture['_text'] ?? 0,
-            });
+            if (obj.param) {
+              for (const attribute of obj.param) {
+                if (attribute._attributes.name === 'Страна производитель') {
+                  dataFileArray.push({
+                    title: obj?.name['_text'],
+                    productCode: obj?.categoryId['_text'],
+                    article: obj?._attributes.id,
+                    articleOfProducer: obj?.vendorCode['_text'],
+                    country: attribute?._text,
+                    producer: obj?.vendor._text,
+                    productAilability: obj?.quantity['_text'],
+                    priceList: {
+                      price: +(obj?.price['_text'] ?? 0),
+                      currency: obj?.currencyId ?? 'RUB',
+                      rrc: obj?.priceOpt['_text'] ?? 0,
+                      rrcValute: obj?.rrcValute ?? 'RUB',
+                      valute: +(obj?.valute ?? 0),
+                    },
+                    images: obj?.picture['_text'] ?? 0,
+                  });
+                }
+              }
+            }
           }
         }
       }
