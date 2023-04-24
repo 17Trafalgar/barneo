@@ -225,25 +225,33 @@ export class mappingService {
     try {
       const dataFileArray: IProductCreate[] = [];
       for (const obj of data.yml_catalog.shop.offers.offer) {
-        dataFileArray.push({
-          title: obj?.name._text,
-          country: obj?.param[1]._text,
-          productCode: obj?.vendorCode._text,
-          articleOfProducer: obj?.code._text,
-          article: obj?.barcode._text,
-          producer: obj?.param[0]._text,
-          productAilability: obj?._attributes.available,
-          priceList: {
-            price: +(obj?.price[3]._text ?? 0),
-            currency: obj?.currencyId._text ?? 'RUB',
-            rrc: +(obj?.price[1]._text ?? 0),
-            rrcValute: obj?.rrcValute?._text ?? 0,
-            valute: obj?.valute._text ?? 0,
-          },
-          images: obj?.picture._text,
-        });
+        for (const attribute of obj.param) {
+          if (attribute._attributes.name === 'Страны производители') {
+            for (const ailability of obj.param) {
+              if (ailability._attributes.name === 'Остаток Электросталь') {
+                dataFileArray.push({
+                  title: obj?.name['_text'],
+                  country: attribute?._text,
+                  productCode: obj?._attributes['id'],
+                  articleOfProducer: obj?.code['_text'],
+                  article: '0',
+                  producer: obj?.vendor['_text'],
+                  productAilability: ailability?._text, // три склада, складыват их и делать из поля number тип
+                  priceList: {
+                    price: +(obj.price?._attributes ?? 0), //
+                    currency: obj?.currencyId['_text'] ?? 'RUB',
+                    rrc: +('0' ?? 0),
+                    rrcValute: '0',
+                    valute: +('0' ?? 0),
+                  },
+                  images: ['0'],
+                });
+              }
+            }
+          }
+        }
       }
-      return dataFileArray; // UTF-8 // price and rrc
+      return dataFileArray; // UTF-8
     } catch (error) {
       console.error(error);
       throw new Error('The file was not converted');
@@ -254,23 +262,27 @@ export class mappingService {
     try {
       const dataFileArray: IProductCreate[] = [];
       for (const obj of data.yml_catalog.shop.offers.offer) {
-        dataFileArray.push({
-          title: obj?.name['_text'],
-          productCode: obj?.vendorCode['_text'],
-          article: obj?._attributes.id,
-          articleOfProducer: obj?.categoryId['_text'],
-          country: obj?.param,
-          producer: obj?.collection, //
-          productAilability: obj?.quantity, //
-          priceList: {
-            price: +(obj?.price['_text'] ?? 0),
-            currency: obj?.currencyId ?? 'RUB',
-            rrc: obj?.priceOpt['_text'] ?? 0, //
-            rrcValute: obj?.rrcValute ?? 'RUB',
-            valute: +(obj?.valute ?? 0),
-          },
-          images: obj?.picture ?? 0, //
-        });
+        if (obj.quantity) {
+          if (obj.picture) {
+            dataFileArray.push({
+              title: obj?.name['_text'],
+              productCode: obj?.categoryId['_text'],
+              article: obj?._attributes.id,
+              articleOfProducer: obj?.vendorCode['_text'],
+              country: obj?.param, //
+              producer: obj?.vendor._text,
+              productAilability: obj?.quantity['_text'],
+              priceList: {
+                price: +(obj?.price['_text'] ?? 0),
+                currency: obj?.currencyId ?? 'RUB',
+                rrc: obj?.priceOpt['_text'] ?? 0,
+                rrcValute: obj?.rrcValute ?? 'RUB',
+                valute: +(obj?.valute ?? 0),
+              },
+              images: obj?.picture['_text'] ?? 0,
+            });
+          }
+        }
       }
       return dataFileArray; // utf-8
     } catch (error) {
@@ -283,13 +295,13 @@ export class mappingService {
     try {
       const dataFileArray: IProductCreate[] = [];
       for (const obj of data.yml_catalog.shop.offers.offer) {
-        for (const art of obj.param) {
-          if (art._attributes.name === 'Артикул производителя') {
+        for (const attribute of obj.param) {
+          if (attribute._attributes.name === 'Артикул производителя') {
             dataFileArray.push({
               title: obj?.name['_text'],
               productCode: obj?._attributes.externalId,
               article: obj?.vendorCode['_text'],
-              articleOfProducer: art._text,
+              articleOfProducer: attribute?._text,
               country: obj?.country_of_origin['_text'],
               producer: obj?.vendor['_text'],
               productAilability: obj?.stock_quantity['_text'],
@@ -320,16 +332,8 @@ export class mappingService {
         dataFileArray.push({
           title: obj?.undefined_1,
           article: obj?.undefined_0,
-          articleOfProducer: obj.Код,
-          producer: obj.Бренд,
-          country: obj?.__EMPTY_4,
-          productAilability: obj.Остаток,
           priceList: {
             price: +(obj.undefined_5 ?? 0),
-            currency: obj ?? 'RUB',
-            rrc: +(obj['Розничная (с НДС)'] ?? 0),
-            rrcValute: obj?.undefined_1 ?? 'RUB',
-            valute: +(obj.valute?._text ?? 0),
           },
         });
       }
