@@ -171,6 +171,7 @@ export class downloadService {
         restinternationalConverter:
           this.mappingService.restinternationalConverter,
         hicoldConverter: this.mappingService.hicoldConverter,
+        businessRusConverter: this.mappingService.businessRusConverter,
       };
 
       const { id, title, typeFile, urlFile, parser } =

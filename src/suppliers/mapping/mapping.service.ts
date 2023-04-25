@@ -352,6 +352,41 @@ export class mappingService {
     }
   }
 
+  public businessRusConverter(data: any) {
+    try {
+      const dataFileArray: IProductCreate[] = [];
+      for (const obj of data.PriceByAgreements.Products.Product) {
+        if (obj.ImgUrls) {
+          if (obj.WarehousesPrices.PurchasePrice.Price) {
+            if (obj.WarehousesPrices.RetailPrice.Price) {
+              dataFileArray.push({
+                title: obj?.Name['_text'],
+                productCode: obj?.Code['_text'],
+                article: obj?.ParentCode['_text'],
+                articleOfProducer: obj?.SupplierCode['_text'],
+                country: obj?.Country['_text'],
+                producer: obj?.Brend['_text'],
+                productAilability: '-', //
+                priceList: {
+                  price: obj?.WarehousesPrices.RetailPrice.Price['_text'],
+                  currency: obj?.CurrencyPrice['_text'],
+                  rrc: obj?.WarehousesPrices.PurchasePrice.Price['_text'],
+                  rrcValute: obj?.Currency['_text'],
+                  valute: 0,
+                },
+                images: obj?.ImgUrls.ImgUrl['_text'],
+              });
+            }
+          }
+        }
+      }
+      return dataFileArray;
+    } catch (error) {
+      console.log(error);
+      throw new Error('The file was not converted');
+    }
+  }
+
   public imageConverter(path: string) {
     try {
       const dataImageArray = [];
