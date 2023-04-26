@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { IProductCreate } from 'src/product/interfaces/product.interface';
+import { levenshtein } from 'fast-levenshtein';
 
 @Injectable()
 export class mappingService {
@@ -387,7 +388,36 @@ export class mappingService {
           }
         }
       }
-      return dataFileArray;
+      return dataFileArray; // utf-8
+    } catch (error) {
+      console.log(error);
+      throw new Error('The file was not converted');
+    }
+  }
+
+  public restoinoxConverter(data: any) {
+    try {
+      const dataFileArray: IProductCreate[] = [];
+      for (const obj of data.yml_catalog.shop.offers.offer) {
+        dataFileArray.push({
+          title: obj?.model['_text'],
+          productCode: obj?.vendorCode['_text'],
+          article: '-', //
+          articleOfProducer: obj?._attributes['id'],
+          country: '-', //
+          producer: obj?.vendor['_text'],
+          productAilability: '-', //
+          priceList: {
+            price: obj?.price['_text'] ?? 0,
+            currency: obj?.currencyId['_text'] ?? 'RUB',
+            rrc: 0,
+            rrcValute: '0',
+            valute: 0,
+          },
+          images: obj?.picture['_text'],
+        });
+      }
+      return dataFileArray; // utf-8
     } catch (error) {
       console.log(error);
       throw new Error('The file was not converted');
