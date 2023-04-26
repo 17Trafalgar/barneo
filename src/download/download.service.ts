@@ -194,6 +194,8 @@ export class downloadService {
       const product = await methodForParser(pathToFile.pathToFile);
       const methodConvertForData = await methodToConvert[parser];
       const convert = await methodConvertForData(product);
+      /* console.log(convert); */
+      return convert;
       const save: any = await this.productService.addManyProducts(convert);
       console.log(save);
       return save;

@@ -336,21 +336,41 @@ export class mappingService {
   public hicoldConverter(data: any) {
     try {
       const dataFileArray: IProductCreate[] = [];
+      const hasmap = { A: 'article', B: 'title', F: 'priceList' };
+      const productSchema: IProductCreate = {
+        article: 'Артикул',
+        title: 'Название',
+        priceList: { price: 0 },
+      };
+      let productData;
+      let isStart = false;
+
       for (const key in data.Sheets.TDSheet) {
-        const A = key.startsWith('A');
-        const B = key.startsWith('B');
-        const F = key.startsWith('F');
-        if (A) {
-          if (data.Sheets.TDSheet[key]['v']) {
-            dataFileArray.push({
-              title: '0',
-              article: data.Sheets.TDSheet[key]['v'],
-              priceList: {
-                price: 0,
-                currency: 'RUB',
-              },
-            });
+        if (!key) {
+          continue;
+        }
+        if (key === 'A5') {
+          isStart = true;
+          productData = Object.assign(productSchema);
+        }
+        if (isStart) {
+          if (hasmap[key[0]]) {
+            try {
+              /* console.log(data.Sheets.TDSheet[key].v); */
+              productData[hasmap[key[0]]] = data.Sheets.TDSheet[key].v;
+            } catch (error) {
+              /* console.log(data.Sheets.TDSheet[key]);
+              console.log(key); */
+              throw new Error(error);
+            }
           }
+          if (key[0] === 'F') {
+            dataFileArray.push(productData);
+            console.log(dataFileArray);
+          }
+        }
+        if (key === 'F3818') {
+          isStart = false;
         }
       }
       return dataFileArray;
