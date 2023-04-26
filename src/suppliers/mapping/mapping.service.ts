@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { IProductCreate } from 'src/product/interfaces/product.interface';
-import { levenshtein } from 'fast-levenshtein';
 
 @Injectable()
 export class mappingService {
@@ -336,13 +335,7 @@ export class mappingService {
   public hicoldConverter(data: any) {
     try {
       const dataFileArray: IProductCreate[] = [];
-      const hasmap = { A: 'article', B: 'title', F: 'priceList' };
-      const productSchema: IProductCreate = {
-        article: 'Артикул',
-        title: 'Название',
-        priceList: { price: 0 },
-      };
-      let productData;
+      let productData: any = { priceList: {} };
       let isStart = false;
 
       for (const key in data.Sheets.TDSheet) {
@@ -351,29 +344,25 @@ export class mappingService {
         }
         if (key === 'A5') {
           isStart = true;
-          productData = Object.assign(productSchema);
         }
         if (isStart) {
-          if (hasmap[key[0]]) {
-            try {
-              /* console.log(data.Sheets.TDSheet[key].v); */
-              productData[hasmap[key[0]]] = data.Sheets.TDSheet[key].v;
-            } catch (error) {
-              /* console.log(data.Sheets.TDSheet[key]);
-              console.log(key); */
-              throw new Error(error);
-            }
+          if (key[0] === 'A') {
+            productData.article = data.Sheets.TDSheet[key].v;
+          }
+          if (key[0] === 'B') {
+            productData.title = data.Sheets.TDSheet[key].v;
           }
           if (key[0] === 'F') {
+            productData.priceList.price = data.Sheets.TDSheet[key].v;
             dataFileArray.push(productData);
-            console.log(dataFileArray);
+            productData = { priceList: {} };
           }
         }
         if (key === 'F3818') {
           isStart = false;
         }
       }
-      return dataFileArray;
+      return dataFileArray; // hasmap для одного парсера
     } catch (error) {
       console.log(error);
       throw new Error('The file was not converted');
