@@ -335,15 +335,22 @@ export class mappingService {
   public hicoldConverter(data: any) {
     try {
       const dataFileArray: IProductCreate[] = [];
-      for (let index = 1; index < data.length; index++) {
-        const obj = data[index];
-        dataFileArray.push({
-          title: obj?.undefined_1,
-          article: obj?.undefined_0,
-          priceList: {
-            price: +(obj.undefined_5 ?? 0),
-          },
-        });
+      for (const key in data.Sheets.TDSheet) {
+        const A = key.startsWith('A');
+        const B = key.startsWith('B');
+        const F = key.startsWith('F');
+        if (A) {
+          if (data.Sheets.TDSheet[key]['v']) {
+            dataFileArray.push({
+              title: '0',
+              article: data.Sheets.TDSheet[key]['v'],
+              priceList: {
+                price: 0,
+                currency: 'RUB',
+              },
+            });
+          }
+        }
       }
       return dataFileArray;
     } catch (error) {

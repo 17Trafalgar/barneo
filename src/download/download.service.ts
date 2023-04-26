@@ -98,12 +98,12 @@ export class downloadService {
     try {
       const file = FS.readFileSync(path);
       const data = xlsx.read(file, { type: 'buffer' });
-      const finalObject = {};
+      /* const finalObject = {};
       data.SheetNames.forEach((sheetName) => {
         const rowObject = xlsx.utils.sheet_to_json(data.Sheets[sheetName]);
         finalObject[sheetName] = rowObject;
-      });
-      return finalObject['TDSheet'];
+      }); */
+      return data;
     } catch (error) {
       console.log(error);
       throw new Error(error);
