@@ -94,15 +94,26 @@ export class downloadService {
     }
   }
 
+  public async xlsToJson(path: string): Promise<any> {
+    try {
+      const file = FS.readFileSync(path);
+      const data = xlsx.read(file, { type: 'buffer' });
+      return data;
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
+  }
+
   public async xlsxToJson(path: string): Promise<any> {
     try {
       const file = FS.readFileSync(path);
       const data = xlsx.read(file, { type: 'buffer' });
-      /* const finalObject = {};
+      const finalObject = {};
       data.SheetNames.forEach((sheetName) => {
         const rowObject = xlsx.utils.sheet_to_json(data.Sheets[sheetName]);
         finalObject[sheetName] = rowObject;
-      }); */
+      });
       return data;
     } catch (error) {
       console.log(error);
@@ -155,6 +166,7 @@ export class downloadService {
         xlsx: this.xlsxToJson,
         yml: this.ymlToJson,
         csv: this.csvToJson,
+        xls: this.xlsToJson,
       };
 
       const methodToConvert = {
