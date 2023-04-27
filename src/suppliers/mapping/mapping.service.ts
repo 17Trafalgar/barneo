@@ -465,6 +465,53 @@ export class mappingService {
     }
   }
 
+  public sabotageDesignConverter(data: any) {
+    try {
+      const dataFileArray: IProductCreate[] = [];
+      const sheet = {
+        Оборудование: 'Оборудование',
+        Посуда: 'Посуда',
+        Кухня: 'Для кухни',
+        Суши: 'Для суши-бара',
+        Ножи: 'Ножи',
+        Униформа: 'Униформа',
+        Подарки: 'ПодаркиСувенир',
+        NEW: 'NEW',
+        Sale: 'Sale',
+      };
+      for (const key in data) {
+        if (key == sheet[key]) {
+          for (let index = 4; index < data[sheet[key]].length; index++) {
+            const obj = data[sheet[key]][index];
+            if (obj.__EMPTY_1) {
+              dataFileArray.push({
+                title: obj?.__EMPTY_1,
+                productCode: obj?.__EMPTY,
+                article: obj?.__EMPTY_3,
+                articleOfProducer: '-',
+                country: '-',
+                producer: '-',
+                productAilability: '-',
+                priceList: {
+                  price: +obj?.__EMPTY_8,
+                  currency: 'RUB',
+                  rrc: 0,
+                  rrcValute: '0',
+                  valute: 0,
+                },
+                images: ['-'],
+              });
+            }
+          }
+        }
+      }
+      return dataFileArray;
+    } catch (error) {
+      console.log(error);
+      throw new Error('The file of Sabotage Design was not converted');
+    }
+  }
+
   public imageConverter(path: string) {
     try {
       const dataImageArray = [];
