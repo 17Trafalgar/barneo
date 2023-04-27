@@ -481,7 +481,7 @@ export class mappingService {
       };
       for (const key in data) {
         if (key == sheet[key]) {
-          for (let index = 4; index < data[sheet[key]].length; index++) {
+          for (let index = 1; index < data[sheet[key]].length; index++) {
             const obj = data[sheet[key]][index];
             if (obj.__EMPTY_1) {
               dataFileArray.push({
