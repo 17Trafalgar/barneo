@@ -187,6 +187,7 @@ export class downloadService {
         restoinoxConverter: this.mappingService.restoinoxConverter,
         atesiConverter: this.mappingService.atesiConverter,
         sabotageDesignConverter: this.mappingService.sabotageDesignConverter,
+        dobrinMskConverter: this.mappingService.dobrinMskConverter,
       };
 
       const { id, title, typeFile, urlFile, parser } =

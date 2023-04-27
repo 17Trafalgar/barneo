@@ -512,6 +512,35 @@ export class mappingService {
     }
   }
 
+  public dobrinMskConverter(data: any) {
+    try {
+      const dataFileArray: IProductCreate[] = [];
+      for (const obj of data.yml_catalog.shop.offers.offer) {
+        dataFileArray.push({
+          title: obj?.name['_text'],
+          productCode: obj?.barcode['_text'],
+          article: obj?.param[1]['_text'],
+          articleOfProducer: obj?.vendorCode['_text'],
+          country: obj?.country_of_origin['_text'],
+          producer: obj?.vendor['_text'],
+          productAilability: obj?.stock['_text'],
+          priceList: {
+            price: obj?.price['_text'] ?? 0,
+            currency: obj?.currencyId['_text'] ?? 'RUB',
+            rrc: 0,
+            rrcValute: '-',
+            valute: 0,
+          },
+          images: ['-'],
+        });
+      }
+      return dataFileArray; // utf-8
+    } catch (error) {
+      console.log(error);
+      throw new Error('The file of Dobrin was not converted');
+    }
+  }
+
   public imageConverter(path: string) {
     try {
       const dataImageArray = [];
