@@ -114,7 +114,7 @@ export class downloadService {
         const rowObject = xlsx.utils.sheet_to_json(data.Sheets[sheetName]);
         finalObject[sheetName] = rowObject;
       });
-      return data;
+      return finalObject['TDSheet'];
     } catch (error) {
       console.log(error);
       throw new Error(error);
@@ -185,6 +185,7 @@ export class downloadService {
         hicoldConverter: this.mappingService.hicoldConverter,
         businessRusConverter: this.mappingService.businessRusConverter,
         restoinoxConverter: this.mappingService.restoinoxConverter,
+        atesiConverter: this.mappingService.atesiConverter,
       };
 
       const { id, title, typeFile, urlFile, parser } =

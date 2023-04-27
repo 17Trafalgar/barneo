@@ -29,7 +29,7 @@ export class mappingService {
       return dataFileArray;
     } catch (error) {
       console.log(error);
-      throw new Error('The file was not converted');
+      throw new Error('The file of Clen was not converted');
     }
   }
 
@@ -55,7 +55,7 @@ export class mappingService {
       return dataFileArray;
     } catch (error) {
       console.error(error);
-      throw new Error('The file was not converted');
+      throw new Error('The file of grk was not converted');
     }
   }
 
@@ -81,7 +81,7 @@ export class mappingService {
       return dataFileArray;
     } catch (error) {
       console.error(error);
-      throw new Error('The file was not converted');
+      throw new Error('The file of JustCoffe was not converted');
     }
   }
 
@@ -108,7 +108,7 @@ export class mappingService {
       return dataFileArray;
     } catch (error) {
       console.error(error);
-      throw new Error('The file was not converted');
+      throw new Error('The file of Wlimax was not converted');
     }
   }
 
@@ -135,7 +135,7 @@ export class mappingService {
       return dataFileArray;
     } catch (error) {
       console.error(error);
-      throw new Error('The file was not converted');
+      throw new Error('The file of MasterGlass was not converted');
     }
   }
 
@@ -162,7 +162,7 @@ export class mappingService {
       return dataFileArray;
     } catch (error) {
       console.error(error);
-      throw new Error('The file was not converted');
+      throw new Error('The file of Abat was not converted');
     }
   }
 
@@ -189,7 +189,7 @@ export class mappingService {
       return dataFileArray;
     } catch (error) {
       console.error(error);
-      throw new Error('The file was not converted');
+      throw new Error('The file of Chtt was not converted');
     }
   }
 
@@ -217,7 +217,7 @@ export class mappingService {
       return dataFileArray;
     } catch (error) {
       console.log(error);
-      throw new Error('The file was not converted');
+      throw new Error('The file of RedGastros was not converted');
     }
   }
 
@@ -254,7 +254,7 @@ export class mappingService {
       return dataFileArray; // UTF-8
     } catch (error) {
       console.error(error);
-      throw new Error('The file was not converted');
+      throw new Error('The file of Limars was not converted');
     }
   }
 
@@ -293,7 +293,7 @@ export class mappingService {
       return dataFileArray; // utf-8
     } catch (error) {
       console.error(error);
-      throw new Error('The file was not converted');
+      throw new Error('The file of Project2015 was not converted');
     }
   }
 
@@ -328,7 +328,7 @@ export class mappingService {
       return dataFileArray; // utf-8
     } catch (error) {
       console.error(error);
-      throw new Error('The file was not converted');
+      throw new Error('The file of restinternational was not converted');
     }
   }
 
@@ -365,7 +365,7 @@ export class mappingService {
       return dataFileArray; // hasmap для одного парсера
     } catch (error) {
       console.log(error);
-      throw new Error('The file was not converted');
+      throw new Error('The file of HICOLD was not converted');
     }
   }
 
@@ -400,7 +400,7 @@ export class mappingService {
       return dataFileArray; // utf-8
     } catch (error) {
       console.log(error);
-      throw new Error('The file was not converted');
+      throw new Error('The file of businessRus was not converted');
     }
   }
 
@@ -429,7 +429,39 @@ export class mappingService {
       return dataFileArray; // utf-8
     } catch (error) {
       console.log(error);
-      throw new Error('The file was not converted');
+      throw new Error('The file restoinox was not converted');
+    }
+  }
+
+  public atesiConverter(data: any) {
+    try {
+      const dataFileArray: IProductCreate[] = [];
+      for (let index = 5; index < data.length; index++) {
+        const obj = data[index];
+        if (obj.__EMPTY_3) {
+          dataFileArray.push({
+            title: obj?.__EMPTY_3,
+            productCode: obj?.__EMPTY,
+            article: '-',
+            articleOfProducer: '-',
+            country: '-',
+            producer: '-',
+            productAilability: '-',
+            priceList: {
+              price: obj?.__EMPTY_6,
+              currency: 'RUB',
+              rrc: obj?.__EMPTY_7,
+              rrcValute: '0',
+              valute: 0,
+            },
+            images: ['-'],
+          });
+        }
+      }
+      return dataFileArray;
+    } catch (error) {
+      console.log(error);
+      throw new Error('The file of Atesi was not converted');
     }
   }
 
