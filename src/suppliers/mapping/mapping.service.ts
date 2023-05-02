@@ -570,6 +570,35 @@ export class mappingService {
     }
   }
 
+  public complexBar(data: any) {
+    try {
+      const dataFileArray: IProductCreate[] = [];
+      for (const obj of data.items) {
+        dataFileArray.push({
+          title: '0',
+          productCode: '0',
+          article: obj?.article_number_product,
+          articleOfProducer: obj?.id_product,
+          country: '0',
+          producer: '0',
+          productAilability: obj?.is_real,
+          priceList: {
+            price: obj?.price,
+            currency: 'RUB',
+            rrc: 0,
+            rrcValute: '-',
+            valute: 0,
+          },
+          images: ['0'],
+        });
+      }
+      return dataFileArray; // utf-8
+    } catch (error) {
+      console.log(error);
+      throw new Error('The file of Complex Bar was not converted');
+    }
+  }
+
   public imageConverter(path: string) {
     try {
       const dataImageArray = [];

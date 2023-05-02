@@ -18,7 +18,7 @@ export class ComplexbarService {
       headers: this._authBasic,
     });
     console.log(response.data);
-    response.data;
+    return response.data;
   }
 
   async getPrice(): Promise<any> {
@@ -27,6 +27,6 @@ export class ComplexbarService {
       headers: this._authBasic,
     });
     console.log(response.data);
-    response.data;
+    return response.data;
   }
 }

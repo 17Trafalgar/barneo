@@ -59,6 +59,9 @@ export class downloadService {
     try {
       const stock = await this.complexbarService.getStock();
       const price = await this.complexbarService.getPrice();
+      const parseData = this.mappingService.complexBar(price);
+      const save: any = await this.productService.addManyProducts(parseData);
+      return save;
     } catch (error) {
       console.log(error);
       throw new Error(error);
