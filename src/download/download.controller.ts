@@ -38,6 +38,31 @@ export class downloadController {
     }
   }
 
+  @Get('ftp')
+  async getFtp(@Query() localPath: string, remotePath: string, @Res() res) {
+    try {
+      const result = await this.downloadService.ftpDownloadFile(
+        localPath,
+        remotePath,
+      );
+      return result;
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({ message: 'Failed to get data from server' });
+    }
+  }
+
+  @Get('API')
+  async getFileAPI(@Query() @Res() res) {
+    try {
+      const result = await this.downloadService.downloadFileAPI();
+      return result;
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({ message: 'Failed to get id of supplier' });
+    }
+  }
+
   @Post('file')
   @UseInterceptors(
     FileInterceptor('file', {
@@ -56,20 +81,6 @@ export class downloadController {
     } catch (error) {
       console.log(error);
       throw new Error('Failed to send file');
-    }
-  }
-
-  @Get('ftp')
-  async getFtp(@Query() localPath: string, remotePath: string, @Res() res) {
-    try {
-      const result = await this.downloadService.ftpDownloadFile(
-        localPath,
-        remotePath,
-      );
-      return result;
-    } catch (error) {
-      console.log(error);
-      res.status(400).json({ message: 'Failed to get data from server' });
     }
   }
 }

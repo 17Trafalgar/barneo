@@ -10,6 +10,7 @@ import { Injectable } from '@nestjs/common';
 import { suppliersService } from 'src/suppliers/suppliers.service';
 import { mappingService } from 'src/suppliers/mapping/mapping.service';
 import { productsService } from 'src/product/product.service';
+import { ComplexbarService } from './client-services/complexbar.service';
 
 @Injectable()
 export class downloadService {
@@ -18,6 +19,7 @@ export class downloadService {
     private readonly suppiersService: suppliersService,
     private readonly productService: productsService,
     private readonly mappingService: mappingService,
+    private readonly complexbarService: ComplexbarService,
   ) {}
 
   public async downloadFile(
@@ -47,6 +49,16 @@ export class downloadService {
         );
         writer.on('error', reject);
       });
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
+  }
+
+  public async downloadFileAPI() {
+    try {
+      const stock = await this.complexbarService.getStock();
+      const price = await this.complexbarService.getPrice();
     } catch (error) {
       console.log(error);
       throw new Error(error);
@@ -114,7 +126,7 @@ export class downloadService {
         const rowObject = xlsx.utils.sheet_to_json(data.Sheets[sheetName]);
         finalObject[sheetName] = rowObject;
       });
-      return finalObject;
+      return finalObject['TDSheet'];
     } catch (error) {
       console.log(error);
       throw new Error(error);
