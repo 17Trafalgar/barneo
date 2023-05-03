@@ -570,29 +570,59 @@ export class mappingService {
     }
   }
 
-  public complexBar(data: any) {
+  public complexBar(data1: any, data2: any) {
     try {
       const dataFileArray: IProductCreate[] = [];
-      for (const obj of data.items) {
-        dataFileArray.push({
+      const result: { [key: string]: IProductCreate } = {};
+      for (const iterator of data1.items) {
+        result[iterator.id_product] = {
           title: '0',
           productCode: '0',
-          article: obj?.article_number_product,
-          articleOfProducer: obj?.id_product,
+          article: iterator?.article_number_product,
+          articleOfProducer: iterator?.id_product,
           country: '0',
           producer: '0',
-          productAilability: obj?.is_real,
+          productAilability: iterator?.count,
           priceList: {
-            price: obj?.price,
+            price: 0,
             currency: 'RUB',
             rrc: 0,
             rrcValute: '-',
             valute: 0,
           },
           images: ['0'],
-        });
+        };
       }
-      return dataFileArray; // utf-8
+      for (const iterator2 of data2.items) {
+        if (result[iterator2.id_product]) {
+          result[iterator2.id_product].priceList.price = iterator2.price;
+        }
+      }
+      return Object.values(result);
+      /* for (const obj1 of data1[0].items) {
+        for (const obj2 of data2[1].items) {
+          if (obj1.index == obj2.index) {
+            dataFileArray.push({
+              title: '0',
+              productCode: '0',
+              article: obj1?.article_number_product,
+              articleOfProducer: obj1?.id_product,
+              country: '0',
+              producer: '0',
+              productAilability: obj1?.count,
+              priceList: {
+                price: obj2?.price,
+                currency: 'RUB',
+                rrc: 0,
+                rrcValute: '-',
+                valute: 0,
+              },
+              images: ['0'],
+            });
+          }
+        }
+      } */
+      for (const obj of data1) return dataFileArray; // utf-8
     } catch (error) {
       console.log(error);
       throw new Error('The file of Complex Bar was not converted');

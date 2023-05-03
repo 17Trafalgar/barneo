@@ -17,7 +17,6 @@ export class ClientService {
     const response = await this.Axios.axiosRef.get(url, {
       headers: this.authBasic,
     });
-    console.log(response.data);
     return response.data;
   }
 
@@ -26,7 +25,6 @@ export class ClientService {
     const response = await this.Axios.axiosRef.get(url, {
       headers: this.authBasic,
     });
-    console.log(response.data);
     return response.data;
   }
 }

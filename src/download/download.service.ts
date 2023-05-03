@@ -57,11 +57,14 @@ export class downloadService {
 
   public async fileFromAPI() {
     try {
-      const stock = await this.clientService.getStock();
-      const price = await this.clientService.getPrice();
-      const parseData = this.mappingService.complexBar(price);
+      const data1 = await this.clientService.getStock();
+      const data2 = await this.clientService.getPrice();
+      /* console.log(data); */
+      const parseData = this.mappingService.complexBar(data1, data2);
+      console.log(parseData);
       const save: any = await this.productService.addManyProducts(parseData);
       return save;
+      return parseData;
     } catch (error) {
       console.log(error);
       throw new Error(error);
