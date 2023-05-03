@@ -6,7 +6,7 @@ export class ClientService {
   constructor(private readonly Axios: HttpService) {}
   username = 'info@barneo.ru';
   password = '12345678';
-  domen = 'https://api.pbd.complexbar.ru';
+  baseUrl = 'https://api.pbd.complexbar.ru';
 
   getHeaders() {
     return {
@@ -17,7 +17,7 @@ export class ClientService {
   }
 
   getUrl(apiName: string) {
-    return decodeURI(this.domen + apiName);
+    return decodeURI(this.baseUrl + apiName);
   }
 
   async getStock(): Promise<any> {
