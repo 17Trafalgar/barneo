@@ -5,12 +5,12 @@ import { supplierModule } from 'src/suppliers/suppliers.module';
 import { downloadController } from './download.controller';
 import { downloadService } from './download.service';
 /* import { ComplexbarClientServiceProvider } from './providers/complexbar-client-service.provider'; */
-import { ComplexbarService } from './client-services/complexbar.service';
+import { ClientService } from './client/client.service';
 
 @Module({
   imports: [HttpModule, supplierModule, productModule],
   controllers: [downloadController],
-  providers: [ComplexbarService, downloadService],
-  exports: [downloadService, ComplexbarService],
+  providers: [ClientService, downloadService],
+  exports: [downloadService, ClientService],
 })
 export class downloadModule {}

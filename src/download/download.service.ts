@@ -10,7 +10,7 @@ import { Injectable } from '@nestjs/common';
 import { suppliersService } from 'src/suppliers/suppliers.service';
 import { mappingService } from 'src/suppliers/mapping/mapping.service';
 import { productsService } from 'src/product/product.service';
-import { ComplexbarService } from './client-services/complexbar.service';
+import { ClientService } from './client/client.service';
 
 @Injectable()
 export class downloadService {
@@ -19,7 +19,7 @@ export class downloadService {
     private readonly suppiersService: suppliersService,
     private readonly productService: productsService,
     private readonly mappingService: mappingService,
-    private readonly complexbarService: ComplexbarService,
+    private readonly clientService: ClientService,
   ) {}
 
   public async downloadFile(
@@ -55,10 +55,10 @@ export class downloadService {
     }
   }
 
-  public async downloadFileAPI() {
+  public async fileFromAPI() {
     try {
-      const stock = await this.complexbarService.getStock();
-      const price = await this.complexbarService.getPrice();
+      const stock = await this.clientService.getStock();
+      const price = await this.clientService.getPrice();
       const parseData = this.mappingService.complexBar(price);
       const save: any = await this.productService.addManyProducts(parseData);
       return save;

@@ -55,7 +55,7 @@ export class downloadController {
   @Get('API')
   async getFileAPI(@Query() @Res() res) {
     try {
-      const result = await this.downloadService.downloadFileAPI();
+      const result = await this.downloadService.fileFromAPI();
       return result;
     } catch (error) {
       console.log(error);
