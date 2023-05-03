@@ -6,32 +6,25 @@ export class ClientService {
   constructor(private readonly Axios: HttpService) {}
   username = 'info@barneo.ru';
   password = '12345678';
-
-  authBasic = {
-    Authorization:
-      'Basic ' +
-      Buffer.from(this.username + ':' + this.password).toString('base64'),
-  };
   domen = 'https://api.pbd.complexbar.ru';
 
-  async getUrl(uri: string): Promise<string> {
-    try {
-      const url = decodeURI(this.domen + uri);
-      return url;
-    } catch (error) {
-      console.log(error);
-      throw new Error(error);
-    }
+  getHeaders() {
+    return {
+      Authorization:
+        'Basic ' +
+        Buffer.from(this.username + ':' + this.password).toString('base64'),
+    };
+  }
+
+  getUrl(apiName: string) {
+    return decodeURI(this.domen + apiName);
   }
 
   async getStock(): Promise<any> {
     try {
-      const response = await this.Axios.axiosRef.get(
-        await this.getUrl('/stocks'),
-        {
-          headers: this.authBasic,
-        },
-      );
+      const response = await this.Axios.axiosRef.get(this.getUrl('/stocks'), {
+        headers: this.getHeaders(),
+      });
       return response.data;
     } catch (error) {
       console.log(error);
@@ -41,12 +34,9 @@ export class ClientService {
 
   async getPrice(): Promise<any> {
     try {
-      const response = await this.Axios.axiosRef.get(
-        await this.getUrl('/prices'),
-        {
-          headers: this.authBasic,
-        },
-      );
+      const response = await this.Axios.axiosRef.get(this.getUrl('/prices'), {
+        headers: this.getHeaders(),
+      });
       return response.data;
     } catch (error) {
       console.log(error);
