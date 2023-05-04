@@ -474,10 +474,10 @@ export class mappingService {
         Оборудование: 'Оборудование',
         Посуда: 'Посуда',
         Кухня: 'Для кухни',
-        Суши: 'Для суши-бара',
+        'Для суши-бара': 'Для суши-бара',
         Ножи: 'Ножи',
         Униформа: 'Униформа',
-        Подарки: 'ПодаркиСувенир',
+        ПодаркиСувенир: 'ПодаркиСувенир',
         NEW: 'NEW',
         Sale: 'Sale',
       };
@@ -645,7 +645,7 @@ export class mappingService {
       return dataFileArray;
     } catch (error) {
       console.log(error);
-      throw new Error('The file of DobrinSPB was not converted');
+      throw new Error('The file of AMENARI was not converted');
     }
   }
 
