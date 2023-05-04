@@ -1,4 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { isNumber } from 'class-validator';
+import { number } from 'joi';
 import { IProductCreate } from 'src/product/interfaces/product.interface';
 
 @Injectable()
@@ -601,6 +603,40 @@ export class mappingService {
     } catch (error) {
       console.log(error);
       throw new Error('The file of Complex Bar was not converted');
+    }
+  }
+
+  public amenariConverter(data: any) {
+    try {
+      const dataFileArray: IProductCreate[] = [];
+      for (let index = 2; index < data['S30S20S15'].length; index++) {
+        const obj = data['S30S20S15'][index];
+        if (obj['Курс']) {
+          if (!isNaN(obj['Курс'])) {
+            dataFileArray.push({
+              title: obj?.__EMPTY,
+              productCode: '-',
+              article: '-',
+              articleOfProducer: '-',
+              country: '-',
+              producer: '-',
+              productAilability: '-',
+              priceList: {
+                price: +obj['20%'] ?? 0,
+                currency: 'RUB',
+                rrc: +obj['90.00 ₽'] ?? 0,
+                rrcValute: '€',
+                valute: +obj['Курс'] ?? 0,
+              },
+              images: ['0'],
+            });
+          }
+        }
+      }
+      return dataFileArray;
+    } catch (error) {
+      console.log(error);
+      throw new Error('The file of DobrinSPB was not converted');
     }
   }
 
