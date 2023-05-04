@@ -609,27 +609,36 @@ export class mappingService {
   public amenariConverter(data: any) {
     try {
       const dataFileArray: IProductCreate[] = [];
-      for (let index = 2; index < data['S30S20S15'].length; index++) {
-        const obj = data['S30S20S15'][index];
-        if (obj['Курс']) {
-          if (!isNaN(obj['Курс'])) {
-            dataFileArray.push({
-              title: obj?.__EMPTY,
-              productCode: '-',
-              article: '-',
-              articleOfProducer: '-',
-              country: '-',
-              producer: '-',
-              productAilability: '-',
-              priceList: {
-                price: +obj['20%'] ?? 0,
-                currency: 'RUB',
-                rrc: +obj['90.00 ₽'] ?? 0,
-                rrcValute: '€',
-                valute: +obj['Курс'] ?? 0,
-              },
-              images: ['0'],
-            });
+      const sheet = {
+        S30S20S15: 'S30S20S15',
+        'M200 + Elective': 'M200 + Elective',
+        'M23 + CM OD': 'M23 + CM OD',
+      };
+      for (const key in data) {
+        if (key == sheet[key]) {
+          for (let index = 2; index < data[sheet[key]].length; index++) {
+            const obj = data[sheet[key]][index];
+            if (obj['Курс']) {
+              if (!isNaN(obj['Курс'])) {
+                dataFileArray.push({
+                  title: obj?.__EMPTY,
+                  productCode: '-',
+                  article: '-',
+                  articleOfProducer: '-',
+                  country: '-',
+                  producer: '-',
+                  productAilability: '-',
+                  priceList: {
+                    price: +obj['20%'] ?? 0,
+                    currency: 'RUB',
+                    rrc: +obj['90.00 ₽'] ?? 0,
+                    rrcValute: '€',
+                    valute: +obj['Курс'] ?? 0,
+                  },
+                  images: ['0'],
+                });
+              }
+            }
           }
         }
       }
