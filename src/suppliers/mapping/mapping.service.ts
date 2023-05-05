@@ -94,6 +94,10 @@ export class mappingService {
     try {
       const dataFileArray: IProductCreate[] = [];
       for (const obj of data.yml_catalog.shop.offers.offer) {
+        const images = [];
+        if (obj?.picture?._text) {
+          images.push({ url: obj.picture._text });
+        }
         dataFileArray.push({
           title: obj.name?._text ?? '-',
           productCode: obj.barcode?._text ?? '-',
@@ -109,7 +113,7 @@ export class mappingService {
             rrcValute: obj.rrcValute?._text ?? 'RUB',
             valute: obj.valute?._text ?? 0,
           },
-          /* images: obj.picture?._text, */
+          images,
         });
       }
       return dataFileArray; // utf-8
@@ -123,6 +127,10 @@ export class mappingService {
     try {
       const dataFileArray: IProductCreate[] = [];
       for (const obj of data.yml_catalog.shop.offers.offer) {
+        const images = [];
+        if (obj?.picture?._text) {
+          images.push({ url: obj.picture._text });
+        }
         dataFileArray.push({
           title: obj.model?._text ?? '-',
           productCode: obj.vendorCode?._text ?? '-',
@@ -138,7 +146,7 @@ export class mappingService {
             rrcValute: obj.rrcValute?._text ?? 'RUB',
             valute: obj.valute?._text ?? 0,
           },
-          /* images: obj.picture?._text, */
+          images,
         });
       }
       return dataFileArray; // utf-8
@@ -152,6 +160,10 @@ export class mappingService {
     try {
       const dataFileArray: IProductCreate[] = [];
       for (const obj of data.yml_catalog.shop.offers.offer) {
+        const images = [];
+        if (obj?.picture?._text) {
+          images.push({ url: obj.picture._text });
+        }
         dataFileArray.push({
           title: obj.model?._text,
           productCode: obj.vendorCode?._text ?? '-',
@@ -167,7 +179,7 @@ export class mappingService {
             rrcValute: obj.rrcValute?._text ?? 'RUB',
             valute: obj.valute?._text ?? 0,
           },
-          /* images: obj.picture?._text, */
+          images,
         });
       }
       return dataFileArray; // utf-8
@@ -181,6 +193,10 @@ export class mappingService {
     try {
       const dataFileArray: IProductCreate[] = [];
       for (const obj of data.yml_catalog.shop.offers.offer) {
+        const images = [];
+        if (obj?.picture?._text) {
+          images.push({ url: obj.picture._text });
+        }
         dataFileArray.push({
           title: obj.name?._text ?? '-',
           productCode: obj.vendorCode?._text ?? '-',
@@ -196,7 +212,7 @@ export class mappingService {
             rrcValute: obj.rrcValute?._text ?? 'RUB',
             valute: obj.valute?._text ?? 0,
           },
-          /* images: obj.picture?._text, */
+          images,
         });
       }
       return dataFileArray; // windwiws -1251
@@ -276,28 +292,30 @@ export class mappingService {
       const dataFileArray: IProductCreate[] = [];
       for (const obj of data.yml_catalog.shop.offers.offer) {
         if (obj.quantity) {
-          if (obj.picture) {
-            if (obj.param) {
-              for (const attribute of obj.param) {
-                if (attribute._attributes.name === 'Страна производитель') {
-                  dataFileArray.push({
-                    title: obj?.name['_text'] ?? '-',
-                    productCode: obj?.categoryId['_text'] ?? '-',
-                    article: obj?._attributes.id ?? '-',
-                    articleOfProducer: obj?.vendorCode['_text'] ?? '-',
-                    country: attribute?._text ?? '-',
-                    producer: obj?.vendor._text ?? '-',
-                    productAilability: obj?.quantity['_text'] ?? '-',
-                    priceList: {
-                      price: +obj?.price['_text'] ?? 0,
-                      currency: obj?.currencyId ?? 'RUB',
-                      rrc: +obj?.priceOpt['_text'] ?? 0,
-                      rrcValute: obj?.rrcValute ?? 'RUB',
-                      valute: obj?.valute ?? 0,
-                    },
-                    /* images: obj?.picture['_text'] ?? 0, */
-                  });
+          if (obj.param) {
+            for (const attribute of obj.param) {
+              if (attribute._attributes.name === 'Страна производитель') {
+                const images = [];
+                if (obj?.picture?._text) {
+                  images.push({ url: obj.picture._text });
                 }
+                dataFileArray.push({
+                  title: obj?.name['_text'] ?? '-',
+                  productCode: obj?.categoryId['_text'] ?? '-',
+                  article: obj?._attributes.id ?? '-',
+                  articleOfProducer: obj?.vendorCode['_text'] ?? '-',
+                  country: attribute?._text ?? '-',
+                  producer: obj?.vendor._text ?? '-',
+                  productAilability: obj?.quantity['_text'] ?? '-',
+                  priceList: {
+                    price: +obj?.price['_text'] ?? 0,
+                    currency: obj?.currencyId ?? 'RUB',
+                    rrc: +obj?.priceOpt['_text'] ?? 0,
+                    rrcValute: obj?.rrcValute ?? 'RUB',
+                    valute: obj?.valute ?? 0,
+                  },
+                  images,
+                });
               }
             }
           }
@@ -317,7 +335,6 @@ export class mappingService {
         for (const attribute of obj.param) {
           if (attribute._attributes.name === 'Артикул производителя') {
             const images = [];
-            /* console.log(obj); */
             if (obj?.picture?._text) {
               images.push({ url: obj.picture['_text'] });
             }
@@ -389,28 +406,30 @@ export class mappingService {
     try {
       const dataFileArray: IProductCreate[] = [];
       for (const obj of data.PriceByAgreements.Products.Product) {
-        if (obj.ImgUrls) {
-          if (obj.WarehousesPrices.PurchasePrice.Price) {
-            if (obj.WarehousesPrices.RetailPrice.Price) {
-              dataFileArray.push({
-                title: obj?.Name['_text'] ?? '-',
-                productCode: obj?.Code['_text'] ?? '-',
-                article: obj?.ParentCode['_text'] ?? '-',
-                articleOfProducer: obj?.SupplierCode['_text'] ?? '-',
-                country: obj?.Country['_text'] ?? '-',
-                producer: obj?.Brend['_text'] ?? '-',
-                productAilability: '-', //
-                priceList: {
-                  price: obj?.WarehousesPrices.RetailPrice.Price['_text'] ?? 0,
-                  currency: obj?.CurrencyPrice['_text'] ?? '-',
-                  rrc:
-                    obj?.WarehousesPrices.PurchasePrice.Price['_text'] ?? 'RUB',
-                  rrcValute: obj?.Currency['_text'] ?? '-',
-                  valute: 0,
-                },
-                /* images: obj?.ImgUrls.ImgUrl['_text'], */
-              });
+        if (obj.WarehousesPrices.PurchasePrice.Price) {
+          if (obj.WarehousesPrices.RetailPrice.Price) {
+            const images = [];
+            if (obj?.ImgUrls?.ImgUrl['_text']) {
+              images.push({ url: obj?.ImgUrls?.ImgUrl['_text'] });
             }
+            dataFileArray.push({
+              title: obj?.Name['_text'] ?? '-',
+              productCode: obj?.Code['_text'] ?? '-',
+              article: obj?.ParentCode['_text'] ?? '-',
+              articleOfProducer: obj?.SupplierCode['_text'] ?? '-',
+              country: obj?.Country['_text'] ?? '-',
+              producer: obj?.Brend['_text'] ?? '-',
+              productAilability: '-', //
+              priceList: {
+                price: obj?.WarehousesPrices.RetailPrice.Price['_text'] ?? 0,
+                currency: obj?.CurrencyPrice['_text'] ?? '-',
+                rrc:
+                  obj?.WarehousesPrices.PurchasePrice.Price['_text'] ?? 'RUB',
+                rrcValute: obj?.Currency['_text'] ?? '-',
+                valute: 0,
+              },
+              images,
+            });
           }
         }
       }
@@ -425,6 +444,10 @@ export class mappingService {
     try {
       const dataFileArray: IProductCreate[] = [];
       for (const obj of data.yml_catalog.shop.offers.offer) {
+        const images = [];
+        if (obj?.picture['_text']) {
+          images.push({ url: obj?.picture['_text'] });
+        }
         dataFileArray.push({
           title: obj?.model['_text'] ?? '-',
           productCode: obj?.vendorCode['_text'] ?? '-',
@@ -440,7 +463,7 @@ export class mappingService {
             rrcValute: 'RUB',
             valute: 0,
           },
-          /* images: obj?.price['_text'], */
+          images,
         });
       }
       return dataFileArray; // utf-8
@@ -531,6 +554,10 @@ export class mappingService {
     try {
       const dataFileArray: IProductCreate[] = [];
       for (const obj of data.yml_catalog.shop.offers.offer) {
+        const images = [];
+        if (obj?.picture) {
+          images.push({ url: obj.picture });
+        }
         dataFileArray.push({
           title: obj?.name['_text'] ?? '-',
           productCode: obj?.barcode['_text'] ?? '-',
@@ -546,7 +573,7 @@ export class mappingService {
             rrcValute: 'RUB',
             valute: 0,
           },
-          /* images: obj?.picture, */
+          images,
         });
       }
       return dataFileArray; // utf-8
@@ -560,6 +587,10 @@ export class mappingService {
     try {
       const dataFileArray: IProductCreate[] = [];
       for (const obj of data.yml_catalog.shop.offers.offer) {
+        const images = [];
+        if (obj?.picture) {
+          images.push({ url: obj.picture });
+        }
         dataFileArray.push({
           title: obj?.name['_text'] ?? '-',
           productCode: obj?.barcode['_text'] ?? '-',
@@ -575,7 +606,7 @@ export class mappingService {
             rrcValute: 'RUB',
             valute: 0,
           },
-          /* images: obj?.picture, */
+          images,
         });
       }
       return dataFileArray; // utf-8
