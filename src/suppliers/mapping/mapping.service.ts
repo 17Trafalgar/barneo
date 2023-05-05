@@ -316,25 +316,28 @@ export class mappingService {
       for (const obj of data.yml_catalog.shop.offers.offer) {
         for (const attribute of obj.param) {
           if (attribute._attributes.name === 'Артикул производителя') {
-            if (obj.picture) {
-              dataFileArray.push({
-                title: obj?.name['_text'] ?? '-',
-                productCode: obj?._attributes.externalId ?? '-',
-                article: obj?.vendorCode['_text'] ?? '-',
-                articleOfProducer: attribute?._text ?? '-',
-                country: obj?.country_of_origin['_text'] ?? '-',
-                producer: obj?.vendor['_text'] ?? '-',
-                productAilability: obj?.stock_quantity['_text'] ?? '-',
-                priceList: {
-                  price: +(obj?.price['_text'] ?? 0),
-                  currency: obj?.currencyId['_text'] ?? 'RUB',
-                  rrc: obj?.rrc ?? 0,
-                  rrcValute: obj?.rrcValute ?? 'RUB',
-                  valute: obj?.valute ?? 0,
-                },
-                /* images: obj?.picture['_text'], */
-              });
+            const images = [];
+            /* console.log(obj); */
+            if (obj?.picture?._text) {
+              images.push({ url: obj.picture['_text'] });
             }
+            dataFileArray.push({
+              title: obj?.name['_text'] ?? '-',
+              productCode: obj?._attributes.externalId ?? '-',
+              article: obj?.vendorCode['_text'] ?? '-',
+              articleOfProducer: attribute?._text ?? '-',
+              country: obj?.country_of_origin['_text'] ?? '-',
+              producer: obj?.vendor['_text'] ?? '-',
+              productAilability: obj?.stock_quantity['_text'] ?? '-',
+              priceList: {
+                price: +(obj?.price['_text'] ?? 0),
+                currency: obj?.currencyId['_text'] ?? 'RUB',
+                rrc: obj?.rrc ?? 0,
+                rrcValute: obj?.rrcValute ?? 'RUB',
+                valute: obj?.valute ?? 0,
+              },
+              images,
+            });
           }
         }
       }

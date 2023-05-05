@@ -1,5 +1,6 @@
 import { IsString, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 import { PriceTable } from '../entity/price.entity';
+import { Image } from '../entity/images.entity';
 
 export class updateProductDTO {
   @IsNumber()
@@ -34,7 +35,7 @@ export class updateProductDTO {
   productAilability: string;
 
   @IsOptional()
-  images: string[];
+  images: Image[];
 
   @IsOptional()
   priceList: PriceTable;

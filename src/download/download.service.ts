@@ -129,7 +129,7 @@ export class downloadService {
         const rowObject = xlsx.utils.sheet_to_json(data.Sheets[sheetName]);
         finalObject[sheetName] = rowObject;
       });
-      return finalObject;
+      return finalObject /* ['TDSheet'] */;
     } catch (error) {
       console.log(error);
       throw new Error(error);
@@ -139,7 +139,7 @@ export class downloadService {
   public async xmlToJson(path: string): Promise<any> {
     try {
       const file = FS.readFileSync(path);
-      const text = encoding.convert(file, 'UTF-8' /* 'WINDOWS-1251' */);
+      const text = encoding.convert(file, 'UTF-8' /* , 'WINDOWS-1251' */);
       const options = { compact: true, ignoreComment: true, spaces: 4 };
       const data = convert.xml2json(text, options);
       return JSON.parse(data);
@@ -152,7 +152,7 @@ export class downloadService {
   public async ymlToJson(path: string): Promise<any> {
     try {
       const file = FS.readFileSync(path);
-      const text = encoding.convert(file, 'UTF-8' /* 'WINDOWS-1251' */);
+      const text = encoding.convert(file, 'UTF-8' /*, 'WINDOWS-1251' */);
       const options = { compact: true, ignoreComment: true, spaces: 4 };
       const data = convert.xml2json(text, options);
       return JSON.parse(data);

@@ -1,5 +1,6 @@
 import { IsString, IsNotEmpty, IsOptional } from 'class-validator';
 import { PriceTable } from '../entity/price.entity';
+import { Image } from '../entity/images.entity';
 
 export class createProductDTO {
   @IsNotEmpty()
@@ -31,7 +32,7 @@ export class createProductDTO {
   productAilability: string;
 
   @IsOptional()
-  images: string[];
+  images: Image[];
 
   @IsOptional()
   priceList: PriceTable;

@@ -4,8 +4,10 @@ import {
   PrimaryGeneratedColumn,
   OneToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { PriceTable } from './price.entity';
+import { Image } from './images.entity';
 
 @Entity()
 export class Product {
@@ -33,8 +35,8 @@ export class Product {
   @Column({ nullable: true })
   productAilability?: string;
 
-  @Column({ type: 'simple-array', nullable: true })
-  images: string[];
+  @OneToMany(() => Image, (image) => image.product, { cascade: true })
+  images: Image[];
 
   @OneToOne(() => PriceTable, (priceTable: PriceTable) => priceTable.product, {
     cascade: true,

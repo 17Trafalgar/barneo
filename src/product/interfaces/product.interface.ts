@@ -1,3 +1,4 @@
+import { IImageCreate } from './images.interface';
 import { IPriceCreate } from './price.interface';
 
 export interface IProductCreate {
@@ -9,6 +10,6 @@ export interface IProductCreate {
   country?: string;
   priceRrc?: number;
   productAilability?: string;
-  images?: string[];
+  images?: IImageCreate[];
   priceList: IPriceCreate;
 }
