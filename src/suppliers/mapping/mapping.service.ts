@@ -556,7 +556,13 @@ export class mappingService {
       for (const obj of data.yml_catalog.shop.offers.offer) {
         const images = [];
         if (obj?.picture) {
-          images.push({ url: obj.picture });
+          for (const value of Object.values(obj.picture)) {
+            if (value['_text']) {
+              images.push({ url: value['_text'] });
+            } else {
+              images.push({ url: value });
+            }
+          }
         }
         dataFileArray.push({
           title: obj?.name['_text'] ?? '-',
@@ -589,7 +595,13 @@ export class mappingService {
       for (const obj of data.yml_catalog.shop.offers.offer) {
         const images = [];
         if (obj?.picture) {
-          images.push({ url: obj.picture });
+          for (const value of Object.values(obj.picture)) {
+            if (value['_text']) {
+              images.push({ url: value['_text'] });
+            } else {
+              images.push({ url: value });
+            }
+          }
         }
         dataFileArray.push({
           title: obj?.name['_text'] ?? '-',
