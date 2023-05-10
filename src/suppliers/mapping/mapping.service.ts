@@ -27,7 +27,7 @@ export class mappingService {
           },
         });
       }
-      return dataFileArray; // ['Прайс-лист']
+      return dataFileArray;
     } catch (error) {
       console.log(error);
       throw new Error('The file of Clen was not converted');
