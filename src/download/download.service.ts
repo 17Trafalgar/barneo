@@ -10,7 +10,7 @@ import { Injectable } from '@nestjs/common';
 import { suppliersService } from 'src/suppliers/suppliers.service';
 import { mappingService } from 'src/suppliers/mapping/mapping.service';
 import { productsService } from 'src/product/product.service';
-import { ClientService } from './client/client.service';
+import { сlientService } from './client/client.service';
 
 @Injectable()
 export class downloadService {
@@ -19,7 +19,7 @@ export class downloadService {
     private readonly suppiersService: suppliersService,
     private readonly productService: productsService,
     private readonly mappingService: mappingService,
-    private readonly clientService: ClientService,
+    private readonly clientService: сlientService,
   ) {}
 
   public async downloadFile(
