@@ -55,13 +55,13 @@ export class downloadService {
     }
   }
 
-  public async fileFromAPI() {
+  public async fileFromAPI(): Promise<any> {
     try {
       const data1 = await this.clientService.getStock();
       const data2 = await this.clientService.getPrice();
       const parseData = this.mappingService.complexBar(data1, data2);
       const save: any = await this.productService.addManyProducts(parseData);
-      return save;
+      return save; // : Promise<any>
     } catch (error) {
       console.log(error);
       throw new Error(error);
@@ -139,7 +139,7 @@ export class downloadService {
   public async xmlToJson(path: string): Promise<any> {
     try {
       const file = FS.readFileSync(path);
-      const text = encoding.convert(file, 'UTF-8' /* , 'WINDOWS-1251' */);
+      const text = encoding.convert(file, 'UTF-8' /*, 'WINDOWS-1251' */);
       const options = { compact: true, ignoreComment: true, spaces: 4 };
       const data = convert.xml2json(text, options);
       return JSON.parse(data);
