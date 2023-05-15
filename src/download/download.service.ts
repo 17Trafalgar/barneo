@@ -205,6 +205,7 @@ export class downloadService {
         dobrinMskConverter: this.mappingService.dobrinMskConverter,
         dobrinSpbConverter: this.mappingService.dobrinSpbConverter,
         amenariConverter: this.mappingService.amenariConverter,
+        vseSokiConverter: this.mappingService.vseSokiConverter,
       };
 
       const { id, title, typeFile, urlFile, parser } =

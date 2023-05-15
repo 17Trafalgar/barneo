@@ -8,8 +8,8 @@ export class mappingService {
   public clenConverter(data: any) {
     try {
       const dataFileArray: IProductCreate[] = [];
-      for (let index = 6; index < data.length; index++) {
-        const obj = data[index];
+      for (let index = 6; index < data['Прайс-лист'].length; index++) {
+        const obj = data['Прайс-лист'][index];
         dataFileArray.push({
           title: obj.КомплексБар ?? '-',
           productCode: '-',
@@ -705,6 +705,35 @@ export class mappingService {
     } catch (error) {
       console.log(error);
       throw new Error('The file of AMENARI was not converted');
+    }
+  }
+
+  public vseSokiConverter(data: any) {
+    try {
+      const dataFileArray: IProductCreate[] = [];
+      for (let index = 5; index < data['Прайс-лист ОПТ'].length; index++) {
+        const obj = data['Прайс-лист ОПТ'][index];
+        dataFileArray.push({
+          title: obj?.__EMPTY_2 ?? '-',
+          productCode: obj?.__EMPTY_42 ?? '-',
+          article: obj?.__EMPTY ?? '-',
+          articleOfProducer: obj?.__EMPTY_39 ?? '-',
+          country: obj?.__EMPTY_26 ?? '-',
+          producer: obj?.__EMPTY_38 ?? '-',
+          productAilability: obj?.__EMPTY_29 ?? '-',
+          priceList: {
+            price: +obj.__EMPTY_4 ?? 0,
+            currency: 'RUB',
+            rrc: +obj.__EMPTY_12 ?? 0,
+            rrcValute: 'RUB',
+            valute: 0,
+          },
+        });
+      }
+      return dataFileArray;
+    } catch (error) {
+      console.log(error);
+      throw new Error('The file of vseSoki was not converted');
     }
   }
 
