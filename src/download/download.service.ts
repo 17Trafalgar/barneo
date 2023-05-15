@@ -152,7 +152,7 @@ export class downloadService {
   public async ymlToJson(path: string): Promise<any> {
     try {
       const file = FS.readFileSync(path);
-      const text = encoding.convert(file, 'UTF-8' /*, 'WINDOWS-1251' */);
+      const text = encoding.convert(file, 'UTF-8', 'WINDOWS-1251');
       const options = { compact: true, ignoreComment: true, spaces: 4 };
       const data = convert.xml2json(text, options);
       return JSON.parse(data);
@@ -187,7 +187,7 @@ export class downloadService {
       const methodToConvert = {
         grkConverter: this.mappingService.grkConverter,
         clenConverter: this.mappingService.clenConverter,
-        justCoffeConverter: this.mappingService.justCoffeConverter,
+        justCoffeeConverter: this.mappingService.justCoffeeConverter,
         wilmaxConverter: this.mappingService.wilmaxConverter,
         masterGlassConverter: this.mappingService.masterGlassConverter,
         abatConverter: this.mappingService.abatConverter,

@@ -62,18 +62,22 @@ export class mappingService {
     }
   }
 
-  public justCoffeConverter(data: any) {
+  public justCoffeeConverter(data: any) {
     try {
       const dataFileArray: IProductCreate[] = [];
       for (const obj of data.yml_catalog.shop.offers.offer) {
+        const images = [];
+        if (obj?.picture?._text) {
+          images.push({ url: obj.picture._text });
+        }
         dataFileArray.push({
           title: obj.name?._text ?? '-',
-          productCode: obj.barcode?._text ?? '-',
+          productCode: obj._attributes?.id ?? '-',
           article: obj.categoryId?._text ?? '-',
-          articleOfProducer: '-',
+          articleOfProducer: obj._attributes?.group_id ?? '-',
           producer: obj.vendor?._text ?? '-',
           country: '-',
-          productAilability: obj.quantity?._text ?? '-',
+          productAilability: obj.count?._text ?? '-',
           priceList: {
             price: obj.price?._text ?? 0,
             currency: obj.currencyId?._text ?? 'RUB',
@@ -81,6 +85,7 @@ export class mappingService {
             rrcValute: obj.rrcValute?._text ?? 'RUB',
             valute: obj.valute?._text ?? 0,
           },
+          images,
         });
       }
       return dataFileArray; // windows - 1251
