@@ -230,8 +230,8 @@ export class mappingService {
   public redGastroConverter(data: any) {
     try {
       const dataFileArray: IProductCreate[] = [];
-      for (let index = 1; index < data.length; index++) {
-        const obj = data[index];
+      for (let index = 1; index < data['TDSheet'].length; index++) {
+        const obj = data['TDSheet'][index];
         dataFileArray.push({
           title: obj['Полное наименование'] ?? '-',
           productCode: '-',
@@ -481,8 +481,8 @@ export class mappingService {
   public atesiConverter(data: any) {
     try {
       const dataFileArray: IProductCreate[] = [];
-      for (let index = 5; index < data.length; index++) {
-        const obj = data[index];
+      for (let index = 5; index < data['TDSheet'].length; index++) {
+        const obj = data['TDSheet'][index];
         if (obj.__EMPTY_3) {
           dataFileArray.push({
             title: obj?.__EMPTY_3 ?? '-',

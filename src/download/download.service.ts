@@ -213,11 +213,11 @@ export class downloadService {
       const pathToFile = await this.downloadFile(urlFile, id, title, typeFile);
       const methodForParser = await methodToJson[typeFile];
       const product = await methodForParser(pathToFile.pathToFile);
-      const methodConvertForData = await methodToConvert[parser];
+      /* const methodConvertForData = await methodToConvert[parser];
       const convert = await methodConvertForData(product);
       const save: any = await this.productService.addManyProducts(convert);
       console.log(save);
-      return save;
+      return save; */
       console.log(product);
       return product;
     } catch (error) {
