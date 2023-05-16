@@ -18,6 +18,9 @@ export class createSupplierDTO {
   @IsString()
   parser: string;
 
+  @IsString()
+  encoding: string;
+
   @IsOptional()
   storage?: Storages[];
 }

@@ -15,8 +15,11 @@ export class Supplier {
   @Column()
   urlFile: string;
 
-  @Column({ nullable: true })
+  @Column()
   parser: string;
+
+  @Column({ nullable: true })
+  encoding: string;
 
   @ManyToOne(() => Storages, (storage: Storages) => storage.dataOfSupplier, {
     cascade: true,

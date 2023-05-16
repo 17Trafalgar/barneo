@@ -55,7 +55,7 @@ export class mappingService {
           },
         });
       }
-      return dataFileArray; // utf-8
+      return dataFileArray;
     } catch (error) {
       console.error(error);
       throw new Error('The file of grk was not converted');
@@ -88,7 +88,7 @@ export class mappingService {
           images,
         });
       }
-      return dataFileArray; // windows - 1251
+      return dataFileArray;
     } catch (error) {
       console.error(error);
       throw new Error('The file of JustCoffe was not converted');
@@ -121,7 +121,7 @@ export class mappingService {
           images,
         });
       }
-      return dataFileArray; // utf-8
+      return dataFileArray;
     } catch (error) {
       console.error(error);
       throw new Error('The file of Wlimax was not converted');
@@ -154,7 +154,7 @@ export class mappingService {
           images,
         });
       }
-      return dataFileArray; // utf-8
+      return dataFileArray;
     } catch (error) {
       console.error(error);
       throw new Error('The file of MasterGlass was not converted');
@@ -187,7 +187,7 @@ export class mappingService {
           images,
         });
       }
-      return dataFileArray; // utf-8
+      return dataFileArray;
     } catch (error) {
       console.error(error);
       throw new Error('The file of Abat was not converted');
@@ -220,7 +220,7 @@ export class mappingService {
           images,
         });
       }
-      return dataFileArray; // windwiws -1251
+      return dataFileArray;
     } catch (error) {
       console.error(error);
       throw new Error('The file of Chtt was not converted');
@@ -249,7 +249,7 @@ export class mappingService {
           },
         });
       }
-      return dataFileArray; // 'TDSheet'
+      return dataFileArray;
     } catch (error) {
       console.log(error);
       throw new Error('The file of RedGastros was not converted');
@@ -285,7 +285,7 @@ export class mappingService {
           }
         }
       }
-      return dataFileArray; // UTF-8
+      return dataFileArray;
     } catch (error) {
       console.error(error);
       throw new Error('The file of Limars was not converted');
@@ -326,7 +326,7 @@ export class mappingService {
           }
         }
       }
-      return dataFileArray; // utf-8
+      return dataFileArray;
     } catch (error) {
       console.error(error);
       throw new Error('The file of Project2015 was not converted');
@@ -363,7 +363,7 @@ export class mappingService {
           }
         }
       }
-      return dataFileArray; // utf-8
+      return dataFileArray;
     } catch (error) {
       console.error(error);
       throw new Error('The file of restinternational was not converted');
@@ -400,7 +400,7 @@ export class mappingService {
           isStart = false;
         }
       }
-      return dataFileArray; // hasmap для одного парсера
+      return dataFileArray;
     } catch (error) {
       console.log(error);
       throw new Error('The file of HICOLD was not converted');
@@ -438,7 +438,7 @@ export class mappingService {
           }
         }
       }
-      return dataFileArray; // utf-8
+      return dataFileArray;
     } catch (error) {
       console.log(error);
       throw new Error('The file of businessRus was not converted');
@@ -471,7 +471,7 @@ export class mappingService {
           images,
         });
       }
-      return dataFileArray; // utf-8
+      return dataFileArray;
     } catch (error) {
       console.log(error);
       throw new Error('The file restoinox was not converted');
@@ -587,7 +587,7 @@ export class mappingService {
           images,
         });
       }
-      return dataFileArray; // utf-8
+      return dataFileArray;
     } catch (error) {
       console.log(error);
       throw new Error('The file of DobrinMSK was not converted');
@@ -626,7 +626,7 @@ export class mappingService {
           images,
         });
       }
-      return dataFileArray; // utf-8
+      return dataFileArray;
     } catch (error) {
       console.log(error);
       throw new Error('The file of DobrinSPB was not converted');

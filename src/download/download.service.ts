@@ -27,7 +27,13 @@ export class downloadService {
     id?: number,
     title?: string,
     typeFile?: string,
-  ): Promise<{ pathToFile?: string; typeFile?: string; pathToImage?: string }> {
+    encoding?: string,
+  ): Promise<{
+    pathToFile?: string;
+    typeFile?: string;
+    pathToImage?: string;
+    encoding?: string;
+  }> {
     try {
       const pathToImage = './uploadedImages/test.jpg';
       const pathToFile = `./uploadedFiles/${title}_${id}.${typeFile}`;
@@ -45,7 +51,7 @@ export class downloadService {
 
       return new Promise((resolve, reject) => {
         writer.on('finish', () =>
-          resolve({ pathToFile, typeFile, pathToImage }),
+          resolve({ pathToFile, typeFile, pathToImage, encoding }),
         );
         writer.on('error', reject);
       });
@@ -136,20 +142,27 @@ export class downloadService {
     }
   }
 
-  public async xmlToJson(path: string): Promise<any> {
+  public async xmlToJson(path: string, encod?: string): Promise<any> {
     try {
       const file = FS.readFileSync(path);
-      const text = encoding.convert(file, 'UTF-8' /*, 'WINDOWS-1251' */);
-      const options = { compact: true, ignoreComment: true, spaces: 4 };
-      const data = convert.xml2json(text, options);
-      return JSON.parse(data);
+      if (encod === 'UTF-8') {
+        const text = encoding.convert(file, 'UTF-8');
+        const options = { compact: true, ignoreComment: true, spaces: 4 };
+        const data = convert.xml2json(text, options);
+        return JSON.parse(data);
+      } else if ((encod = 'WINDOWS-1251')) {
+        const text = encoding.convert(file, 'UTF-8', 'WINDOWS-1251');
+        const options = { compact: true, ignoreComment: true, spaces: 4 };
+        const data = convert.xml2json(text, options);
+        return JSON.parse(data);
+      }
     } catch (error) {
       console.log(error);
       throw new Error(error);
     }
   }
 
-  public async ymlToJson(path: string): Promise<any> {
+  public async ymlToJson(path: string, encod?: string): Promise<any> {
     try {
       const file = FS.readFileSync(path);
       const text = encoding.convert(file, 'UTF-8', 'WINDOWS-1251');
@@ -208,11 +221,11 @@ export class downloadService {
         vseSokiConverter: this.mappingService.vseSokiConverter,
       };
 
-      const { id, title, typeFile, urlFile, parser } =
+      const { id, title, typeFile, urlFile, parser, encoding } =
         await this.suppiersService.getSupplier(supplierId);
       const pathToFile = await this.downloadFile(urlFile, id, title, typeFile);
       const methodForParser = await methodToJson[typeFile];
-      const product = await methodForParser(pathToFile.pathToFile);
+      const product = await methodForParser(pathToFile.pathToFile, encoding);
       const methodConvertForData = await methodToConvert[parser];
       const convert = await methodConvertForData(product);
       const save: any = await this.productService.addManyProducts(convert);

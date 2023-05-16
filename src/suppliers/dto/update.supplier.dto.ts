@@ -22,6 +22,9 @@ export class updateSupplierDTO {
   @IsString()
   parser: string;
 
+  @IsString()
+  encoding: string;
+
   @IsOptional()
   storage?: Storages[];
 }
