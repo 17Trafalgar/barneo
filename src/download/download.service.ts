@@ -165,10 +165,17 @@ export class downloadService {
   public async ymlToJson(path: string, encod?: string): Promise<any> {
     try {
       const file = FS.readFileSync(path);
-      const text = encoding.convert(file, 'UTF-8', 'WINDOWS-1251');
-      const options = { compact: true, ignoreComment: true, spaces: 4 };
-      const data = convert.xml2json(text, options);
-      return JSON.parse(data);
+      if (encod === 'UTF-8') {
+        const text = encoding.convert(file, 'UTF-8');
+        const options = { compact: true, ignoreComment: true, spaces: 4 };
+        const data = convert.xml2json(text, options);
+        return JSON.parse(data);
+      } else if ((encod = 'WINDOWS-1251')) {
+        const text = encoding.convert(file, 'UTF-8', 'WINDOWS-1251');
+        const options = { compact: true, ignoreComment: true, spaces: 4 };
+        const data = convert.xml2json(text, options);
+        return JSON.parse(data);
+      }
     } catch (error) {
       console.log(error);
       throw new Error(error);
