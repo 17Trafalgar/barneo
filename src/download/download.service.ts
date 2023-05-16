@@ -142,7 +142,7 @@ export class downloadService {
     }
   }
 
-  public async xmlToJson(path: string, encod?: string): Promise<any> {
+  public xmlToJson(path: string, encod?: string): Promise<any> {
     try {
       const file = FS.readFileSync(path);
       if (encod === 'UTF-8') {
@@ -162,7 +162,7 @@ export class downloadService {
     }
   }
 
-  public async ymlToJson(path: string, encod?: string): Promise<any> {
+  public ymlToJson(path: string, encod?: string): Promise<any> {
     try {
       const file = FS.readFileSync(path);
       if (encod === 'UTF-8') {
