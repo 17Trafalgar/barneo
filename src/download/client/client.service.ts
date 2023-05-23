@@ -2,7 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class сlientService {
+export class ClientService {
   constructor(private readonly Axios: HttpService) {}
   username = 'info@barneo.ru';
   password = '12345678';

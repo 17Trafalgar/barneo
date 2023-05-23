@@ -1,7 +1,7 @@
 import { IsString, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 import { Storages } from '../entity/storage.entity';
 
-export class updateSupplierDTO {
+export class UpdateSupplierDTO {
   @IsNotEmpty()
   @IsNumber()
   id: number;

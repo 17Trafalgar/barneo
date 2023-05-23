@@ -1,6 +1,6 @@
 import { IsNumber, IsNotEmpty } from 'class-validator';
 
-export class deleteProductDTO {
+export class DeleteProductDTO {
   @IsNotEmpty()
   @IsNumber()
   id: number;

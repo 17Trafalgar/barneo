@@ -1,13 +1,13 @@
 import { Body, Controller, Post, Res, Get, Delete, Put } from '@nestjs/common';
-import { createSupplierDTO } from './dto/create.supplier.dto';
-import { deleteSupplierDTO } from './dto/delete.supplier.dto';
-import { updateSupplierDTO } from './dto/update.supplier.dto';
-import { suppliersService } from './suppliers.service';
-import { getSupplierDTO } from './dto/get.supplier.dto';
+import { CreateSupplierDTO } from './dto/create.supplier.dto';
+import { DeleteSupplierDTO } from './dto/delete.supplier.dto';
+import { UpdateSupplierDTO } from './dto/update.supplier.dto';
+import { SuppliersService } from './suppliers.service';
+import { GetSupplierDTO } from './dto/get.supplier.dto';
 
 @Controller('suppliers')
-export class suppliersController {
-  constructor(private suppliersService: suppliersService) {}
+export class SuppliersController {
+  constructor(private suppliersService: SuppliersService) {}
 
   @Get()
   async listSuppliers(@Res() res) {
@@ -20,7 +20,7 @@ export class suppliersController {
   }
 
   @Get('/supplier')
-  async getOneSupplier(@Body() id: getSupplierDTO, @Res() res) {
+  async getOneSupplier(@Body() id: GetSupplierDTO, @Res() res) {
     try {
       const result = await this.suppliersService.getSupplier(id.id);
       res.status(200).json(result);
@@ -30,7 +30,7 @@ export class suppliersController {
   }
 
   @Post()
-  async createSupplier(@Body() body: createSupplierDTO, @Res() res) {
+  async createSupplier(@Body() body: CreateSupplierDTO, @Res() res) {
     try {
       const result = await this.suppliersService.addSupplier(body);
       res.status(201).json(result);
@@ -41,7 +41,7 @@ export class suppliersController {
   }
 
   @Delete()
-  async deleteSupplierFromDB(@Body() body: deleteSupplierDTO, @Res() res) {
+  async deleteSupplierFromDB(@Body() body: DeleteSupplierDTO, @Res() res) {
     try {
       const result = await this.suppliersService.deleteSupplier(body);
       res.status(200).json(result);
@@ -51,7 +51,7 @@ export class suppliersController {
   }
 
   @Put()
-  async updateSupplierInDB(@Body() body: updateSupplierDTO, @Res() res) {
+  async updateSupplierInDB(@Body() body: UpdateSupplierDTO, @Res() res) {
     try {
       const result = await this.suppliersService.updateSupplier(body);
       res.status(200).json(result);

@@ -1,7 +1,7 @@
 import { IsString, IsNotEmpty, IsOptional } from 'class-validator';
 import { Storages } from '../entity/storage.entity';
 
-export class createSupplierDTO {
+export class CreateSupplierDTO {
   @IsNotEmpty()
   @IsString()
   title: string;

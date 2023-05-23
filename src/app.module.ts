@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { downloadModule } from './download/download.module';
-import { supplierModule } from './suppliers/suppliers.module';
+import { DownloadModule } from './download/download.module';
+import { SupplierModule } from './suppliers/suppliers.module';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { databaseModule } from './database/typeorm/typeorm.module';
 import { ScheduleModule } from '@nestjs/schedule';
-import { productModule } from './product/product.module';
+import { ProductModule } from './product/product.module';
 import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
@@ -13,9 +13,9 @@ import { MulterModule } from '@nestjs/platform-express';
     MulterModule.register({
       dest: './uploadedFiles',
     }),
-    productModule,
-    supplierModule,
-    downloadModule,
+    ProductModule,
+    SupplierModule,
+    DownloadModule,
     databaseModule,
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({

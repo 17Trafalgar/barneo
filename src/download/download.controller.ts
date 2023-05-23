@@ -7,14 +7,14 @@ import {
   UseInterceptors,
   Res,
 } from '@nestjs/common';
-import { downloadService } from './download.service';
+import { DownloadService } from './download.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { allFileFilter, editFileName } from './utils/upload.files.validator';
 
 @Controller()
-export class downloadController {
-  constructor(private readonly downloadService: downloadService) {}
+export class DownloadController {
+  constructor(private readonly downloadService: DownloadService) {}
 
   @Get()
   async getFile(@Query() { id }, @Res() res) {

@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { downloadService } from 'src/download/download.service';
-import { suppliersService } from '../suppliers.service';
+import { DownloadService } from 'src/download/download.service';
+import { SuppliersService } from '../suppliers.service';
 
 @Injectable()
-export class cronService {
+export class CronService {
   constructor(
-    private readonly suppliersService: suppliersService,
-    private readonly downloadService: downloadService,
+    private readonly suppliersService: SuppliersService,
+    private readonly downloadService: DownloadService,
   ) {}
 
   private isCronRunnig = false;

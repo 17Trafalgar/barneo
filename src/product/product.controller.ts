@@ -1,13 +1,13 @@
 import { Body, Controller, Post, Res, Get, Delete, Put } from '@nestjs/common';
-import { createProductDTO } from './dto/create.product.dto';
-import { updateProductDTO } from './dto/update.product.dto';
-import { deleteProductDTO } from './dto/delete.product.dto';
-import { productsService } from './product.service';
-import { getProductDTO } from './dto/get.product.dto';
+import { CreateProductDTO } from './dto/create.product.dto';
+import { UpdateProductDTO } from './dto/update.product.dto';
+import { DeleteProductDTO } from './dto/delete.product.dto';
+import { ProductsService } from './product.service';
+import { GetProductDTO } from './dto/get.product.dto';
 
 @Controller('products')
-export class productsController {
-  constructor(private productsService: productsService) {}
+export class ProductsController {
+  constructor(private productsService: ProductsService) {}
 
   @Get()
   async listProducts(@Res() res) {
@@ -20,7 +20,7 @@ export class productsController {
   }
 
   @Get('/product')
-  async getOneProduct(@Body() id: getProductDTO, @Res() res) {
+  async getOneProduct(@Body() id: GetProductDTO, @Res() res) {
     try {
       const result = await this.productsService.getProduct(id.id);
       res.status(200).json(result);
@@ -30,7 +30,7 @@ export class productsController {
   }
 
   @Post()
-  async createProduct(@Body() body: createProductDTO, @Res() res) {
+  async createProduct(@Body() body: CreateProductDTO, @Res() res) {
     try {
       const result = await this.productsService.addProduct(body);
       res.status(201).json(result);
@@ -41,7 +41,7 @@ export class productsController {
   }
 
   @Delete()
-  async deleteProductFromDB(@Body() body: deleteProductDTO, @Res() res) {
+  async deleteProductFromDB(@Body() body: DeleteProductDTO, @Res() res) {
     try {
       const result = await this.productsService.deleteProduct(body);
       res.status(200).json(result);
@@ -51,7 +51,7 @@ export class productsController {
   }
 
   @Put()
-  async updateProductInDB(@Body() body: updateProductDTO, @Res() res) {
+  async updateProductInDB(@Body() body: UpdateProductDTO, @Res() res) {
     try {
       const result = await this.productsService.updateProduct(body);
       res.status(200).json(result);

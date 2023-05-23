@@ -2,12 +2,12 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Supplier } from './entity/supplier.entity';
 import { FindManyOptions, Not, Repository } from 'typeorm';
-import { createSupplierDTO } from './dto/create.supplier.dto';
-import { deleteSupplierDTO } from './dto/delete.supplier.dto';
-import { updateSupplierDTO } from './dto/update.supplier.dto';
+import { CreateSupplierDTO } from './dto/create.supplier.dto';
+import { DeleteSupplierDTO } from './dto/delete.supplier.dto';
+import { UpdateSupplierDTO } from './dto/update.supplier.dto';
 
 @Injectable()
-export class suppliersService /* implements OnModuleInit */ {
+export class SuppliersService /* implements OnModuleInit */ {
   constructor(
     @InjectRepository(Supplier)
     private suppliersRepository: Repository<Supplier>,
@@ -37,11 +37,11 @@ export class suppliersService /* implements OnModuleInit */ {
     };
   } */
 
-  addSupplier(supplier: createSupplierDTO) {
+  addSupplier(supplier: CreateSupplierDTO) {
     return this.suppliersRepository.save(supplier);
   }
 
-  addSuppliers(supplier: createSupplierDTO[]) {
+  addSuppliers(supplier: CreateSupplierDTO[]) {
     return this.suppliersRepository.save(supplier);
   }
 
@@ -61,11 +61,11 @@ export class suppliersService /* implements OnModuleInit */ {
     });
   }
 
-  deleteSupplier(supplier: deleteSupplierDTO) {
+  deleteSupplier(supplier: DeleteSupplierDTO) {
     return this.suppliersRepository.delete(supplier);
   }
 
-  updateSupplier(supplier: updateSupplierDTO) {
+  updateSupplier(supplier: UpdateSupplierDTO) {
     return this.suppliersRepository.update(supplier.id, supplier);
   }
 }

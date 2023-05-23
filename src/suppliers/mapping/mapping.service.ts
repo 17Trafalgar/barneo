@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { IProductCreate } from 'src/product/interfaces/product.interface';
 
 @Injectable()
-export class mappingService {
+export class MappingService {
   constructor() {}
 
   public clenConverter(data: any) {

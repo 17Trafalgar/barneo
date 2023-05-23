@@ -11,7 +11,7 @@ import * as FormData from 'form-data';
 import * as qs from 'qs';
 
 @Injectable()
-export class nezabudkaService {
+export class NezabudkaService {
   constructor(private readonly Axios: HttpService) {}
 
   public async authorization(): Promise<any> {

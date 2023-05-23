@@ -2,13 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entity/product.entity';
 import { Repository } from 'typeorm';
-import { deleteProductDTO } from './dto/delete.product.dto';
-import { updateProductDTO } from './dto/update.product.dto';
+import { DeleteProductDTO } from './dto/delete.product.dto';
+import { UpdateProductDTO } from './dto/update.product.dto';
 import { PriceTable } from './entity/price.entity';
 import { IProductCreate } from './interfaces/product.interface';
 
 @Injectable()
-export class productsService {
+export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private productsRepository: Repository<Product>,
@@ -26,7 +26,7 @@ export class productsService {
   }
 
   getProduct(id: number) {
-    return this.productsRepository.find({ where: { id } });
+    return this.productsRepository.findOne({ where: { id } });
   }
 
   getProducts() {
@@ -54,11 +54,11 @@ export class productsService {
     return resultArray;
   }
 
-  deleteProduct(product: deleteProductDTO) {
+  deleteProduct(product: DeleteProductDTO) {
     return this.productsRepository.delete(product);
   }
 
-  updateProduct(product: updateProductDTO) {
+  updateProduct(product: UpdateProductDTO) {
     return this.productsRepository.update(product.id, product);
   }
 }

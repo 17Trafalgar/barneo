@@ -2,7 +2,7 @@ import { IsString, IsNotEmpty, IsOptional } from 'class-validator';
 import { PriceTable } from '../entity/price.entity';
 import { Image } from '../entity/images.entity';
 
-export class createProductDTO {
+export class CreateProductDTO {
   @IsNotEmpty()
   @IsString()
   title: string;

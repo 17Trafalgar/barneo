@@ -7,19 +7,19 @@ import * as encoding from 'encoding';
 import * as ftp from 'basic-ftp';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
-import { suppliersService } from 'src/suppliers/suppliers.service';
-import { mappingService } from 'src/suppliers/mapping/mapping.service';
-import { productsService } from 'src/product/product.service';
-import { сlientService } from './client/client.service';
+import { SuppliersService } from 'src/suppliers/suppliers.service';
+import { MappingService } from 'src/suppliers/mapping/mapping.service';
+import { ProductsService } from 'src/product/product.service';
+import { ClientService } from './client/client.service';
 
 @Injectable()
-export class downloadService {
+export class DownloadService {
   constructor(
     private readonly Axios: HttpService,
-    private readonly suppiersService: suppliersService,
-    private readonly productService: productsService,
-    private readonly mappingService: mappingService,
-    private readonly clientService: сlientService,
+    private readonly suppiersService: SuppliersService,
+    private readonly productService: ProductsService,
+    private readonly mappingService: MappingService,
+    private readonly clientService: ClientService,
   ) {}
 
   public async downloadFile(

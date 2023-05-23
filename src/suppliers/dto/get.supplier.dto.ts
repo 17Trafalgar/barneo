@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsNumber } from 'class-validator';
 
-export class getSupplierDTO {
+export class GetSupplierDTO {
   @IsNotEmpty()
   @IsNumber()
   id: number;

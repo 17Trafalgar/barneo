@@ -1,15 +1,15 @@
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
-import { productModule } from 'src/product/product.module';
-import { supplierModule } from 'src/suppliers/suppliers.module';
-import { downloadController } from './download.controller';
-import { downloadService } from './download.service';
-import { сlientService } from './client/client.service';
+import { ProductModule } from 'src/product/product.module';
+import { SupplierModule } from 'src/suppliers/suppliers.module';
+import { DownloadController } from './download.controller';
+import { DownloadService } from './download.service';
+import { ClientService } from './client/client.service';
 
 @Module({
-  imports: [HttpModule, supplierModule, productModule],
-  controllers: [downloadController],
-  providers: [сlientService, downloadService],
-  exports: [downloadService, сlientService],
+  imports: [HttpModule, SupplierModule, ProductModule],
+  controllers: [DownloadController],
+  providers: [ClientService, DownloadService],
+  exports: [DownloadService, ClientService],
 })
-export class downloadModule {}
+export class DownloadModule {}

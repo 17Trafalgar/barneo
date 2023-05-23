@@ -1,9 +1,9 @@
 import { Controller, Res, Get, Query, Req, Post } from '@nestjs/common';
-import { nezabudkaService } from './nezabudka.service';
+import { NezabudkaService } from './nezabudka.service';
 
 @Controller('nezabudka')
-export class nezabudkaController {
-  constructor(private readonly nezabudkaService: nezabudkaService) {}
+export class NezabudkaController {
+  constructor(private readonly nezabudkaService: NezabudkaService) {}
 
   @Get('auth')
   async nezabudkaAuth(@Query() @Res() res) {
