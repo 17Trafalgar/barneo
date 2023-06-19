@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsNumber } from 'class-validator';
 
-export class FinndOneParamId {
+export class FindOneParamId {
   @IsNotEmpty()
   @IsNumber()
   id: number;
