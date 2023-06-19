@@ -8,35 +8,35 @@ export class UpdateProductDTO {
 
   @IsNotEmpty()
   @IsString()
-  title: string;
+  title?: string;
 
   @IsNotEmpty()
   @IsString()
-  article: string;
+  article?: string;
 
   @IsNotEmpty()
   @IsString()
-  productCode: string;
+  productCode?: string;
 
   @IsNotEmpty()
   @IsString()
-  articleOfProducer: string;
+  articleOfProducer?: string;
 
   @IsNotEmpty()
   @IsString()
-  producer: string;
+  producer?: string;
 
   @IsNotEmpty()
   @IsString()
-  country: string;
+  country?: string;
 
   @IsNotEmpty()
   @IsString()
-  productAilability: string;
+  productAilability?: string;
 
   @IsOptional()
-  images: Image[];
+  images?: Image[];
 
   @IsOptional()
-  priceList: PriceTable;
+  priceList?: PriceTable;
 }

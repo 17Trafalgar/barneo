@@ -9,7 +9,7 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { SuppliersService } from 'src/suppliers/suppliers.service';
 import { MappingService } from 'src/suppliers/mapping/mapping.service';
-import { ProductsService } from 'src/product/product.service';
+import { ProductService } from 'src/product/product.service';
 import { ClientService } from './client/client.service';
 
 @Injectable()
@@ -17,7 +17,7 @@ export class DownloadService {
   constructor(
     private readonly Axios: HttpService,
     private readonly suppiersService: SuppliersService,
-    private readonly productService: ProductsService,
+    private readonly productService: ProductService,
     private readonly mappingService: MappingService,
     private readonly clientService: ClientService,
   ) {}

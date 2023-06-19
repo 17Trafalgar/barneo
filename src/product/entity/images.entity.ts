@@ -7,7 +7,7 @@ export class Image {
   id: number;
 
   @Column({ type: 'varchar', nullable: true })
-  url?: string;
+  url: string;
 
   @ManyToOne(() => Product, (product) => product.images)
   product: Product;

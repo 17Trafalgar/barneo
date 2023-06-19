@@ -1,35 +1,34 @@
-import { Body, Controller, Post, Res, Get, Delete, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  Res,
+  Get,
+  Delete,
+  Put,
+  Param,
+} from '@nestjs/common';
 import { CreateProductDTO } from './dto/create.product.dto';
 import { UpdateProductDTO } from './dto/update.product.dto';
 import { DeleteProductDTO } from './dto/delete.product.dto';
-import { ProductsService } from './product.service';
-import { GetProductDTO } from './dto/get.product.dto';
+import { ProductService } from './product.service';
+import { FinndOneParamId } from 'src/download/utils/findOneParam';
 
-@Controller('products')
-export class ProductsController {
-  constructor(private productsService: ProductsService) {}
+@Controller('product')
+export class ProductController {
+  constructor(private productsService: ProductService) {}
 
-  @Get()
-  async listProducts(@Res() res) {
-    try {
-      const result = await this.productsService.getProducts();
-      res.status(200).json(result);
-    } catch (error) {
-      res.status(400).json({ message: 'Failed to get product list' });
-    }
+  @Get('/all')
+  async listProducts() {
+    return this.productsService.getProducts();
   }
 
-  @Get('/product')
-  async getOneProduct(@Body() id: GetProductDTO, @Res() res) {
-    try {
-      const result = await this.productsService.getProduct(id.id);
-      res.status(200).json(result);
-    } catch (error) {
-      res.status(400).json({ message: 'Failed to get product' });
-    }
+  @Get('id')
+  getOneProduct(@Body() { id }: FinndOneParamId) {
+    return this.productsService.getProductById(id);
   }
 
-  @Post()
+  @Post('/newProduct')
   async createProduct(@Body() body: CreateProductDTO, @Res() res) {
     try {
       const result = await this.productsService.addProduct(body);

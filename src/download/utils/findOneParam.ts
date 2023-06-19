@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsNumber } from 'class-validator';
 
-export class GetProductDTO {
+export class FinndOneParamId {
   @IsNotEmpty()
   @IsNumber()
   id: number;

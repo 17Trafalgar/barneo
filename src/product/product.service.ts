@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entity/product.entity';
 import { Repository } from 'typeorm';
@@ -8,7 +8,7 @@ import { PriceTable } from './entity/price.entity';
 import { IProductCreate } from './interfaces/product.interface';
 
 @Injectable()
-export class ProductsService {
+export class ProductService {
   constructor(
     @InjectRepository(Product)
     private productsRepository: Repository<Product>,
@@ -25,12 +25,25 @@ export class ProductsService {
     return res;
   }
 
-  getProduct(id: number) {
-    return this.productsRepository.findOne({ where: { id } });
+  async getProductById(id: number): Promise<Product> {
+    const product = await this.productsRepository.findOne({
+      where: { id },
+      relations: { images: true, priceList: true },
+    });
+    if (!product) {
+      throw new BadRequestException('Product with this ID was not found');
+    }
+    return product;
   }
 
-  getProducts() {
-    return this.productsRepository.find();
+  async getProducts(): Promise<Product[]> {
+    const products = await this.productsRepository.find({
+      relations: { images: true, priceList: true },
+    });
+    if (!products) {
+      throw new BadRequestException('There are no products in the database :(');
+    }
+    return products;
   }
 
   addPrice(price: Partial<PriceTable>) {
