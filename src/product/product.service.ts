@@ -5,7 +5,7 @@ import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { UpdateProductDTO } from './dto/update.product.dto';
 import { PriceTable } from './entity/price.entity';
 import { IProductCreate } from './interfaces/product.interface';
-import { FindOneParamId } from 'src/download/utils/findOneParam';
+import FindOneParamId from 'src/download/utils/findOneParam';
 
 @Injectable()
 export class ProductService {
