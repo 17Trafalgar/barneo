@@ -24,7 +24,7 @@ export class Product {
   productCode: string;
 
   @Column({ nullable: true })
-  articleOfProducer?: string;
+  articleOfProducer: string;
 
   @Column({ nullable: true })
   producer: string;
