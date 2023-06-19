@@ -6,16 +6,16 @@ export class Supplier {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ nullable: true })
   title: string;
 
-  @Column()
+  @Column({ nullable: true })
   typeFile: string;
 
-  @Column()
+  @Column({ nullable: true })
   urlFile: string;
 
-  @Column()
+  @Column({ nullable: true })
   parser: string;
 
   @Column({ nullable: true })
@@ -24,5 +24,5 @@ export class Supplier {
   @ManyToOne(() => Storages, (storage: Storages) => storage.dataOfSupplier, {
     cascade: true,
   })
-  storage?: Storages[];
+  storage: Storages[];
 }

@@ -229,7 +229,7 @@ export class DownloadService {
       };
 
       const { id, title, typeFile, urlFile, parser, encoding } =
-        await this.suppiersService.getSupplier(supplierId);
+        await this.suppiersService.getSupplierById(supplierId);
       const pathToFile = await this.downloadFile(urlFile, id, title, typeFile);
       const methodForParser = await methodToJson[typeFile];
       const product = await methodForParser(pathToFile.pathToFile, encoding);

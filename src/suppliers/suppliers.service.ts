@@ -1,10 +1,16 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { BadRequestException, Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Supplier } from './entity/supplier.entity';
-import { FindManyOptions, Not, Repository } from 'typeorm';
+import {
+  DeleteResult,
+  FindManyOptions,
+  Not,
+  Repository,
+  UpdateResult,
+} from 'typeorm';
 import { CreateSupplierDTO } from './dto/create.supplier.dto';
-import { DeleteSupplierDTO } from './dto/delete.supplier.dto';
 import { UpdateSupplierDTO } from './dto/update.supplier.dto';
+import FindOneParamId from 'src/download/utils/findOneParam';
 
 @Injectable()
 export class SuppliersService /* implements OnModuleInit */ {
@@ -37,23 +43,32 @@ export class SuppliersService /* implements OnModuleInit */ {
     };
   } */
 
-  addSupplier(supplier: CreateSupplierDTO) {
-    return this.suppliersRepository.save(supplier);
+  async addSupplier(supplier: CreateSupplierDTO): Promise<Supplier> {
+    const newSupplier = await this.suppliersRepository.save(supplier);
+    return newSupplier;
   }
 
-  addSuppliers(supplier: CreateSupplierDTO[]) {
-    return this.suppliersRepository.save(supplier);
+  async addSuppliers(supplier: CreateSupplierDTO[]): Promise<Supplier[]> {
+    const newSuppliers = await this.suppliersRepository.save(supplier);
+    return newSuppliers;
   }
 
-  getSupplier(id: number) {
-    return this.suppliersRepository.findOne({ where: { id } });
+  async getSupplierById(id: number): Promise<Supplier> {
+    const supplier = await this.suppliersRepository.findOne({
+      where: { id },
+      relations: { storage: true },
+    });
+    if (!supplier) {
+      throw new BadRequestException('Supplier with this ID was not found');
+    }
+    return supplier;
   }
 
   getSuppliers(
     where: FindManyOptions['where'] = { title: Not(''), typeFile: Not('') },
   ) {
     return this.suppliersRepository.find({
-      take: 10,
+      take: 20,
       where,
       relations: {
         storage: true,
@@ -61,11 +76,26 @@ export class SuppliersService /* implements OnModuleInit */ {
     });
   }
 
-  deleteSupplier(supplier: DeleteSupplierDTO) {
+  async deleteSupplier(supplier: FindOneParamId): Promise<DeleteResult> {
+    const supplierForDeleting = await this.getSupplierById(supplier.id);
+    if (!supplierForDeleting) {
+      throw new BadRequestException('Could not find supplier');
+    }
     return this.suppliersRepository.delete(supplier);
   }
 
-  updateSupplier(supplier: UpdateSupplierDTO) {
-    return this.suppliersRepository.update(supplier.id, supplier);
+  async updateSupplier(supplier: UpdateSupplierDTO): Promise<UpdateResult> {
+    const supplierForUpdating = await this.getSupplierById(supplier.id);
+    if (!supplierForUpdating) {
+      throw new BadRequestException('Could not find supplier');
+    }
+    const updating = await this.suppliersRepository.update(
+      supplier.id,
+      supplier,
+    );
+    if (!updating) {
+      throw new BadRequestException('Failed to update supplier');
+    }
+    return updating;
   }
 }

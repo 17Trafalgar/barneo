@@ -1,25 +1,26 @@
-import { IsString, IsNotEmpty, IsOptional } from 'class-validator';
+import { IsString, IsOptional } from 'class-validator';
 import { Storages } from '../entity/storage.entity';
 
 export class CreateSupplierDTO {
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  title: string;
+  title?: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  typeFile: string;
+  typeFile?: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  urlFile: string;
+  urlFile?: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  parser: string;
+  parser?: string;
 
+  @IsOptional()
   @IsString()
-  encoding: string;
+  encoding?: string;
 
   @IsOptional()
   storage?: Storages[];

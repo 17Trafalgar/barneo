@@ -6,24 +6,25 @@ export class UpdateSupplierDTO {
   @IsNumber()
   id: number;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  title: string;
+  title?: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  typeFile: string;
+  typeFile?: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  urlFile: string;
+  urlFile?: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  parser: string;
+  parser?: string;
 
+  @IsOptional()
   @IsString()
-  encoding: string;
+  encoding?: string;
 
   @IsOptional()
   storage?: Storages[];
