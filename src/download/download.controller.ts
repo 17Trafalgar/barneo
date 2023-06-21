@@ -11,56 +11,37 @@ import { DownloadService } from './download.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { allFileFilter, editFileName } from './utils/upload.files.validator';
+import { SaveInDbService } from './save-in-db.service';
+import { FtpService } from './ftp.service';
+import { UploadService } from './upload.service';
 
 @Controller()
 export class DownloadController {
-  constructor(private readonly downloadService: DownloadService) {}
+  constructor(
+    private readonly downloadService: DownloadService,
+    private readonly saveInDbService: SaveInDbService,
+    private readonly ftpService: FtpService,
+    private readonly uploadService: UploadService,
+  ) {}
 
   @Get()
-  async getFile(@Query() { id }, @Res() res) {
-    try {
-      const result = await this.downloadService.mainConverter(id);
-      res.status(200).json(result);
-    } catch (error) {
-      console.log(error);
-      res.status(400).json({ message: 'Failed to get id of supplier' });
-    }
+  getFile(@Query() { id }) {
+    return this.saveInDbService.mainConverter(id);
   }
 
   @Get('image')
-  async getImage(@Query() { url }, @Res() res) {
-    try {
-      const result = await this.downloadService.imageSave(url);
-      res.status(200).json(result);
-    } catch (error) {
-      console.log(error);
-      res.status(400).json({ message: 'Failed to get image' });
-    }
+  getImage(@Query() { url }) {
+    return this.saveInDbService.imageSave(url);
   }
 
   @Get('ftp')
-  async getFtp(@Query() localPath: string, remotePath: string, @Res() res) {
-    try {
-      const result = await this.downloadService.ftpDownloadFile(
-        localPath,
-        remotePath,
-      );
-      return result;
-    } catch (error) {
-      console.log(error);
-      res.status(400).json({ message: 'Failed to get data from server' });
-    }
+  getFtp(@Query() localPath: string, remotePath: string) {
+    return this.ftpService.ftpDownloadFile(localPath, remotePath);
   }
 
   @Get('API')
   async getFileAPI(@Query() @Res() res) {
-    try {
-      const result = await this.downloadService.fileFromAPI();
-      return result;
-    } catch (error) {
-      console.log(error);
-      res.status(400).json({ message: 'Failed to get id of supplier' });
-    }
+    return this.saveInDbService.fileFromAPI();
   }
 
   @Post('file')
@@ -74,13 +55,8 @@ export class DownloadController {
     }),
   )
   async uploadFile(@UploadedFile() file: Express.Multer.File): Promise<any> {
-    try {
-      const pathToFile = './uploadedFiles/Price list.xlsx';
-      const result = await this.downloadService.uploadConverter(pathToFile);
-      return result;
-    } catch (error) {
-      console.log(error);
-      throw new Error('Failed to send file');
-    }
+    const pathToFile = './uploadedFiles/Price list.xlsx';
+    const result = await this.uploadService.uploadFile(pathToFile);
+    return result;
   }
 }

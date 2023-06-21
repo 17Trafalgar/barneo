@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { DownloadService } from 'src/download/download.service';
 import { SuppliersService } from '../suppliers.service';
+import { ConvertToJsonService } from 'src/download/convert-to-json.service';
 
 @Injectable()
 export class CronService {
   constructor(
     private readonly suppliersService: SuppliersService,
-    private readonly downloadService: DownloadService,
+    private readonly convertToJsonService: ConvertToJsonService,
   ) {}
 
   private isCronRunnig = false;
@@ -29,10 +29,13 @@ export class CronService {
     Promise.all(suppliers).then((responses) => {
       for (const { typeFile, id } of responses) {
         const type = {
-          xml: this.downloadService.xmlToJson('./uploadedFiles/test.xml'),
-          xlsx: this.downloadService.xlsxToJson('./uploadedFiles/test.xlsx'),
-          yml: this.downloadService.ymlToJson('./uploadedFiles/test.yml'),
-          csv: this.downloadService.csvToJson('./uploadedFiles/test.csv'),
+          xml: this.convertToJsonService.xmlToJson('./uploadedFiles/test.xml'),
+          xls: this.convertToJsonService.xlsToJson('./uploadedFiles/test.xml'),
+          xlsx: this.convertToJsonService.xlsxToJson(
+            './uploadedFiles/test.xlsx',
+          ),
+          yml: this.convertToJsonService.ymlToJson('./uploadedFiles/test.yml'),
+          csv: this.convertToJsonService.csvToJson('./uploadedFiles/test.csv'),
         };
         try {
           type[typeFile];
