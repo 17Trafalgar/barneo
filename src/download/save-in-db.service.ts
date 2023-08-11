@@ -64,7 +64,6 @@ export class SaveInDbService {
       const parsing = await methodForParsing[parser];
       const convert = await parsing(data);
       const save: any = await this.productService.addManyProducts(convert);
-      console.log(save);
       return save;
     } catch (error) {
       console.log(error);

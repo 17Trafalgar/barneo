@@ -46,17 +46,12 @@ export class ProductService {
     return products;
   }
 
-  async addPrice(price: Partial<PriceTable>): Promise<PriceTable> {
-    const priceForProduct = await this.priceRepository.save(price);
-    return priceForProduct;
+  addPrice(price: Partial<PriceTable>): Promise<PriceTable> {
+    return this.priceRepository.save(price);
   }
 
-  async addProduct(product: IProductCreate): Promise<IProductCreate> {
-    const newProduct = await this.productsRepository.save(product);
-    if (!newProduct) {
-      throw new BadRequestException('Failed to create a product');
-    }
-    return newProduct;
+  addProduct(product: IProductCreate): Promise<IProductCreate> {
+    return this.productsRepository.save(product);
   }
 
   async addProducts(products: IProductCreate[]): Promise<IProductCreate[]> {
