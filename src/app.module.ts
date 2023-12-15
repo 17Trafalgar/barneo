@@ -3,7 +3,7 @@ import { DownloadModule } from './download/download.module';
 import { SupplierModule } from './suppliers/suppliers.module';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
-import { databaseModule } from './database/typeorm/typeorm.module';
+import { DatabaseModule } from './database/typeorm/typeorm.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ProductModule } from './product/product.module';
 import { MulterModule } from '@nestjs/platform-express';
@@ -16,7 +16,7 @@ import { MulterModule } from '@nestjs/platform-express';
     ProductModule,
     SupplierModule,
     DownloadModule,
-    databaseModule,
+    DatabaseModule,
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       validationSchema: Joi.object({

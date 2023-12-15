@@ -6,6 +6,6 @@ async function start() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe({ always: true, transform: true }));
   app.enableShutdownHooks();
-  await app.listen(3000);
+  await app.listen(4444);
 }
 start();
