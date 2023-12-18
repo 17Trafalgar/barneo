@@ -1,5 +1,5 @@
 import { IsString, IsNumber, IsOptional } from 'class-validator';
-import { PriceTable } from '../entity/price.entity';
+import { PriceEntity } from '../entity/price.entity';
 import { Image } from '../entity/images.entity';
 
 export class UpdateProductDTO {
@@ -38,5 +38,5 @@ export class UpdateProductDTO {
   images?: Image[];
 
   @IsOptional()
-  priceList?: PriceTable;
+  priceList?: PriceEntity;
 }

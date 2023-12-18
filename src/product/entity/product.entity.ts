@@ -5,12 +5,13 @@ import {
   OneToOne,
   JoinColumn,
   OneToMany,
+  BaseEntity,
 } from 'typeorm';
-import { PriceTable } from './price.entity';
+import { PriceEntity } from './price.entity';
 import { Image } from './images.entity';
 
-@Entity()
-export class Product {
+@Entity(`product`)
+export class ProductEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -38,9 +39,13 @@ export class Product {
   @OneToMany(() => Image, (image) => image.product, { cascade: true })
   images: Image[];
 
-  @OneToOne(() => PriceTable, (priceTable: PriceTable) => priceTable.product, {
-    cascade: true,
-  })
+  @OneToOne(
+    () => PriceEntity,
+    (priceTable: PriceEntity) => priceTable.product,
+    {
+      cascade: true,
+    },
+  )
   @JoinColumn()
-  priceList: PriceTable;
+  priceList: PriceEntity;
 }

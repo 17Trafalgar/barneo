@@ -1,8 +1,14 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne } from 'typeorm';
-import { Product } from './product.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  BaseEntity,
+} from 'typeorm';
+import { ProductEntity } from './product.entity';
 
-@Entity()
-export class PriceTable {
+@Entity(`prices`)
+export class PriceEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -21,6 +27,6 @@ export class PriceTable {
   @Column({ type: 'numeric', nullable: true })
   valute: number;
 
-  @OneToOne(() => Product, (product: Product) => product.priceList)
-  product: Product;
+  @OneToOne(() => ProductEntity, (product: ProductEntity) => product.priceList)
+  product: ProductEntity;
 }

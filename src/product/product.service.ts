@@ -1,19 +1,19 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Product } from './entity/product.entity';
+import { ProductEntity } from './entity/product.entity';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { UpdateProductDTO } from './dto/update.product.dto';
-import { PriceTable } from './entity/price.entity';
+import { PriceEntity } from './entity/price.entity';
 import { IProductCreate } from './interfaces/product.interface';
 import { FindOneParamId } from 'src/utils/findOneParam';
 
 @Injectable()
 export class ProductService {
   constructor(
-    @InjectRepository(Product)
-    private productsRepository: Repository<Product>,
-    @InjectRepository(PriceTable)
-    private priceRepository: Repository<PriceTable>,
+    @InjectRepository(ProductEntity)
+    private productsRepository: Repository<ProductEntity>,
+    @InjectRepository(PriceEntity)
+    private priceRepository: Repository<PriceEntity>,
   ) {}
 
   private getChunks(arr, chunkSize) {
@@ -25,69 +25,46 @@ export class ProductService {
     return res;
   }
 
-  async getProductById(id: number): Promise<Product> {
-    const product = await this.productsRepository.findOne({
+  getById(id: number): Promise<ProductEntity> {
+    return this.productsRepository.findOne({
       where: { id },
       relations: { images: true, priceList: true },
     });
-    if (!product) {
-      throw new BadRequestException('Product with this ID was not found');
-    }
-    return product;
   }
 
-  async getProducts(): Promise<Product[]> {
-    const products = await this.productsRepository.find({
+  getAll(): Promise<ProductEntity[]> {
+    return this.productsRepository.find({
       relations: { images: true, priceList: true },
     });
-    if (!products) {
-      throw new BadRequestException('There are no products in the database :(');
-    }
-    return products;
   }
 
-  addPrice(price: Partial<PriceTable>): Promise<PriceTable> {
+  createPrice(price: Partial<PriceEntity>): Promise<PriceEntity> {
     return this.priceRepository.save(price);
   }
 
-  addProduct(product: IProductCreate): Promise<IProductCreate> {
+  create(product: IProductCreate): Promise<IProductCreate> {
     return this.productsRepository.save(product);
   }
 
-  async addProducts(products: IProductCreate[]): Promise<IProductCreate[]> {
-    const newProducts = await this.productsRepository.save(products);
-    if (!newProducts) {
-      throw new BadRequestException('Failed to create a products');
-    }
-    return newProducts;
+  createProducts(products: IProductCreate[]): Promise<IProductCreate[]> {
+    return this.productsRepository.save(products);
   }
 
   async addManyProducts(product: IProductCreate[] | any) {
     const resultArray = [];
     const chunks = this.getChunks(product, 100);
     for (const chunk of chunks) {
-      resultArray.push(await this.addProducts(chunk));
+      resultArray.push(await this.createProducts(chunk));
     }
     return resultArray;
   }
 
-  async deleteProduct(productId: FindOneParamId): Promise<DeleteResult> {
-    const product = await this.getProductById(productId.id);
-    if (!product) {
-      throw new BadRequestException('Could not find product');
-    }
-    return this.productsRepository.delete(productId);
+  delete(id: number): Promise<DeleteResult> {
+    return this.productsRepository.delete(id);
   }
 
-  async updateProduct(product: UpdateProductDTO): Promise<UpdateResult> {
-    const productForUpdating = await this.getProductById(product.id);
-    if (!productForUpdating) {
-      throw new BadRequestException('Could not find product');
-    }
-    const updating = await this.productsRepository.update(product.id, product);
-    if (!updating) {
-      throw new BadRequestException('Failed to update product');
-    }
-    return updating;
+  async update(dto: UpdateProductDTO): Promise<ProductEntity> {
+    const product = await this.getById(dto.id);
+    return this.productsRepository.save({ ...product });
   }
 }

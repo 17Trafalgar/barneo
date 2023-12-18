@@ -20,7 +20,7 @@ export class SuppliersController {
   constructor(private suppliersService: SuppliersService) {}
 
   @Get()
-  listSuppliers() {
+  getAll() {
     return this.suppliersService.getSuppliers();
   }
 
