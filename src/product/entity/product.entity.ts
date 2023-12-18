@@ -8,7 +8,7 @@ import {
   BaseEntity,
 } from 'typeorm';
 import { PriceEntity } from './price.entity';
-import { Image } from './images.entity';
+import { ImageEntity } from './images.entity';
 
 @Entity(`product`)
 export class ProductEntity extends BaseEntity {
@@ -36,8 +36,8 @@ export class ProductEntity extends BaseEntity {
   @Column({ nullable: true })
   productAilability?: string;
 
-  @OneToMany(() => Image, (image) => image.product, { cascade: true })
-  images: Image[];
+  @OneToMany(() => ImageEntity, (image) => image.product, { cascade: true })
+  images: ImageEntity[];
 
   @OneToOne(
     () => PriceEntity,

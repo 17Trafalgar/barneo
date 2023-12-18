@@ -4,7 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SupplierEntity } from 'src/suppliers/entity/supplier.entity';
 import { StorageEntity } from 'src/suppliers/entity/storage.entity';
 import { ProductEntity } from 'src/product/entity/product.entity';
-import { Image } from 'src/product/entity/images.entity';
+import { ImageEntity } from 'src/product/entity/images.entity';
 import { PriceEntity } from 'src/product/entity/price.entity';
 
 @Module({
@@ -23,7 +23,7 @@ import { PriceEntity } from 'src/product/entity/price.entity';
           SupplierEntity,
           StorageEntity,
           ProductEntity,
-          Image,
+          ImageEntity,
           PriceEntity,
         ],
         synchronize: true,
