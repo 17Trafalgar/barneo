@@ -10,14 +10,6 @@ import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
-    MulterModule.register({
-      dest: './uploadedFiles',
-    }),
-    ProductModule,
-    SupplierModule,
-    DownloadModule,
-    DatabaseModule,
-    ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       validationSchema: Joi.object({
         POSTGRES_HOST: Joi.string().required(),
@@ -28,6 +20,14 @@ import { MulterModule } from '@nestjs/platform-express';
         PORT: Joi.number(),
       }),
     }),
+    MulterModule.register({
+      dest: './uploadedFiles',
+    }),
+    ProductModule,
+    SupplierModule,
+    DownloadModule,
+    DatabaseModule,
+    ScheduleModule.forRoot(),
   ],
 })
 export class AppModule {}

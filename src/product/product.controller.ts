@@ -10,7 +10,7 @@ import {
 import { CreateProductDTO } from './dto/create.product.dto';
 import { UpdateProductDTO } from './dto/update.product.dto';
 import { ProductService } from './product.service';
-import FindOneParamId from 'src/download/utils/findOneParam';
+import { FindOneParamId } from 'src/utils/findOneParam';
 
 @Controller('product')
 export class ProductController {

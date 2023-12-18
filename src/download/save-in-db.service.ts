@@ -51,18 +51,26 @@ export class SaveInDbService {
         vseSokiConverter: this.mappingService.vseSokiConverter,
       };
 
+      console.log(`main`);
+
       const { id, title, typeFile, urlFile, parser, encoding } =
-        await this.suppiersService.getSupplierById(supplierId);
+        await this.suppiersService.getById(supplierId);
+      console.log(1);
       const pathToFile = await this.downloadService.download(
         urlFile,
         id,
         title,
         typeFile,
       );
+      console.log(2);
       const json = await convertToJson[typeFile];
+      console.log(3);
       const data = await json(pathToFile.pathToFile, encoding);
+      console.log(4);
       const parsing = await methodForParsing[parser];
+      console.log(5);
       const convert = await parsing(data);
+      console.log(6);
       const save: any = await this.productService.addManyProducts(convert);
       return save;
     } catch (error) {

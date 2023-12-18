@@ -1,75 +1,36 @@
-import { BadRequestException, Injectable, OnModuleInit } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Supplier } from './entity/supplier.entity';
-import {
-  DeleteResult,
-  FindManyOptions,
-  Not,
-  Repository,
-  UpdateResult,
-} from 'typeorm';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { SupplierEntity } from './entity/supplier.entity';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { CreateSupplierDTO } from './dto/create.supplier.dto';
 import { UpdateSupplierDTO } from './dto/update.supplier.dto';
-import FindOneParamId from 'src/download/utils/findOneParam';
+import { FindOneParamId } from 'src/utils/findOneParam';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
-export class SuppliersService /* implements OnModuleInit */ {
+export class SuppliersService {
   constructor(
-    @InjectRepository(Supplier)
-    private suppliersRepository: Repository<Supplier>,
+    @InjectRepository(SupplierEntity)
+    private suppliersRepository: Repository<SupplierEntity>,
   ) {}
 
-  /* async onModuleInit(): Promise<void> {
-    const suppliers = await this.getSuppliers({});
-
-    if (suppliers.length) return;
-
-    await this.addSuppliers([
-      this.addTableSupplier(),
-      this.addTableSupplier(),
-      this.addTableSupplier(),
-      this.addTableSupplier(),
-    ]);
+  async create(supplier: CreateSupplierDTO): Promise<SupplierEntity> {
+    return this.suppliersRepository.save({ ...supplier });
   }
 
-  addTableSupplier(supplier: Partial<createSupplierDTO> = {}) {
-    return {
-      title: '',
-      typeFile: '',
-      urlFile: '',
-      parser: '',
-      storage: [],
-      ...supplier,
-    };
-  } */
-
-  async addSupplier(supplier: CreateSupplierDTO): Promise<Supplier> {
-    const newSupplier = await this.suppliersRepository.save(supplier);
-    return newSupplier;
-  }
-
-  async addSuppliers(supplier: CreateSupplierDTO[]): Promise<Supplier[]> {
+  async addSuppliers(supplier: CreateSupplierDTO[]): Promise<SupplierEntity[]> {
     const newSuppliers = await this.suppliersRepository.save(supplier);
     return newSuppliers;
   }
 
-  async getSupplierById(id: number): Promise<Supplier> {
-    const supplier = await this.suppliersRepository.findOne({
+  async getById(id: number): Promise<SupplierEntity> {
+    return this.suppliersRepository.findOne({
       where: { id },
       relations: { storage: true },
     });
-    if (!supplier) {
-      throw new BadRequestException('Supplier with this ID was not found');
-    }
-    return supplier;
   }
 
-  getSuppliers(
-    where: FindManyOptions['where'] = { title: Not(''), typeFile: Not('') },
-  ) {
+  getSuppliers() {
     return this.suppliersRepository.find({
-      take: 20,
-      where,
       relations: {
         storage: true,
       },
@@ -77,7 +38,7 @@ export class SuppliersService /* implements OnModuleInit */ {
   }
 
   async deleteSupplier(supplier: FindOneParamId): Promise<DeleteResult> {
-    const supplierForDeleting = await this.getSupplierById(supplier.id);
+    const supplierForDeleting = await this.getById(supplier.id);
     if (!supplierForDeleting) {
       throw new BadRequestException('Could not find supplier');
     }
@@ -85,7 +46,7 @@ export class SuppliersService /* implements OnModuleInit */ {
   }
 
   async updateSupplier(supplier: UpdateSupplierDTO): Promise<UpdateResult> {
-    const supplierForUpdating = await this.getSupplierById(supplier.id);
+    const supplierForUpdating = await this.getById(supplier.id);
     if (!supplierForUpdating) {
       throw new BadRequestException('Could not find supplier');
     }

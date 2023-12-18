@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { Supplier } from './supplier.entity';
+import { SupplierEntity } from './supplier.entity';
 
 @Entity()
 export class Storages {
@@ -10,10 +10,10 @@ export class Storages {
   name: string;
 
   @OneToMany(
-    () => Supplier,
-    (dataOfSupplier: Supplier) => dataOfSupplier.storage,
+    () => SupplierEntity,
+    (dataOfSupplier: SupplierEntity) => dataOfSupplier.storage,
   )
-  dataOfSupplier?: Supplier;
+  dataOfSupplier?: SupplierEntity;
 
   @Column({ nullable: true })
   city: string;

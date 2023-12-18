@@ -2,26 +2,14 @@ import * as FS from 'fs';
 import Axios from 'axios';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
-import { SuppliersService } from 'src/suppliers/suppliers.service';
-import { MappingService } from 'src/suppliers/mapping/mapping.service';
-import { ProductService } from 'src/product/product.service';
-import { ClientService } from './client/client.service';
-import { ConvertToJsonService } from './convert-to-json.service';
 
 @Injectable()
 export class DownloadService {
-  constructor(
-    private readonly Axios: HttpService,
-    private readonly convertToJsonService: ConvertToJsonService,
-    private readonly suppiersService: SuppliersService,
-    private readonly productService: ProductService,
-    private readonly mappingService: MappingService,
-    private readonly clientService: ClientService,
-  ) {}
+  constructor(private readonly Axios: HttpService) {}
 
   async download(
     urlFile?: string,
-    id?: number,
+    fileId?: number,
     title?: string,
     typeFile?: string,
     encoding?: string,
@@ -33,7 +21,7 @@ export class DownloadService {
   }> {
     try {
       const pathToImage = './uploadedImages/test.jpg';
-      const pathToFile = `./uploadedFiles/${title}_${id}.${typeFile}`;
+      const pathToFile = `./uploadedFiles/${title}_${fileId}.${typeFile}`;
       const writer = FS.createWriteStream(pathToFile);
 
       const response = await Axios({

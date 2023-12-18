@@ -258,6 +258,7 @@ export class MappingService {
 
   public async limarsConverter(data: any) {
     try {
+      console.log(`mapping`);
       const dataFileArray: IProductCreate[] = [];
       for (const obj of data.yml_catalog.shop.offers.offer) {
         for (const attribute of obj.param) {
