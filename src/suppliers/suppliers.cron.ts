@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { SuppliersService } from '../suppliers.service';
+import { SuppliersService } from './suppliers.service';
 import { ConvertToJsonService } from 'src/download/convert-to-json.service';
 
 @Injectable()

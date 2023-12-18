@@ -5,9 +5,9 @@ import {
   ManyToOne,
   BaseEntity,
 } from 'typeorm';
-import { Storages } from './storage.entity';
+import { StorageEntity } from './storage.entity';
 
-@Entity()
+@Entity(`suppliers`)
 export class SupplierEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -27,8 +27,12 @@ export class SupplierEntity extends BaseEntity {
   @Column({ nullable: true })
   encoding: string;
 
-  @ManyToOne(() => Storages, (storage: Storages) => storage.supplier, {
-    onDelete: 'CASCADE',
-  })
-  storage: Storages[];
+  @ManyToOne(
+    () => StorageEntity,
+    (storage: StorageEntity) => storage.supplier,
+    {
+      onDelete: 'CASCADE',
+    },
+  )
+  storage: StorageEntity[];
 }

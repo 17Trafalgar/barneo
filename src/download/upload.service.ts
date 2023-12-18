@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { MappingService } from 'src/suppliers/mapping/mapping.service';
+import { MappingService } from 'src/mapping/mapping.service';
 import { ProductService } from 'src/product/product.service';
 import { ConvertToJsonService } from './convert-to-json.service';
 

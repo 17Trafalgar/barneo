@@ -3,10 +3,11 @@ import { DownloadModule } from './download/download.module';
 import { SupplierModule } from './suppliers/suppliers.module';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
-import { DatabaseModule } from './database/typeorm/typeorm.module';
-import { ScheduleModule } from '@nestjs/schedule';
+import { DatabaseModule } from './database/typeorm.module';
 import { ProductModule } from './product/product.module';
 import { MulterModule } from '@nestjs/platform-express';
+import { MappingModule } from './mapping/mapping.module';
+import { NezabudkaModule } from './nezabudkaSite/nezabudka.module';
 
 @Module({
   imports: [
@@ -27,7 +28,8 @@ import { MulterModule } from '@nestjs/platform-express';
     SupplierModule,
     DownloadModule,
     DatabaseModule,
-    ScheduleModule.forRoot(),
+    MappingModule,
+    NezabudkaModule,
   ],
 })
 export class AppModule {}

@@ -9,9 +9,10 @@ import { ConvertToJsonService } from './convert-to-json.service';
 import { SaveInDbService } from './save-in-db.service';
 import { FtpService } from './ftp.service';
 import { UploadService } from './upload.service';
+import { MappingModule } from 'src/mapping/mapping.module';
 
 @Module({
-  imports: [HttpModule, SupplierModule, ProductModule],
+  imports: [HttpModule, SupplierModule, ProductModule, MappingModule],
   controllers: [DownloadController],
   providers: [
     ClientService,

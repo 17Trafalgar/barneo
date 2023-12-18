@@ -1,5 +1,5 @@
 import { IsString, IsOptional } from 'class-validator';
-import { Storages } from '../entity/storage.entity';
+import { StorageEntity } from '../entity/storage.entity';
 
 export class CreateSupplierDTO {
   @IsOptional()
@@ -23,5 +23,5 @@ export class CreateSupplierDTO {
   encoding?: string;
 
   @IsOptional()
-  storage?: Storages[];
+  storage?: StorageEntity[];
 }

@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SupplierEntity } from 'src/suppliers/entity/supplier.entity';
-import { Storages } from 'src/suppliers/entity/storage.entity';
+import { StorageEntity } from 'src/suppliers/entity/storage.entity';
 import { Product } from 'src/product/entity/product.entity';
 import { Image } from 'src/product/entity/images.entity';
 import { PriceTable } from 'src/product/entity/price.entity';
@@ -19,7 +19,7 @@ import { PriceTable } from 'src/product/entity/price.entity';
         username: configService.get('POSTGRES_USER'),
         password: configService.get('POSTGRES_PASSWORD'),
         database: configService.get('POSTGRES_DB'),
-        entities: [SupplierEntity, Storages, Product, Image, PriceTable],
+        entities: [SupplierEntity, StorageEntity, Product, Image, PriceTable],
         synchronize: true,
       }),
     }),

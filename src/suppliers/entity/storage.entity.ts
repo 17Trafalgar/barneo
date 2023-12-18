@@ -1,8 +1,14 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  BaseEntity,
+} from 'typeorm';
 import { SupplierEntity } from './supplier.entity';
 
-@Entity()
-export class Storages {
+@Entity(`storages`)
+export class StorageEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
