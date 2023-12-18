@@ -1,11 +1,10 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProductEntity } from './entity/product.entity';
-import { DeleteResult, Repository, UpdateResult } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { UpdateProductDTO } from './dto/update.product.dto';
 import { PriceEntity } from './entity/price.entity';
 import { IProductCreate } from './interfaces/product.interface';
-import { FindOneParamId } from 'src/utils/findOneParam';
 
 @Injectable()
 export class ProductService {
