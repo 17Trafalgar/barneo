@@ -7,7 +7,7 @@ import { DownloadService } from './download.service';
 import { ClientService } from './client/client.service';
 
 @Injectable()
-export class SaveInDbService {
+export class SaveService {
   constructor(
     private readonly downloadService: DownloadService,
     private readonly productService: ProductService,

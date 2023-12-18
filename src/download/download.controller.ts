@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { SaveInDbService } from './save-in-db.service';
+import { SaveService } from './save-in-db.service';
 import { FtpService } from './ftp.service';
 import { UploadService } from './upload.service';
 import { allFileFilter, editFileName } from 'src/utils/upload.files.validator';
@@ -18,7 +18,7 @@ import { FindOneParamId } from 'src/utils/findOneParam';
 @Controller('download')
 export class DownloadController {
   constructor(
-    private readonly saveInDbService: SaveInDbService,
+    private readonly saveInDbService: SaveService,
     private readonly ftpService: FtpService,
     private readonly uploadService: UploadService,
   ) {}

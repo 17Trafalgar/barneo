@@ -6,7 +6,7 @@ import { DownloadController } from './download.controller';
 import { DownloadService } from './download.service';
 import { ClientService } from './client/client.service';
 import { ConvertToJsonService } from './convert-to-json.service';
-import { SaveInDbService } from './save-in-db.service';
+import { SaveService } from './save-in-db.service';
 import { FtpService } from './ftp.service';
 import { UploadService } from './upload.service';
 import { MappingModule } from 'src/mapping/mapping.module';
@@ -18,7 +18,7 @@ import { MappingModule } from 'src/mapping/mapping.module';
     ClientService,
     DownloadService,
     ConvertToJsonService,
-    SaveInDbService,
+    SaveService,
     FtpService,
     UploadService,
   ],
@@ -26,7 +26,7 @@ import { MappingModule } from 'src/mapping/mapping.module';
     DownloadService,
     ClientService,
     ConvertToJsonService,
-    SaveInDbService,
+    SaveService,
     FtpService,
     UploadService,
   ],
