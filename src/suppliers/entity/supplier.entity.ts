@@ -12,23 +12,23 @@ export class SupplierEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false })
   title: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false })
   typeFile: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false })
   urlFile: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false })
   parser: string;
 
   @Column({ nullable: true })
   encoding: string;
 
-  @ManyToOne(() => Storages, (storage: Storages) => storage.dataOfSupplier, {
-    cascade: true,
+  @ManyToOne(() => Storages, (storage: Storages) => storage.supplier, {
+    onDelete: 'CASCADE',
   })
   storage: Storages[];
 }

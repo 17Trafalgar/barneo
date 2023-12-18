@@ -5,7 +5,6 @@ import {
   Query,
   UploadedFile,
   UseInterceptors,
-  Res,
   Param,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -40,7 +39,7 @@ export class DownloadController {
   }
 
   @Get('API')
-  async getFileAPI(@Query() @Res() res) {
+  async getFileAPI() {
     return this.saveInDbService.fileFromAPI();
   }
 

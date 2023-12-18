@@ -13,7 +13,7 @@ export class Storages {
     () => SupplierEntity,
     (dataOfSupplier: SupplierEntity) => dataOfSupplier.storage,
   )
-  dataOfSupplier?: SupplierEntity;
+  supplier?: SupplierEntity;
 
   @Column({ nullable: true })
   city: string;

@@ -1,11 +1,10 @@
 import * as FS from 'fs';
 import Axios from 'axios';
-import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class DownloadService {
-  constructor(private readonly Axios: HttpService) {}
+  constructor() {}
 
   async download(
     urlFile?: string,
