@@ -3,7 +3,6 @@ import {
   Column,
   PrimaryGeneratedColumn,
   OneToOne,
-  JoinColumn,
   OneToMany,
   BaseEntity,
 } from 'typeorm';
@@ -39,13 +38,6 @@ export class ProductEntity extends BaseEntity {
   @OneToMany(() => ImageEntity, (image) => image.product, { cascade: true })
   images: ImageEntity[];
 
-  @OneToOne(
-    () => PriceEntity,
-    (priceTable: PriceEntity) => priceTable.product,
-    {
-      cascade: true,
-    },
-  )
-  @JoinColumn()
+  @OneToOne(() => PriceEntity, (priceTable: PriceEntity) => priceTable.product)
   priceList: PriceEntity;
 }

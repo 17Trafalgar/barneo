@@ -38,7 +38,6 @@ export class ConvertToJsonService {
 
   async xmlToJson(path: string, encod?: string): Promise<any> {
     try {
-      console.log(`xmlToJson`);
       const file = FS.readFileSync(path);
       if (encod === 'UTF-8') {
         const text = encoding.convert(file, 'UTF-8');

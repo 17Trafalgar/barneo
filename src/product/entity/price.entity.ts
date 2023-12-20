@@ -4,6 +4,7 @@ import {
   PrimaryGeneratedColumn,
   OneToOne,
   BaseEntity,
+  JoinColumn,
 } from 'typeorm';
 import { ProductEntity } from './product.entity';
 
@@ -27,6 +28,11 @@ export class PriceEntity extends BaseEntity {
   @Column({ type: 'numeric', nullable: true })
   valute: number;
 
-  @OneToOne(() => ProductEntity, (product: ProductEntity) => product.priceList)
+  @OneToOne(
+    () => ProductEntity,
+    (product: ProductEntity) => product.priceList,
+    { cascade: true },
+  )
+  @JoinColumn()
   product: ProductEntity;
 }

@@ -16,12 +16,12 @@ export class ProductService {
   ) {}
 
   private getChunks(arr, chunkSize) {
-    const res = [];
+    const response = [];
     for (let i = 0; i < arr.length; i += chunkSize) {
       const chunk = arr.slice(i, i + chunkSize);
-      res.push(chunk);
+      response.push(chunk);
     }
-    return res;
+    return response;
   }
 
   getById(id: number): Promise<ProductEntity> {
@@ -49,13 +49,13 @@ export class ProductService {
     return this.productsRepository.save(products);
   }
 
-  async addManyProducts(product: IProductCreate[] | any) {
-    const resultArray = [];
+  async addManyProducts(product: IProductCreate[]): Promise<IProductCreate[]> {
+    const products = [];
     const chunks = this.getChunks(product, 100);
     for (const chunk of chunks) {
-      resultArray.push(await this.createProducts(chunk));
+      products.push(await this.createProducts(chunk));
     }
-    return resultArray;
+    return products;
   }
 
   delete(id: number): Promise<DeleteResult> {
