@@ -49,7 +49,7 @@ export class ProductService {
     return this.productsRepository.save(products);
   }
 
-  async addManyProducts(product: IProductCreate[]): Promise<IProductCreate[]> {
+  async addManyProducts(product: IProductCreate[] | any) {
     const products = [];
     const chunks = this.getChunks(product, 100);
     for (const chunk of chunks) {
